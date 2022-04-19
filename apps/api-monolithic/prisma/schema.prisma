@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  username   String   @unique @db.VarChar(30)
+  full_name  String   @db.VarChar(255)
+  password   String
+  role       String[]
+  order      Order[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Product {
+  id                  String               @id @default(uuid())
+  category            Category             @relation(fields: [category_id], references: [id])
+  category_id         String
+  name                String               @unique @db.VarChar(255)
+  price               Int
+  image               String
+  description         String
+  stock               Int
+  product_composition ProductComposition[]
+  order_detail        OrderDetail[]
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
+}
+
+model Category {
+  id         String    @id @default(uuid())
+  name       String    @unique @db.VarChar(255)
+  product    Product[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Composition {
+  id                  String               @id @default(uuid())
+  name                String               @unique @db.VarChar(255)
+  unit                String               @db.VarChar(255)
+  stock               Int
+  product_composition ProductComposition[]
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
+}
+
+model ProductComposition {
+  id             String      @id @default(uuid())
+  product        Product     @relation(fields: [product_id], references: [id])
+  product_id     String
+  composition    Composition @relation(fields: [composition_id], references: [id])
+  composition_id String
+  quantity       Int
+  created_at     DateTime    @default(now())
+  updated_at     DateTime    @updatedAt
+}
+
+model Order {
+  id           String        @id @default(uuid())
+  user         User          @relation(fields: [user_id], references: [id])
+  user_id      String
+  total        Int
+  order_detail OrderDetail[]
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+}
+
+model OrderDetail {
+  id          String   @id @default(uuid())
+  order       Order    @relation(fields: [order_id], references: [id])
+  order_id    String
+  product     Product  @relation(fields: [product_id], references: [id])
+  product_id  String
+  quantity    Int
+  total_price Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
