@@ -10,4 +10,9 @@ export class AppController {
   getData() {
     return this.appService.getData();
   }
+
+  @Get('/health-check')
+  healthCheck() {
+    return this.appService.healthCheck();
+  }
 }

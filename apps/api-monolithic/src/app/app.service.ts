@@ -5,4 +5,10 @@ export class AppService {
   getData(): { message: string } {
     return { message: 'Welcome to api-monolithic!' };
   }
+
+  healthCheck(): { message: string } {
+    return {
+      message: 'up',
+    };
+  }
 }
