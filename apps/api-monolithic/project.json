@@ -67,6 +67,13 @@
         "cwd": "apps/api-monolithic",
         "command": "prisma studio"
       }
+    },
+    "seed": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/api-monolithic",
+        "command": "ts-node scripts/seed.ts"
+      }
     }
   },
   "tags": []

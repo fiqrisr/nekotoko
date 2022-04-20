@@ -7,7 +7,8 @@
     "build": "nx build",
     "test": "nx test",
     "docker-db": "nx docker-db",
-    "db-migrate-save": "nx db-migrate-save"
+    "db-migrate-save": "nx db-migrate-save",
+    "seed": "nx seed"
   },
   "private": true,
   "dependencies": {
@@ -15,6 +16,7 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@prisma/client": "^3.12.0",
+    "argon2": "^0.28.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.0.0"
@@ -40,6 +42,7 @@
     "prettier": "^2.5.1",
     "prisma": "^3.12.0",
     "ts-jest": "27.0.5",
+    "ts-node": "^10.7.0",
     "typescript": "~4.5.2"
   }
 }
