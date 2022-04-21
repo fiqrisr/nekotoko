@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "api-monolithic": "apps/api-monolithic"
+    "api-monolithic": "apps/api-monolithic",
+    "api-prisma": "libs/api/prisma",
   }
 }
