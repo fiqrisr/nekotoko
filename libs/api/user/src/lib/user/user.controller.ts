@@ -16,30 +16,59 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserInput: Prisma.UserCreateWithoutOrderInput) {
-    return this.userService.create(createUserInput);
+  async create(@Body() createUserInput: Prisma.UserCreateWithoutOrderInput) {
+    const user = await this.userService.create(createUserInput);
+    return {
+      message: 'Berhasil membuat user baru',
+      result: {
+        user,
+      },
+    };
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll() {
+    const users = await this.userService.findAll();
+    return {
+      message: 'Data semua user',
+      result: {
+        users,
+      },
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const user = await this.userService.findOne(id);
+    return {
+      message: 'Data user',
+      result: {
+        user,
+      },
+    };
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateUserInput: Prisma.UserUpdateWithoutOrderInput
   ) {
-    return this.userService.update(id, updateUserInput);
+    const user = await this.userService.update(id, updateUserInput);
+    return {
+      message: 'Berhasil mengubah data user',
+      result: {
+        user,
+      },
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string) {
+    return this.userService.remove(id).then(() => {
+      return {
+        message: 'Berhasil menghapus data user',
+        result: null,
+      };
+    });
   }
 }
