@@ -3,5 +3,6 @@
   "projects": {
     "api-monolithic": "apps/api-monolithic",
     "api-prisma": "libs/api/prisma",
+    "api-user": "libs/api/user"
   }
 }

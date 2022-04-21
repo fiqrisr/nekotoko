@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@nekotoko/api/prisma": ["libs/api/prisma/src/index.ts"],
+      "@nekotoko/api/user": ["libs/api/user/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
