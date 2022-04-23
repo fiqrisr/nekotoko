@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ApiPrismaModule } from '@nekotoko/api/prisma';
+import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
 
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
@@ -7,6 +7,6 @@ import { UserController } from './user.controller';
 @Module({
   controllers: [UserController],
   providers: [UserService],
-  imports: [ApiPrismaModule],
+  imports: [PrismaMonolithicModule],
 })
 export class UserModule {}

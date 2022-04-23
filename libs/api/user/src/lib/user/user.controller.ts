@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@nekotoko/prisma/monolithic';
 
 import { UserService } from './user.service';
 

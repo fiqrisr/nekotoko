@@ -1,10 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { hash } from 'argon2';
-import { PrismaService } from '@nekotoko/api/prisma';
+import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
 
 @Injectable()
 export class UserService {
+  private userSelect: Prisma.UserSelect = {
+    id: true,
+    username: true,
+    full_name: true,
+    role: true,
+    created_at: true,
+    updated_at: true,
+  };
+
   constructor(protected readonly prisma: PrismaService) {}
 
   async create(createUserInput: Prisma.UserCreateWithoutOrderInput) {
@@ -15,41 +23,27 @@ export class UserService {
         role: ['user'],
         password,
       },
-      select: {
-        id: true,
-        username: true,
-        full_name: true,
-        role: true,
-        created_at: true,
-        updated_at: true,
-      },
+      select: this.userSelect,
     });
   }
 
   findAll() {
     return this.prisma.user.findMany({
-      select: {
-        id: true,
-        username: true,
-        full_name: true,
-        role: true,
-        created_at: true,
-        updated_at: true,
-      },
+      select: this.userSelect,
     });
   }
 
   findOne(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
-      select: {
-        id: true,
-        username: true,
-        full_name: true,
-        role: true,
-        created_at: true,
-        updated_at: true,
-      },
+      select: this.userSelect,
+    });
+  }
+
+  findOneByUsername(username: string) {
+    return this.prisma.user.findUnique({
+      where: { username },
+      select: this.userSelect,
     });
   }
 
@@ -60,14 +54,7 @@ export class UserService {
     return this.prisma.user.update({
       where: { id },
       data: updateUserInput,
-      select: {
-        id: true,
-        username: true,
-        full_name: true,
-        role: true,
-        created_at: true,
-        updated_at: true,
-      },
+      select: this.userSelect,
     });
   }
 
@@ -75,14 +62,7 @@ export class UserService {
     return this.prisma.user
       .delete({
         where: { id },
-        select: {
-          id: true,
-          username: true,
-          full_name: true,
-          role: true,
-          created_at: true,
-          updated_at: true,
-        },
+        select: this.userSelect,
       })
       .then(() => ({
         message: 'Berhasil menghapus user',
