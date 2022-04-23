@@ -53,27 +53,6 @@
         "cwd": "apps/api-monolithic",
         "command": "docker-compose -f docker-compose.db.yml up -d"
       }
-    },
-    "db-migrate-save": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "cwd": "apps/api-monolithic",
-        "command": "prisma migrate dev"
-      }
-    },
-    "db-studio": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "cwd": "apps/api-monolithic",
-        "command": "prisma studio"
-      }
-    },
-    "seed": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "cwd": "apps/api-monolithic",
-        "command": "ts-node scripts/seed.ts"
-      }
     }
   },
   "tags": ["scope:api"]

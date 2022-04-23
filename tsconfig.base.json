@@ -15,8 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nekotoko/api/prisma": ["libs/api/prisma/src/index.ts"],
-      "@nekotoko/api/user": ["libs/api/user/src/index.ts"]
+      "@nekotoko/api/auth": ["libs/api/auth/src/index.ts"],
+      "@nekotoko/api/user": ["libs/api/user/src/index.ts"],
+      "@nekotoko/prisma/monolithic": ["libs/prisma/monolithic/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
