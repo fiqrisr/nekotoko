@@ -46,13 +46,6 @@
         "jestConfig": "apps/api-monolithic/jest.config.js",
         "passWithNoTests": true
       }
-    },
-    "docker-db": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "cwd": "apps/api-monolithic",
-        "command": "docker-compose -f docker-compose.db.yml up -d"
-      }
     }
   },
   "tags": ["scope:api"]
