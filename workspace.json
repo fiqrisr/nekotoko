@@ -3,6 +3,7 @@
   "projects": {
     "api-auth": "libs/api/auth",
     "api-monolithic": "apps/api-monolithic",
+    "api-password": "libs/api/password",
     "api-user": "libs/api/user",
     "prisma-monolithic": "libs/prisma/monolithic"
   }
