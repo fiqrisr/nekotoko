@@ -1,71 +1,61 @@
 import { Injectable } from '@nestjs/common';
-import { hash } from 'argon2';
-import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService, User } from '@nekotoko/prisma/monolithic';
+import { PasswordService } from '@nekotoko/api/password';
+import { transformStringFieldUpdateInput } from '@nekotoko/api/utils';
 
 @Injectable()
 export class UserService {
-  private userSelect: Prisma.UserSelect = {
-    id: true,
-    username: true,
-    full_name: true,
-    role: true,
-    created_at: true,
-    updated_at: true,
-  };
+  constructor(
+    protected readonly prisma: PrismaService,
+    protected readonly passwordService: PasswordService
+  ) {}
 
-  constructor(protected readonly prisma: PrismaService) {}
-
-  async create(createUserInput: Prisma.UserCreateWithoutOrderInput) {
-    const password = await hash(createUserInput.password);
-    return this.prisma.user.create({
+  async create<T extends Prisma.UserCreateArgs>(
+    args: Prisma.SelectSubset<T, Prisma.UserCreateArgs>
+  ): Promise<User> {
+    return this.prisma.user.create<T>({
+      ...args,
       data: {
-        ...createUserInput,
+        ...args.data,
         role: ['user'],
-        password,
+        password: await this.passwordService.hash(args.data.password),
       },
-      select: this.userSelect,
     });
   }
 
-  findAll() {
-    return this.prisma.user.findMany({
-      select: this.userSelect,
-    });
+  async findMany<T extends Prisma.UserFindManyArgs>(
+    args: Prisma.SelectSubset<T, Prisma.UserFindManyArgs>
+  ): Promise<User[]> {
+    return this.prisma.user.findMany(args);
   }
 
-  findOne(id: string) {
-    return this.prisma.user.findUnique({
-      where: { id },
-      select: this.userSelect,
-    });
+  async findOne<T extends Prisma.UserFindUniqueArgs>(
+    args: Prisma.SelectSubset<T, Prisma.UserFindUniqueArgs>
+  ): Promise<User | null> {
+    return this.prisma.user.findUnique(args);
   }
 
-  findOneByUsername(username: string) {
-    return this.prisma.user.findUnique({
-      where: { username },
-      select: this.userSelect,
+  async update<T extends Prisma.UserUpdateArgs>(
+    args: Prisma.SelectSubset<T, Prisma.UserUpdateArgs>
+  ): Promise<User> {
+    return this.prisma.user.update<T>({
+      ...args,
+
+      data: {
+        ...args.data,
+
+        password:
+          args.data.password &&
+          (await transformStringFieldUpdateInput(
+            args.data.password,
+            (password) => this.passwordService.hash(password)
+          )),
+      },
     });
   }
-
-  update(
-    id: string,
-    updateUserInput: Omit<Prisma.UserUpdateWithoutOrderInput, 'password'>
-  ) {
-    return this.prisma.user.update({
-      where: { id },
-      data: updateUserInput,
-      select: this.userSelect,
-    });
-  }
-
-  async remove(id: string) {
-    return this.prisma.user
-      .delete({
-        where: { id },
-        select: this.userSelect,
-      })
-      .then(() => ({
-        message: 'Berhasil menghapus user',
-      }));
+  async delete<T extends Prisma.UserDeleteArgs>(
+    args: Prisma.SelectSubset<T, Prisma.UserDeleteArgs>
+  ): Promise<User> {
+    return this.prisma.user.delete(args);
   }
 }

@@ -13,11 +13,24 @@ import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
+  private userSelect = Prisma.validator<Prisma.UserSelect>()({
+    id: true,
+    username: true,
+    full_name: true,
+    role: true,
+    created_at: true,
+    updated_at: true,
+  });
+
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() createUserInput: Prisma.UserCreateWithoutOrderInput) {
-    const user = await this.userService.create(createUserInput);
+  async create(@Body() data: Prisma.UserCreateWithoutOrderInput) {
+    const user = await this.userService.create({
+      data,
+      select: this.userSelect,
+    });
+
     return {
       message: 'Berhasil membuat user baru',
       result: {
@@ -27,8 +40,11 @@ export class UserController {
   }
 
   @Get()
-  async findAll() {
-    const users = await this.userService.findAll();
+  async findMany() {
+    const users = await this.userService.findMany({
+      select: this.userSelect,
+    });
+
     return {
       message: 'Data semua user',
       result: {
@@ -39,7 +55,12 @@ export class UserController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const user = await this.userService.findOne(id);
+    const user = await this.userService.findOne({
+      where: {
+        id,
+      },
+    });
+
     return {
       message: 'Data user',
       result: {
@@ -51,9 +72,16 @@ export class UserController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateUserInput: Prisma.UserUpdateWithoutOrderInput
+    @Body() data: Prisma.UserUpdateWithoutOrderInput
   ) {
-    const user = await this.userService.update(id, updateUserInput);
+    const user = await this.userService.update({
+      where: {
+        id,
+      },
+      data,
+      select: this.userSelect,
+    });
+
     return {
       message: 'Berhasil mengubah data user',
       result: {
@@ -64,11 +92,18 @@ export class UserController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.userService.remove(id).then(() => {
-      return {
-        message: 'Berhasil menghapus data user',
-        result: null,
-      };
+    const user = await this.userService.delete({
+      where: {
+        id,
+      },
+      select: this.userSelect,
     });
+
+    return {
+      message: 'Berhasil menghapus data user',
+      result: {
+        user,
+      },
+    };
   }
 }
