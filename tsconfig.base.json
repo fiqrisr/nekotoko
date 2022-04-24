@@ -18,6 +18,7 @@
       "@nekotoko/api/auth": ["libs/api/auth/src/index.ts"],
       "@nekotoko/api/password": ["libs/api/password/src/index.ts"],
       "@nekotoko/api/user": ["libs/api/user/src/index.ts"],
+      "@nekotoko/api/utils": ["libs/api/utils/src/index.ts"],
       "@nekotoko/prisma/monolithic": ["libs/prisma/monolithic/src/index.ts"]
     }
   },

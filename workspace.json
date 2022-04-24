@@ -5,6 +5,7 @@
     "api-monolithic": "apps/api-monolithic",
     "api-password": "libs/api/password",
     "api-user": "libs/api/user",
+    "api-utils": "libs/api/utils",
     "prisma-monolithic": "libs/prisma/monolithic"
   }
 }
