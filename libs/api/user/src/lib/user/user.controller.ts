@@ -17,7 +17,7 @@ export class UserController {
     id: true,
     username: true,
     full_name: true,
-    role: true,
+    roles: true,
     created_at: true,
     updated_at: true,
   });
@@ -92,7 +92,7 @@ export class UserController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    const user = await this.userService.delete({
+    await this.userService.delete({
       where: {
         id,
       },
@@ -101,9 +101,7 @@ export class UserController {
 
     return {
       message: 'Berhasil menghapus data user',
-      result: {
-        user,
-      },
+      result: null,
     };
   }
 }

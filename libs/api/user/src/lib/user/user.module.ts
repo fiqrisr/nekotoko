@@ -9,5 +9,6 @@ import { UserController } from './user.controller';
   controllers: [UserController],
   providers: [UserService],
   imports: [PrismaMonolithicModule, ApiPasswordModule],
+  exports: [UserService],
 })
 export class UserModule {}

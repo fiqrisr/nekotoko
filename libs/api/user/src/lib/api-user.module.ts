@@ -5,7 +5,7 @@ import { UserModule } from './user/user.module';
 @Module({
   controllers: [],
   providers: [],
-  exports: [],
+  exports: [UserModule],
   imports: [UserModule],
 })
 export class ApiUserModule {}

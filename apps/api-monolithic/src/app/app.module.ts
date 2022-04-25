@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { ApiUserModule } from '@nekotoko/api/user';
+import { ApiAuthModule } from '@nekotoko/api/auth';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
