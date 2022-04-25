@@ -12,7 +12,7 @@ async function seed() {
       full_name: 'Admin Narkopika',
       username,
       password,
-      role: ['admin'],
+      roles: ['admin'],
     },
   });
 
