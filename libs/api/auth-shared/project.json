@@ -1,0 +1,22 @@
+{
+  "root": "libs/api/auth-shared",
+  "sourceRoot": "libs/api/auth-shared/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api/auth-shared/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/api/auth-shared"],
+      "options": {
+        "jestConfig": "libs/api/auth-shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

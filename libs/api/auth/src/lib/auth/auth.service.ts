@@ -5,6 +5,7 @@ import { PasswordService } from '@nekotoko/api/password';
 
 import { TokenService } from './token/token.service';
 import { LoginDto } from './dto/login.dto';
+import { UserPayload } from './payloads/user.payload';
 
 @Injectable()
 export class AuthService {
@@ -37,7 +38,7 @@ export class AuthService {
 
     return null;
   }
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<UserPayload> {
     const user = await this.validateUser(loginDto.username, loginDto.password);
 
     if (!user) {

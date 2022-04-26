@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "api-auth": "libs/api/auth",
+    "api-auth-shared": "libs/api/auth-shared",
     "api-monolithic": "apps/api-monolithic",
     "api-password": "libs/api/password",
     "api-user": "libs/api/user",
