@@ -38,6 +38,13 @@
         "command": "prisma generate"
       }
     },
+    "db-push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/prisma/monolithic",
+        "command": "prisma db push"
+      }
+    },
     "db-studio": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
