@@ -4756,6 +4756,11 @@ jws@^3.2.2:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
 
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
@@ -5073,6 +5078,11 @@ nestjs-pino@^2.5.2:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/nestjs-pino/-/nestjs-pino-2.5.2.tgz#18058d530c636a674720f9b7dc4804778c21aaf4"
   integrity sha512-CJDiHRLJTucpgi5blY98Hh+2lj21fhKksyVR3R7ObOhM+/9tf+kmX02LuIL/eot+oYEPzLhHuTqVegL/kiDk6g==
+
+nestjs-roles@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/nestjs-roles/-/nestjs-roles-0.5.0.tgz#cb8f956c7f1e5db08f7122e57dc7ca8ee8df7485"
+  integrity sha512-3pH3Bjg57m3Jvnn6Y/tKScjK4HVuRnVNyzclaAXzP4/ty2YrwX0Tu/EtgC0z+5b+hf1Zw2GOq6cuOBPudDPpIA==
 
 node-addon-api@^3.2.1:
   version "3.2.1"

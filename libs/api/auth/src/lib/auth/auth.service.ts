@@ -45,11 +45,12 @@ export class AuthService {
       throw new HttpException('Invalid username or password', 401);
     }
 
-    const accessToken = await this.tokenService.createToken(
-      user.id,
-      user.username,
-      loginDto.password
-    );
+    const accessToken = await this.tokenService.createToken({
+      id: user.id,
+      username: user.username,
+      password: loginDto.password,
+      roles: user.roles,
+    });
 
     return {
       accessToken,

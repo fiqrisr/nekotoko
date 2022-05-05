@@ -11,11 +11,13 @@ import {
 } from '@nestjs/common';
 import { Prisma } from '@nekotoko/prisma/monolithic';
 import { UsersService } from '@nekotoko/api/users';
+import { RoleGuard, Role } from '@nekotoko/api/roles';
 
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Controller('users')
+@RoleGuard.Params(Role.ADMIN)
 export class UsersController {
   private userSelect = Prisma.validator<Prisma.UserSelect>()({
     id: true,
