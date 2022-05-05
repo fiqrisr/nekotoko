@@ -1,5 +1,4 @@
 {
-  "root": "libs/api/users",
   "sourceRoot": "libs/api/users/src",
   "targets": {
     "lint": {

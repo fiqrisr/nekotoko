@@ -1,5 +1,4 @@
 {
-  "root": "libs/api/auth-shared",
   "sourceRoot": "libs/api/auth-shared/src",
   "targets": {
     "lint": {

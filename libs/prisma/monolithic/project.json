@@ -1,5 +1,4 @@
 {
-  "root": "libs/prisma/monolithic",
   "sourceRoot": "libs/prisma/monolithic/src",
   "targets": {
     "lint": {
