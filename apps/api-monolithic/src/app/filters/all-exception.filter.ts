@@ -6,13 +6,16 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { HttpAdapterHost } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
 
 @Catch()
 export class AllExceptionFilter<T> implements ExceptionFilter {
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+
   catch(exception: T, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse();
+    const { httpAdapter } = this.httpAdapterHost;
 
     const statusCode =
       exception instanceof HttpException
@@ -31,23 +34,40 @@ export class AllExceptionFilter<T> implements ExceptionFilter {
     const description =
       exception instanceof HttpException ? exception.message : 'unknown';
 
+    const baseResponse = {
+      status,
+      statusCode,
+    };
+
     if (!message) {
-      return response.status(statusCode).json({
-        status,
-        message: description,
-      });
+      return httpAdapter.reply(
+        ctx.getResponse(),
+        {
+          ...baseResponse,
+          message: description,
+        },
+        statusCode
+      );
     }
 
     if (typeof message === 'object' && !Array.isArray(message)) {
-      return response.status(statusCode).json({
-        status,
-        ...message,
-      });
+      return httpAdapter.reply(
+        ctx.getResponse(),
+        {
+          ...baseResponse,
+          ...message,
+        },
+        statusCode
+      );
     }
 
-    return response.status(statusCode).json({
-      status,
-      message,
-    });
+    return httpAdapter.reply(
+      ctx.getResponse(),
+      {
+        ...baseResponse,
+        message,
+      },
+      statusCode
+    );
   }
 }

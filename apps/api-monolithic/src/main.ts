@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
 
@@ -13,11 +13,12 @@ async function bootstrap() {
     bufferLogs: true,
   });
   const globalPrefix = 'api';
+  const httpAdapter = app.get(HttpAdapterHost);
   app.useLogger(app.get(Logger));
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new AllExceptionFilter());
+  app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
   const port = process.env.PORT || 3333;
   await app.listen(port);
 }
