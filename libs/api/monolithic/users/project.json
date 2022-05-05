@@ -1,0 +1,21 @@
+{
+  "sourceRoot": "libs/api/monolithic/users/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api/monolithic/users/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/api/monolithic/users"],
+      "options": {
+        "jestConfig": "libs/api/monolithic/users/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

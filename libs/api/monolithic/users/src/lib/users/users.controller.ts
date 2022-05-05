@@ -10,8 +10,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Prisma } from '@nekotoko/prisma/monolithic';
+import { UsersService } from '@nekotoko/api/users';
 
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 

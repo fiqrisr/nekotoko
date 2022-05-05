@@ -17,6 +17,9 @@
     "paths": {
       "@nekotoko/api/auth": ["libs/api/auth/src/index.ts"],
       "@nekotoko/api/auth-shared": ["libs/api/auth-shared/src/index.ts"],
+      "@nekotoko/api/monolithic/users": [
+        "libs/api/monolithic/users/src/index.ts"
+      ],
       "@nekotoko/api/password": ["libs/api/password/src/index.ts"],
       "@nekotoko/api/users": ["libs/api/users/src/index.ts"],
       "@nekotoko/api/utils": ["libs/api/utils/src/index.ts"],
