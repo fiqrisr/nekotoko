@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Prisma } from '@nekotoko/prisma/monolithic';
 
@@ -62,6 +64,16 @@ export class UsersController {
       select: this.userSelect,
     });
 
+    if (!user) {
+      throw new HttpException(
+        {
+          message: 'Data user tidak ditemukan',
+          error: 'Not Found',
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     return {
       message: 'Data user',
       result: {
@@ -83,6 +95,16 @@ export class UsersController {
       select: this.userSelect,
     });
 
+    if (!user) {
+      throw new HttpException(
+        {
+          message: 'Data user tidak ditemukan',
+          error: 'Not Found',
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     return {
       message: 'Berhasil mengubah data user',
       result: {
@@ -93,11 +115,27 @@ export class UsersController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    await this.usersService.delete({
+    const user = await this.usersService.findOne({
       where: {
         id,
       },
       select: this.userSelect,
+    });
+
+    if (!user) {
+      throw new HttpException(
+        {
+          message: 'Data user tidak ditemukan',
+          error: 'Not Found',
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    await this.usersService.delete({
+      where: {
+        id,
+      },
     });
 
     return {
