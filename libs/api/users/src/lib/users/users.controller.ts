@@ -12,6 +12,8 @@ import {
 import { Prisma } from '@nekotoko/prisma/monolithic';
 
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -27,7 +29,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() data: Prisma.UserCreateWithoutOrderInput) {
+  async create(@Body() data: CreateUserDto) {
     const user = await this.usersService.create({
       data,
       select: this.userSelect,
@@ -83,10 +85,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() data: Prisma.UserUpdateWithoutOrderInput
-  ) {
+  async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
     const user = await this.usersService.update({
       where: {
         id,
