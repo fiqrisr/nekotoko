@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
 import { ApiPasswordModule } from '@nekotoko/api/password';
 
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
+import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
 
 @Module({
-  controllers: [UserController],
-  providers: [UserService],
+  controllers: [UsersController],
+  providers: [UsersService],
   imports: [PrismaMonolithicModule, ApiPasswordModule],
-  exports: [UserService],
+  exports: [UsersService],
 })
-export class UserModule {}
+export class UsersModule {}

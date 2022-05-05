@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ApiAuthSharedModule } from '@nekotoko/api/auth-shared';
-import { ApiUserModule } from '@nekotoko/api/user';
+import { ApiUsersModule } from '@nekotoko/api/users';
 import { ApiPasswordModule } from '@nekotoko/api/password';
 
 import { AuthService } from './auth.service';
@@ -14,7 +14,7 @@ import { JWT_SECRET_KEY, JWT_EXPIRATION } from '../constants';
 @Module({
   imports: [
     ApiAuthSharedModule,
-    ApiUserModule,
+    ApiUsersModule,
     ApiPasswordModule,
     JwtModule.registerAsync({
       inject: [ConfigService],

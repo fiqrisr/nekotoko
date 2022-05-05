@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { User } from '@nekotoko/prisma/monolithic';
-import { UserService } from '@nekotoko/api/user';
+import { UsersService } from '@nekotoko/api/users';
 
 import { UserPayload } from '../payloads/user.payload';
 import { JWT_SECRET_KEY } from '../../constants';
@@ -11,7 +11,7 @@ import { JWT_SECRET_KEY } from '../../constants';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    protected readonly userService: UserService,
+    protected readonly usersService: UsersService,
     protected readonly configService: ConfigService
   ) {
     super({
@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       user: { id },
     } = payload;
 
-    const user = await this.userService.findOne({ where: { id } });
+    const user = await this.usersService.findOne({ where: { id } });
 
     if (!user) {
       throw new UnauthorizedException();

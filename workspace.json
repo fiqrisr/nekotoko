@@ -5,7 +5,7 @@
     "api-auth-shared": "libs/api/auth-shared",
     "api-monolithic": "apps/api-monolithic",
     "api-password": "libs/api/password",
-    "api-user": "libs/api/user",
+    "api-users": "libs/api/users",
     "api-utils": "libs/api/utils",
     "prisma-monolithic": "libs/prisma/monolithic"
   }

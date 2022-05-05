@@ -4,7 +4,7 @@ import { PasswordService } from '@nekotoko/api/password';
 import { transformStringFieldUpdateInput } from '@nekotoko/api/utils';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
     protected readonly prisma: PrismaService,
     protected readonly passwordService: PasswordService

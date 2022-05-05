@@ -1,6 +1,6 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { User } from '@nekotoko/prisma/monolithic';
-import { UserService } from '@nekotoko/api/user';
+import { UsersService } from '@nekotoko/api/users';
 import { PasswordService } from '@nekotoko/api/password';
 
 import { TokenService } from './token/token.service';
@@ -10,7 +10,7 @@ import { UserPayload } from './payloads/user.payload';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
+    private readonly usersService: UsersService,
     private readonly passwordService: PasswordService,
     private readonly tokenService: TokenService
   ) {}
@@ -19,7 +19,7 @@ export class AuthService {
     username: string,
     password: string
   ): Promise<Partial<User>> {
-    const user = await this.userService.findOne({
+    const user = await this.usersService.findOne({
       where: {
         username,
       },

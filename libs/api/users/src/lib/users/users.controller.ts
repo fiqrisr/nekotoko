@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { Prisma } from '@nekotoko/prisma/monolithic';
 
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 
-@Controller('user')
-export class UserController {
+@Controller('users')
+export class UsersController {
   private userSelect = Prisma.validator<Prisma.UserSelect>()({
     id: true,
     username: true,
@@ -22,11 +22,11 @@ export class UserController {
     updated_at: true,
   });
 
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   async create(@Body() data: Prisma.UserCreateWithoutOrderInput) {
-    const user = await this.userService.create({
+    const user = await this.usersService.create({
       data,
       select: this.userSelect,
     });
@@ -41,7 +41,7 @@ export class UserController {
 
   @Get()
   async findMany() {
-    const users = await this.userService.findMany({
+    const users = await this.usersService.findMany({
       select: this.userSelect,
     });
 
@@ -55,10 +55,11 @@ export class UserController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const user = await this.userService.findOne({
+    const user = await this.usersService.findOne({
       where: {
         id,
       },
+      select: this.userSelect,
     });
 
     return {
@@ -74,7 +75,7 @@ export class UserController {
     @Param('id') id: string,
     @Body() data: Prisma.UserUpdateWithoutOrderInput
   ) {
-    const user = await this.userService.update({
+    const user = await this.usersService.update({
       where: {
         id,
       },
@@ -92,7 +93,7 @@ export class UserController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    await this.userService.delete({
+    await this.usersService.delete({
       where: {
         id,
       },
