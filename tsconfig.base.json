@@ -17,6 +17,7 @@
     "paths": {
       "@nekotoko/admin/http": ["libs/admin/http/src/index.ts"],
       "@nekotoko/admin/providers": ["libs/admin/providers/src/index.ts"],
+      "@nekotoko/admin/types": ["libs/admin/types/src/index.ts"],
       "@nekotoko/api/auth": ["libs/api/auth/src/index.ts"],
       "@nekotoko/api/auth-shared": ["libs/api/auth-shared/src/index.ts"],
       "@nekotoko/api/category": ["libs/api/category/src/index.ts"],

@@ -4,6 +4,7 @@
     "admin": "apps/admin",
     "admin-http": "libs/admin/http",
     "admin-providers": "libs/admin/providers",
+    "admin-types": "libs/admin/types",
     "api-auth": "libs/api/auth",
     "api-auth-shared": "libs/api/auth-shared",
     "api-category": "libs/api/category",
