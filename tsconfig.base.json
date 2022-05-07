@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nekotoko/admin/providers": ["libs/admin/providers/src/index.ts"],
       "@nekotoko/api/auth": ["libs/api/auth/src/index.ts"],
       "@nekotoko/api/auth-shared": ["libs/api/auth-shared/src/index.ts"],
       "@nekotoko/api/category": ["libs/api/category/src/index.ts"],

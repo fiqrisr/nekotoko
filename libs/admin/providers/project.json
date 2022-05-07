@@ -1,0 +1,22 @@
+{
+  "sourceRoot": "libs/admin/providers/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/admin/providers/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/providers"],
+      "options": {
+        "jestConfig": "libs/admin/providers/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
