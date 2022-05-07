@@ -1,33 +1,4 @@
-/* import { DataProvider } from '@pankod/refine-core';
-import axios, { AxiosInstance } from 'axios';
-
-const axiosInstance = axios.create();
-
-export const dataProvider = (
-  apiUrl: string,
-  httpClient: AxiosInstance = axiosInstance
-): Partial<DataProvider> => ({
-  create: async ({ resource, variables }) => {
-    const url = `${apiUrl}/${resource}`;
-
-    const { data } = await httpClient.post(url, variables);
-
-    return {
-      data: data && Object.keys(data.data)[0],
-    };
-  },
-  getList: async ({ resource }) => {
-    const url = `${apiUrl}/${resource}`;
-
-    const { data } = await httpClient.get(url);
-
-    return {
-      data: data && Object.keys(data.data)[0],
-      total: data && Object.keys(data.data)[0].length,
-    };
-  },
-}); */
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 import { stringify } from 'query-string';
 import {
   DataProvider,
@@ -36,8 +7,7 @@ import {
   CrudFilters,
   CrudSorting,
 } from '@pankod/refine-core';
-
-const axiosInstance = axios.create();
+import { httpClient as axiosInstance } from '@nekotoko/admin/http';
 
 axiosInstance.interceptors.response.use(
   (response) => {
@@ -143,8 +113,6 @@ export const dataProvider = (
     );
 
     const total = +headers['x-total-count'];
-
-    console.log(Object.keys(data.data)[0]);
 
     return {
       data: data && data.data[Object.keys(data.data)[0]],

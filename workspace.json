@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "admin": "apps/admin",
+    "admin-http": "libs/admin/http",
     "admin-providers": "libs/admin/providers",
     "api-auth": "libs/api/auth",
     "api-auth-shared": "libs/api/auth-shared",
