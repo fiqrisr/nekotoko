@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "admin": "apps/admin",
     "api-auth": "libs/api/auth",
     "api-auth-shared": "libs/api/auth-shared",
     "api-category": "libs/api/category",

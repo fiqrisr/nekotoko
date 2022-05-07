@@ -1,0 +1,33 @@
+{
+  "projectType": "application",
+  "sourceRoot": "apps/admin/src",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "nx-plugin-vite:serve",
+      "options": {
+        "configFile": "apps/admin/vite.config.ts",
+        "port": 3000,
+        "host": false,
+        "https": false
+      }
+    },
+    "preview": {
+      "executor": "nx-plugin-vite:preview",
+      "options": {
+        "configFile": "apps/admin/vite.config.ts"
+      }
+    },
+    "build": {
+      "executor": "nx-plugin-vite:build",
+      "options": {
+        "outDir": "dist",
+        "configFile": "apps/admin/vite.config.ts",
+        "watch": false,
+        "write": true,
+        "emitAtRootLevel": false,
+        "manifest": true
+      }
+    }
+  }
+}
