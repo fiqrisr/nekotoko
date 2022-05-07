@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../src/generated/prisma-client.ts"
+  output   = "../src/generated/prisma-client.ts"
 }
 
 datasource db {
@@ -14,42 +14,42 @@ model User {
   full_name  String   @db.VarChar(255)
   password   String
   roles      String[]
-  order      Order[]
+  orders     Order[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
 model Product {
-  id                  String               @id @default(uuid())
-  category            Category             @relation(fields: [category_id], references: [id])
-  category_id         String
-  name                String               @unique @db.VarChar(255)
-  price               Int
-  image               String
-  description         String
-  stock               Int
-  product_composition ProductComposition[]
-  order_detail        OrderDetail[]
-  created_at          DateTime             @default(now())
-  updated_at          DateTime             @updatedAt
+  id                   String               @id @default(uuid())
+  category             Category             @relation(fields: [category_id], references: [id])
+  category_id          String
+  name                 String               @unique @db.VarChar(255)
+  price                Int
+  image                String
+  description          String
+  stock                Int
+  product_compositions ProductComposition[]
+  order_detail         OrderDetail[]
+  created_at           DateTime             @default(now())
+  updated_at           DateTime             @updatedAt
 }
 
 model Category {
   id         String    @id @default(uuid())
   name       String    @unique @db.VarChar(255)
-  product    Product[]
+  products   Product[]
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
 }
 
 model Composition {
-  id                  String               @id @default(uuid())
-  name                String               @unique @db.VarChar(255)
-  unit                String               @db.VarChar(255)
-  stock               Int
-  product_composition ProductComposition[]
-  created_at          DateTime             @default(now())
-  updated_at          DateTime             @updatedAt
+  id                   String               @id @default(uuid())
+  name                 String               @unique @db.VarChar(255)
+  unit                 String               @db.VarChar(255)
+  stock                Int
+  product_compositions ProductComposition[]
+  created_at           DateTime             @default(now())
+  updated_at           DateTime             @updatedAt
 }
 
 model ProductComposition {
@@ -64,13 +64,13 @@ model ProductComposition {
 }
 
 model Order {
-  id           String        @id @default(uuid())
-  user         User          @relation(fields: [user_id], references: [id])
-  user_id      String
-  total        Int
-  order_detail OrderDetail[]
-  created_at   DateTime      @default(now())
-  updated_at   DateTime      @updatedAt
+  id            String        @id @default(uuid())
+  user          User          @relation(fields: [user_id], references: [id])
+  user_id       String
+  total         Int
+  order_details OrderDetail[]
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
 }
 
 model OrderDetail {

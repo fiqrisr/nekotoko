@@ -1,3 +1,3 @@
 import { Prisma } from '@nekotoko/prisma/monolithic';
 
-export class UpdateUserDto implements Prisma.UserUpdateWithoutOrderInput {}
+export class UpdateUserDto implements Prisma.UserUpdateWithoutOrdersInput {}
