@@ -29,5 +29,20 @@
       }
     ]
   },
-  "defaultProject": "api-monolithic"
+  "defaultProject": "api-monolithic",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nxext/vite": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    }
+  }
 }
