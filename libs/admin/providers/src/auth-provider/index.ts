@@ -27,6 +27,9 @@ export const authProvider = (
           message: 'Invalid access token',
         });
 
+      httpClient.defaults.headers.common = {
+        Authorization: `Bearer ${accessToken}`,
+      };
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('user', JSON.stringify(user));
       return Promise.resolve();
@@ -37,6 +40,7 @@ export const authProvider = (
 
   logout: async () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
     return Promise.resolve();
   },
 

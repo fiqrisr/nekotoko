@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "admin": "apps/admin",
+    "admin-category": "libs/admin/category",
     "admin-http": "libs/admin/http",
     "admin-providers": "libs/admin/providers",
     "admin-types": "libs/admin/types",

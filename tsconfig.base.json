@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nekotoko/admin/category": ["libs/admin/category/src/index.ts"],
       "@nekotoko/admin/http": ["libs/admin/http/src/index.ts"],
       "@nekotoko/admin/providers": ["libs/admin/providers/src/index.ts"],
       "@nekotoko/admin/types": ["libs/admin/types/src/index.ts"],
