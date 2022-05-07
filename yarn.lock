@@ -2036,7 +2036,7 @@
     webpack-merge "^5.8.0"
     webpack-node-externals "^3.0.0"
 
-"@nrwl/react@^14.1.4":
+"@nrwl/react@^14.0.3", "@nrwl/react@^14.1.4":
   version "14.1.4"
   resolved "https://registry.yarnpkg.com/@nrwl/react/-/react-14.1.4.tgz#c5c40f3fe6461c814edc422da9a98b1e9a74adbc"
   integrity sha512-psPCb2iIgnVKQgmuvpmcVeP42bp/vF8xoGIQS8DXX0vJi3WsfpevRY6PDVT1FpBpquvkZJJAoAOpAvJvbqoe7Q==
@@ -2249,6 +2249,15 @@
     chalk "^4.1.0"
     consola "^2.15.0"
     node-fetch "^2.6.1"
+
+"@nxext/react@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@nxext/react/-/react-14.0.0.tgz#f7a84abf2c25f03689b2ad9f6ddeaa0021824368"
+  integrity sha512-N3DvGXINBwMtYarKi5CsjYGqBatBkduKsfQc2lfM6Mw9q42xBRhEKJ3Em4E8Vk99KgHhlDMlCmVjhPCgHP4Jbw==
+  dependencies:
+    "@nrwl/devkit" "^14.0.3"
+    "@nrwl/react" "^14.0.3"
+    "@nxext/vite" "^14.0.0"
 
 "@nxext/vite@^14.0.0":
   version "14.0.0"

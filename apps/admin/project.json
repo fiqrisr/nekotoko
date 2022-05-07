@@ -9,34 +9,48 @@
       "options": {
         "outputPath": "dist/apps/admin",
         "baseHref": "/",
-        "configFile": "@nxext/vite/plugins/vite"
+        "configFile": "@nxext/vite/plugins/vite",
+        "frameworkConfigFile": "@nxext/react/plugins/vite"
       },
       "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
         "production": {
           "fileReplacements": [
             {
               "replace": "apps/admin/src/environments/environment.ts",
               "with": "apps/admin/src/environments/environment.prod.ts"
             }
-          ]
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
         }
       }
     },
     "serve": {
       "executor": "@nxext/vite:dev",
+      "defaultConfiguration": "development",
       "options": {
         "outputPath": "dist/apps/admin",
         "baseHref": "/",
-        "configFile": "@nxext/vite/plugins/vite"
+        "configFile": "@nxext/vite/plugins/vite",
+        "frameworkConfigFile": "@nxext/react/plugins/vite"
       },
       "configurations": {
+        "development": {
+          "buildTarget": "admin:build:development"
+        },
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/admin/src/environments/environment.ts",
-              "with": "apps/admin/src/environments/environment.prod.ts"
-            }
-          ]
+          "buildTarget": "admin:build:production",
+          "hmr": false
         }
       }
     },
@@ -44,7 +58,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/admin/**/*.{ts,js,tsx,jsx}"]
+        "lintFilePatterns": ["apps/admin/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
