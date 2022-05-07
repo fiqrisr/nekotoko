@@ -3,7 +3,9 @@
   "projects": {
     "api-auth": "libs/api/auth",
     "api-auth-shared": "libs/api/auth-shared",
+    "api-category": "libs/api/category",
     "api-monolithic": "apps/api-monolithic",
+    "api-monolithic-category": "libs/api/monolithic/category",
     "api-monolithic-users": "libs/api/monolithic/users",
     "api-password": "libs/api/password",
     "api-roles": "libs/api/roles",
