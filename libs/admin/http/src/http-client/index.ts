@@ -1,11 +1,23 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const httpClient: AxiosInstance = axios.create();
 
-const accessToken = localStorage.getItem('accessToken');
+httpClient.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const accessToken = localStorage.getItem('accessToken');
 
-httpClient.defaults.headers.common = {
-  Authorization: `Bearer ${accessToken}`,
-};
+    if (accessToken) {
+      if (config.headers === undefined) {
+        config.headers = {};
+      }
+
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export { httpClient };

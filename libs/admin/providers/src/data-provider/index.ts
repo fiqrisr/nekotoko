@@ -14,9 +14,17 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    let message = '';
+
+    if (error.response) {
+      if (Array.isArray(error.response.data.message))
+        message = error.response.data?.message.join(', ');
+      else message = error.response.data?.message;
+    }
+
     const customError: HttpError = {
       ...error,
-      message: error.response?.data?.message,
+      message,
       statusCode: error.response?.status,
     };
 
