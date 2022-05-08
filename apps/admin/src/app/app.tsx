@@ -24,6 +24,7 @@ import {
 } from '@nekotoko/admin/users';
 
 import configs from './configs';
+import { Login } from './pages/login';
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
       dataProvider={dataProvider(configs.API_URL)}
       Layout={Layout}
       ReadyPage={ReadyPage}
+      LoginPage={Login}
       notificationProvider={notificationProvider}
       catchAll={<ErrorComponent />}
       resources={[
