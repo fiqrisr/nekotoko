@@ -16,6 +16,12 @@ import {
   CategoryCreate,
   CategoryEdit,
 } from '@nekotoko/admin/category';
+import {
+  UserList,
+  UserShow,
+  UserCreate,
+  UserEdit,
+} from '@nekotoko/admin/users';
 
 import configs from './configs';
 
@@ -30,6 +36,14 @@ const App = () => {
       notificationProvider={notificationProvider}
       catchAll={<ErrorComponent />}
       resources={[
+        {
+          name: 'users',
+          list: UserList,
+          show: UserShow,
+          create: UserCreate,
+          edit: UserEdit,
+          canDelete: true,
+        },
         {
           name: 'category',
           list: CategoryList,

@@ -17,7 +17,7 @@ export class UsersService {
       ...args,
       data: {
         ...args.data,
-        roles: ['user'],
+        roles: args.data.roles || ['user'],
         password: await this.passwordService.hash(args.data.password),
       },
     });

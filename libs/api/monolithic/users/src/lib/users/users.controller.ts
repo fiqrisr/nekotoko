@@ -115,8 +115,8 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const user = await this.usersService.findOne({
+  async delete(@Param('id') id: string) {
+    const user = await this.usersService.delete({
       where: {
         id,
       },
@@ -133,15 +133,11 @@ export class UsersController {
       );
     }
 
-    await this.usersService.delete({
-      where: {
-        id,
-      },
-    });
-
     return {
       message: 'Berhasil menghapus data user',
-      result: null,
+      result: {
+        user,
+      },
     };
   }
 }
