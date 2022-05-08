@@ -1,18 +1,17 @@
-import { useShow, useOne } from '@pankod/refine-core';
+import { useShow } from '@pankod/refine-core';
 import { Show, Typography } from '@pankod/refine-antd';
-import { ShowCategoryResponse } from '@nekotoko/admin/types';
+import { Category } from '@nekotoko/admin/types';
 
 const { Title, Text } = Typography;
 
 export const CategoryShow = () => {
-  const { queryResult } = useShow<ShowCategoryResponse>();
+  const { queryResult } = useShow<Category>();
   const { data, isLoading } = queryResult;
-  const record = data?.data.data.category;
 
   return (
     <Show isLoading={isLoading}>
       <Title level={5}>Name</Title>
-      <Text>{record?.name}</Text>
+      <Text>{data?.data.name}</Text>
     </Show>
   );
 };

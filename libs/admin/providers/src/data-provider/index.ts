@@ -136,7 +136,7 @@ export const dataProvider = (
     const { data } = await httpClient.post(url, variables);
 
     return {
-      data,
+      data: data && data.data[Object.keys(data.data)[0]],
     };
   },
 
@@ -157,7 +157,7 @@ export const dataProvider = (
     const { data } = await httpClient.patch(url, variables);
 
     return {
-      data,
+      data: data && data.data[Object.keys(data.data)[0]],
     };
   },
 
@@ -181,7 +181,7 @@ export const dataProvider = (
     const { data } = await httpClient.get(url);
 
     return {
-      data,
+      data: data && data.data[Object.keys(data.data)[0]],
     };
   },
 
@@ -191,7 +191,7 @@ export const dataProvider = (
     const { data } = await httpClient.delete(url, variables);
 
     return {
-      data,
+      data: data && data.data[Object.keys(data.data)[0]],
     };
   },
 

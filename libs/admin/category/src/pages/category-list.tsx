@@ -17,7 +17,7 @@ export const CategoryList = () => {
       <Table {...tableProps} rowKey="id">
         <Table.Column dataIndex="name" title="Name" />
         <Table.Column
-          dataIndex="createdAt"
+          dataIndex="created_at"
           title="Created At"
           render={(value) => <DateField format="LLL" value={value} />}
         />

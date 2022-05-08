@@ -10,7 +10,12 @@ import '@pankod/refine-antd/dist/styles.min.css';
 import { authProvider } from '@nekotoko/admin/providers';
 import { dataProvider } from '@nekotoko/admin/providers';
 
-import { CategoryList, CategoryShow } from '@nekotoko/admin/category';
+import {
+  CategoryList,
+  CategoryShow,
+  CategoryCreate,
+  CategoryEdit,
+} from '@nekotoko/admin/category';
 
 import configs from './configs';
 
@@ -29,6 +34,8 @@ const App = () => {
           name: 'category',
           list: CategoryList,
           show: CategoryShow,
+          create: CategoryCreate,
+          edit: CategoryEdit,
           canDelete: true,
         },
       ]}
