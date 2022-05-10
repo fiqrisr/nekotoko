@@ -10,8 +10,9 @@ import '@pankod/refine-antd/dist/styles.min.css';
 import { authProvider } from '@nekotoko/admin/providers';
 import { dataProvider } from '@nekotoko/admin/providers';
 
-import categoryResources from '@nekotoko/admin/category';
 import usersResources from '@nekotoko/admin/users';
+import categoryResources from '@nekotoko/admin/category';
+import compositionResources from '@nekotoko/admin/composition';
 
 import configs from './configs';
 import { Login } from './pages/login';
@@ -27,7 +28,7 @@ const App = () => {
       LoginPage={Login}
       notificationProvider={notificationProvider}
       catchAll={<ErrorComponent />}
-      resources={[usersResources, categoryResources]}
+      resources={[usersResources, categoryResources, compositionResources]}
     />
   );
 };
