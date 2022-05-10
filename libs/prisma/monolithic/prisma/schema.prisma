@@ -58,6 +58,7 @@ model ProductComposition {
   composition    Composition @relation(fields: [composition_id], references: [id])
   composition_id String
   quantity       Int
+  unit           String      @db.VarChar(255)
   created_at     DateTime    @default(now())
   updated_at     DateTime    @updatedAt
 }
