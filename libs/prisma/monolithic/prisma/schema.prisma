@@ -27,7 +27,6 @@ model Product {
   price                Int
   image                String
   description          String
-  stock                Int
   product_compositions ProductComposition[]
   order_detail         OrderDetail[]
   created_at           DateTime             @default(now())
