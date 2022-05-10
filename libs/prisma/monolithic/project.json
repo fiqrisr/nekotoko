@@ -30,6 +30,13 @@
         "command": "prisma migrate dev"
       }
     },
+    "db-migrate-deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/prisma/monolithic",
+        "command": "prisma migrate deploy"
+      }
+    },
     "db-generate": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
