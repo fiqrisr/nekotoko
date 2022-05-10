@@ -16,13 +16,12 @@ const { Title } = Typography;
 export interface ILoginForm {
   username: string;
   password: string;
-  remember: boolean;
 }
 
 export const Login: React.FC = () => {
   const [form] = Form.useForm<ILoginForm>();
 
-  const { mutate: login } = useLogin<ILoginForm>();
+  const { mutate: login, isLoading } = useLogin<ILoginForm>();
 
   const CardTitle = (
     <Title
@@ -79,6 +78,7 @@ export const Login: React.FC = () => {
                   size="large"
                   htmlType="submit"
                   block
+                  loading={isLoading}
                   style={{
                     marginTop: '12px',
                   }}

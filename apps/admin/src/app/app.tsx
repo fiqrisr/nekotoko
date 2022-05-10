@@ -10,18 +10,8 @@ import '@pankod/refine-antd/dist/styles.min.css';
 import { authProvider } from '@nekotoko/admin/providers';
 import { dataProvider } from '@nekotoko/admin/providers';
 
-import {
-  CategoryList,
-  CategoryShow,
-  CategoryCreate,
-  CategoryEdit,
-} from '@nekotoko/admin/category';
-import {
-  UserList,
-  UserShow,
-  UserCreate,
-  UserEdit,
-} from '@nekotoko/admin/users';
+import categoryResources from '@nekotoko/admin/category';
+import usersResources from '@nekotoko/admin/users';
 
 import configs from './configs';
 import { Login } from './pages/login';
@@ -37,24 +27,7 @@ const App = () => {
       LoginPage={Login}
       notificationProvider={notificationProvider}
       catchAll={<ErrorComponent />}
-      resources={[
-        {
-          name: 'users',
-          list: UserList,
-          show: UserShow,
-          create: UserCreate,
-          edit: UserEdit,
-          canDelete: true,
-        },
-        {
-          name: 'category',
-          list: CategoryList,
-          show: CategoryShow,
-          create: CategoryCreate,
-          edit: CategoryEdit,
-          canDelete: true,
-        },
-      ]}
+      resources={[usersResources, categoryResources]}
     />
   );
 };

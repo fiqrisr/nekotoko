@@ -7,40 +7,16 @@ export const UserEdit = () => {
   return (
     <Edit saveButtonProps={saveButtonProps}>
       <Form {...formProps} layout="vertical">
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
+        <Form.Item label="Username" name="username">
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Full Name"
-          name="full_name"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
+        <Form.Item label="Full Name" name="full_name">
           <Input />
         </Form.Item>
         <Form.Item label="New Password" name="password">
           <Input.Password />
         </Form.Item>
-        <Form.Item
-          label="Roles"
-          name="roles"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
+        <Form.Item label="Roles" name="roles">
           <Select
             mode="multiple"
             allowClear
