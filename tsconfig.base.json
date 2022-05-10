@@ -23,8 +23,12 @@
       "@nekotoko/api/auth": ["libs/api/auth/src/index.ts"],
       "@nekotoko/api/auth-shared": ["libs/api/auth-shared/src/index.ts"],
       "@nekotoko/api/category": ["libs/api/category/src/index.ts"],
+      "@nekotoko/api/composition": ["libs/api/composition/src/index.ts"],
       "@nekotoko/api/monolithic/category": [
         "libs/api/monolithic/category/src/index.ts"
+      ],
+      "@nekotoko/api/monolithic/composition": [
+        "libs/api/monolithic/composition/src/index.ts"
       ],
       "@nekotoko/api/monolithic/users": [
         "libs/api/monolithic/users/src/index.ts"
