@@ -12,6 +12,7 @@ import { Category } from '@nekotoko/admin/types';
 
 export const CategoryList = () => {
   const { tableProps } = useTable<Category>();
+
   return (
     <List>
       <Table {...tableProps} rowKey="id">
@@ -21,7 +22,7 @@ export const CategoryList = () => {
           title="Created At"
           render={(value) => <DateField format="LLL" value={value} />}
         />
-        <Table.Column<IPost>
+        <Table.Column<Category>
           title="Actions"
           dataIndex="actions"
           render={(_text, record): React.ReactNode => {
