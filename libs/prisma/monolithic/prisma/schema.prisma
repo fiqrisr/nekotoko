@@ -25,8 +25,8 @@ model Product {
   category_id          String
   name                 String               @unique @db.VarChar(255)
   price                Int
-  image                String
-  description          String
+  image                String?
+  description          String?
   product_compositions ProductComposition[]
   order_detail         OrderDetail[]
   created_at           DateTime             @default(now())
