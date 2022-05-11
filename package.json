@@ -16,6 +16,7 @@
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.4.4",
     "@nestjs/jwt": "^8.0.0",
+    "@nestjs/mapped-types": "^1.0.1",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.4.4",
     "@pankod/refine-antd": "^3.16.2",

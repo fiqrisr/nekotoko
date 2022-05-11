@@ -6,6 +6,7 @@ import { ApiAuthModule } from '@nekotoko/api/auth';
 import { ApiMonolithicUsersModule } from '@nekotoko/api/monolithic/users';
 import { ApiMonolithicCategoryModule } from '@nekotoko/api/monolithic/category';
 import { ApiMonolithicCompositionModule } from '@nekotoko/api/monolithic/composition';
+import { ApiMonolithicProductModule } from '@nekotoko/api/monolithic/product';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -28,6 +29,7 @@ import { AppService } from './app.service';
     ApiAuthModule,
     ApiMonolithicCategoryModule,
     ApiMonolithicCompositionModule,
+    ApiMonolithicProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

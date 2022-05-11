@@ -31,10 +31,14 @@
       "@nekotoko/api/monolithic/composition": [
         "libs/api/monolithic/composition/src/index.ts"
       ],
+      "@nekotoko/api/monolithic/product": [
+        "libs/api/monolithic/product/src/index.ts"
+      ],
       "@nekotoko/api/monolithic/users": [
         "libs/api/monolithic/users/src/index.ts"
       ],
       "@nekotoko/api/password": ["libs/api/password/src/index.ts"],
+      "@nekotoko/api/product": ["libs/api/product/src/index.ts"],
       "@nekotoko/api/roles": ["libs/api/roles/src/index.ts"],
       "@nekotoko/api/users": ["libs/api/users/src/index.ts"],
       "@nekotoko/api/utils": ["libs/api/utils/src/index.ts"],
