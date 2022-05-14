@@ -14,7 +14,7 @@ export class TokenService {
     if (!payload.username) return Promise.reject('Username is required');
     if (!payload.password) return Promise.reject('Password is required');
 
-    return this.jwtService.signAsync({
+    return await this.jwtService.signAsync({
       sub: payload.id,
       username: payload.username,
       roles: payload.roles,

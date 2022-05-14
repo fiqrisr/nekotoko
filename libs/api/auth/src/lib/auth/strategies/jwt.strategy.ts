@@ -5,7 +5,6 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { User } from '@nekotoko/prisma/monolithic';
 import { UsersService } from '@nekotoko/api/users';
 
-import { UserPayload } from '../payloads/user.payload';
 import { JWT_SECRET_KEY } from '../../constants';
 
 @Injectable()
@@ -21,12 +20,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: UserPayload): Promise<Partial<User>> {
-    const {
-      user: { id },
-    } = payload;
+  async validate(payload: { sub: string }): Promise<Partial<User>> {
+    const { sub } = payload;
 
-    const user = await this.usersService.findOne({ where: { id } });
+    const user = await this.usersService.findOne({
+      where: { id: sub },
+      select: {
+        id: true,
+        username: true,
+        full_name: true,
+        roles: true,
+        created_at: true,
+        updated_at: true,
+      },
+    });
 
     if (!user) {
       throw new UnauthorizedException();
