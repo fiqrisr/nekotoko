@@ -22,106 +22,156 @@ export class CompositionController {
   @Post()
   @RoleGuard.Params(Role.ADMIN)
   async create(@Body() data: CreateCompositionDto) {
-    const composition = await this.compositionService.create({ data });
+    try {
+      const composition = await this.compositionService.create({ data });
 
-    return {
-      message: 'Berhasil membuat komposisi baru',
-      result: {
-        composition,
-      },
-    };
+      return {
+        message: 'Berhasil membuat komposisi baru',
+        result: {
+          composition,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal membuat komposisi baru',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Get()
   async findMany() {
-    const compositions = await this.compositionService.findMany({});
+    try {
+      const compositions = await this.compositionService.findMany({});
 
-    return {
-      message: 'Data semua komposisi',
-      result: {
-        compositions,
-      },
-    };
+      return {
+        message: 'Data semua komposisi',
+        result: {
+          compositions,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal mengambil data komposisi',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const composition = await this.compositionService.findOne({
-      where: {
-        id,
-      },
-    });
+    try {
+      const composition = await this.compositionService.findOne({
+        where: {
+          id,
+        },
+      });
 
-    if (!composition) {
+      if (!composition) {
+        throw new HttpException(
+          {
+            message: 'Komposisi tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Data komposisi',
+        result: {
+          composition,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Komposisi tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal mengambil data komposisi',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Data komposisi',
-      result: {
-        composition,
-      },
-    };
   }
 
   @Patch(':id')
   @RoleGuard.Params(Role.ADMIN)
   async update(@Param('id') id: string, @Body() data: UpdateCompositionDto) {
-    const composition = await this.compositionService.update({
-      where: {
-        id,
-      },
-      data,
-    });
+    try {
+      const composition = await this.compositionService.update({
+        where: {
+          id,
+        },
+        data,
+      });
 
-    if (!composition) {
+      if (!composition) {
+        throw new HttpException(
+          {
+            message: 'Komposisi tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil mengubah komposisi',
+        result: {
+          composition,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Komposisi tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal mengubah komposisi',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Berhasil mengubah komposisi',
-      result: {
-        composition,
-      },
-    };
   }
 
   @Delete(':id')
   @RoleGuard.Params(Role.ADMIN)
   async delete(@Param('id') id: string) {
-    const composition = await this.compositionService.delete({
-      where: {
-        id,
-      },
-    });
+    try {
+      const composition = await this.compositionService.delete({
+        where: {
+          id,
+        },
+      });
 
-    if (!composition) {
+      if (!composition) {
+        throw new HttpException(
+          {
+            message: 'Komposisi tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil menghapus komposisi',
+        result: {
+          composition,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Komposisi tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal menghapus komposisi',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Berhasil menghapus komposisi',
-      result: {
-        composition,
-      },
-    };
   }
 }

@@ -22,125 +22,185 @@ export class CategoryController {
   @Post()
   @RoleGuard.Params(Role.ADMIN)
   async create(@Body() data: CreateCategoryDto) {
-    const category = await this.categoryService.create({ data });
+    try {
+      const category = await this.categoryService.create({ data });
 
-    return {
-      message: 'Berhasil membuat kategori baru',
-      result: {
-        category,
-      },
-    };
+      return {
+        message: 'Berhasil membuat kategori baru',
+        result: {
+          category,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal membuat kategori baru',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Get()
   async findMany() {
-    const categories = await this.categoryService.findMany({});
+    try {
+      const categories = await this.categoryService.findMany({});
 
-    return {
-      message: 'Data semua kategori',
-      result: {
-        categories,
-      },
-    };
+      return {
+        message: 'Data semua kategori',
+        result: {
+          categories,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal mengambil data kategori',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const category = await this.categoryService.findOne({
-      where: {
-        id,
-      },
-    });
+    try {
+      const category = await this.categoryService.findOne({
+        where: {
+          id,
+        },
+      });
 
-    if (!category) {
+      if (!category) {
+        throw new HttpException(
+          {
+            message: 'Kategori tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Data kategori',
+        result: {
+          category,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Kategori tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal mengambil data kategori',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Data kategori',
-      result: {
-        category,
-      },
-    };
   }
 
   @Get('/:id/products')
   async findOneWithProducts(@Param('id') id: string) {
-    const category = await this.categoryService.findOne({
-      where: {
-        id,
-      },
-      include: {
-        products: true,
-      },
-    });
+    try {
+      const category = await this.categoryService.findOne({
+        where: {
+          id,
+        },
+        include: {
+          products: true,
+        },
+      });
 
-    return {
-      message: 'Data kategori dengan produk',
-      result: {
-        category,
-      },
-    };
+      return {
+        message: 'Data kategori dengan produk',
+        result: {
+          category,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal mengambil data kategori',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Patch(':id')
   @RoleGuard.Params(Role.ADMIN)
   async update(@Param('id') id: string, @Body() data: UpdateCategoryDto) {
-    const category = await this.categoryService.update({
-      where: {
-        id,
-      },
-      data,
-    });
+    try {
+      const category = await this.categoryService.update({
+        where: {
+          id,
+        },
+        data,
+      });
 
-    if (!category) {
+      if (!category) {
+        throw new HttpException(
+          {
+            message: 'Kategori tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil mengubah kategori',
+        result: {
+          category,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Kategori tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal mengubah kategori',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Berhasil mengubah kategori',
-      result: {
-        category,
-      },
-    };
   }
 
   @Delete(':id')
   @RoleGuard.Params(Role.ADMIN)
   async delete(@Param('id') id: string) {
-    const category = await this.categoryService.delete({
-      where: {
-        id,
-      },
-    });
+    try {
+      const category = await this.categoryService.delete({
+        where: {
+          id,
+        },
+      });
 
-    if (!category) {
+      if (!category) {
+        throw new HttpException(
+          {
+            message: 'Kategori tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil menghapus kategori',
+        result: {
+          category,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Kategori tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal menghapus kategori',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Berhasil menghapus kategori',
-      result: {
-        category,
-      },
-    };
   }
 }

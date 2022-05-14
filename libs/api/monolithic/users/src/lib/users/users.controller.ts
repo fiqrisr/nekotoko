@@ -32,112 +32,162 @@ export class UsersController {
 
   @Post()
   async create(@Body() data: CreateUserDto) {
-    const user = await this.usersService.create({
-      data,
-      select: this.userSelect,
-    });
+    try {
+      const user = await this.usersService.create({
+        data,
+        select: this.userSelect,
+      });
 
-    return {
-      message: 'Berhasil membuat user baru',
-      result: {
-        user,
-      },
-    };
+      return {
+        message: 'Berhasil membuat user baru',
+        result: {
+          user,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal membuat user baru',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Get()
   async findMany() {
-    const users = await this.usersService.findMany({
-      select: this.userSelect,
-    });
+    try {
+      const users = await this.usersService.findMany({
+        select: this.userSelect,
+      });
 
-    return {
-      message: 'Data semua user',
-      result: {
-        users,
-      },
-    };
+      return {
+        message: 'Data semua user',
+        result: {
+          users,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Data user tidak ditemukan',
+          error: error.message,
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const user = await this.usersService.findOne({
-      where: {
-        id,
-      },
-      select: this.userSelect,
-    });
+    try {
+      const user = await this.usersService.findOne({
+        where: {
+          id,
+        },
+        select: this.userSelect,
+      });
 
-    if (!user) {
+      if (!user) {
+        throw new HttpException(
+          {
+            message: 'Data user tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Data user',
+        result: {
+          user,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
           message: 'Data user tidak ditemukan',
-          error: 'Not Found',
+          error: error.message,
         },
         HttpStatus.NOT_FOUND
       );
     }
-
-    return {
-      message: 'Data user',
-      result: {
-        user,
-      },
-    };
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
-    const user = await this.usersService.update({
-      where: {
-        id,
-      },
-      data,
-      select: this.userSelect,
-    });
+    try {
+      const user = await this.usersService.update({
+        where: {
+          id,
+        },
+        data,
+        select: this.userSelect,
+      });
 
-    if (!user) {
+      if (!user) {
+        throw new HttpException(
+          {
+            message: 'Data user tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil mengubah data user',
+        result: {
+          user,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Data user tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal mengubah data user',
+          error: error.message,
         },
         HttpStatus.NOT_FOUND
       );
     }
-
-    return {
-      message: 'Berhasil mengubah data user',
-      result: {
-        user,
-      },
-    };
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const user = await this.usersService.delete({
-      where: {
-        id,
-      },
-      select: this.userSelect,
-    });
+    try {
+      const user = await this.usersService.delete({
+        where: {
+          id,
+        },
+        select: this.userSelect,
+      });
 
-    if (!user) {
+      if (!user) {
+        throw new HttpException(
+          {
+            message: 'Data user tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil menghapus data user',
+        result: {
+          user,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Data user tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal menghapus data user',
+          error: error.message,
         },
         HttpStatus.NOT_FOUND
       );
     }
-
-    return {
-      message: 'Berhasil menghapus data user',
-      result: {
-        user,
-      },
-    };
   }
 }

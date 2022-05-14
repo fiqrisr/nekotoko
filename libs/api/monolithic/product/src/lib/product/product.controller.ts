@@ -22,117 +22,192 @@ export class ProductController {
   @Post()
   @RoleGuard.Params(Role.ADMIN)
   async create(@Body() data: CreateProductDto) {
-    const product = await this.productService.create({
-      data: {
-        ...data,
-        product_compositions: {
-          create: [...data.product_compositions],
+    try {
+      const product = await this.productService.create({
+        data: {
+          ...data,
+          product_compositions: {
+            create: [...data.product_compositions],
+          },
         },
-      },
-      include: {
-        category: true,
-        product_compositions: true,
-      },
-    });
+        include: {
+          category: true,
+          product_compositions: true,
+        },
+      });
 
-    return {
-      message: 'Berhasil membuat produk baru',
-      result: {
-        product,
-      },
-    };
+      return {
+        message: 'Berhasil membuat produk baru',
+        result: {
+          product,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal membuat produk baru',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Get()
   async findMany() {
-    const products = await this.productService.findMany({});
+    try {
+      const products = await this.productService.findMany({});
 
-    return {
-      message: 'Data semua produk',
-      result: {
-        products,
-      },
-    };
+      return {
+        message: 'Data semua produk',
+        result: {
+          products,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal mengambil data produk',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const product = await this.productService.findOne({
-      where: {
-        id,
-      },
-    });
+    try {
+      const product = await this.productService.findOne({
+        where: {
+          id,
+        },
+      });
 
-    if (!product) {
+      if (!product) {
+        throw new HttpException(
+          {
+            message: 'Produk tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Data produk',
+        result: {
+          product,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Produk tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal mengambil data produk',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Data produk',
-      result: {
-        product,
-      },
-    };
   }
 
   @Patch(':id')
   @RoleGuard.Params(Role.ADMIN)
   async update(@Param('id') id: string, @Body() data: UpdateProductDto) {
-    const product = await this.productService.update({
-      where: {
-        id,
-      },
-      data: {},
-    });
+    const { category_id, product_compositions, ...rest } = data;
 
-    if (!product) {
+    try {
+      const product = await this.productService.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+          ...(category_id
+            ? {
+                category: {
+                  connect: {
+                    id: category_id,
+                  },
+                },
+              }
+            : {}),
+          ...(product_compositions
+            ? {
+                product_compositions: {
+                  deleteMany: {},
+                  create: [...product_compositions],
+                },
+              }
+            : {}),
+        },
+        include: {
+          category: true,
+          product_compositions: true,
+        },
+      });
+
+      if (!product) {
+        throw new HttpException(
+          {
+            message: 'Produk tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil mengubah produk',
+        result: {
+          product,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Produk tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal mengupdate data produk',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Berhasil mengubah produk',
-      result: {
-        product,
-      },
-    };
   }
 
   @Delete(':id')
   @RoleGuard.Params(Role.ADMIN)
   async delete(@Param('id') id: string) {
-    const product = await this.productService.delete({
-      where: {
-        id,
-      },
-    });
+    try {
+      const product = await this.productService.delete({
+        where: {
+          id,
+        },
+      });
 
-    if (!product) {
+      if (!product) {
+        throw new HttpException(
+          {
+            message: 'Produk tidak ditemukan',
+            error: 'Not Found',
+          },
+          HttpStatus.NOT_FOUND
+        );
+      }
+
+      return {
+        message: 'Berhasil menghapus produk',
+        result: {
+          product,
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         {
-          message: 'Produk tidak ditemukan',
-          error: 'Not Found',
+          message: 'Gagal menghapus data produk',
+          error: error.message,
         },
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
-
-    return {
-      message: 'Berhasil menghapus produk',
-      result: {
-        product,
-      },
-    };
   }
 }
