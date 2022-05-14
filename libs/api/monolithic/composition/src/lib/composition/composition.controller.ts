@@ -9,6 +9,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { Prisma } from '@nekotoko/prisma/monolithic';
 import { CompositionService } from '@nekotoko/api/composition';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 
@@ -165,6 +166,18 @@ export class CompositionController {
         },
       };
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2003') {
+          throw new HttpException(
+            {
+              message: 'Gagal menghapus komposisi',
+              error: 'Composition is used by some products',
+            },
+            HttpStatus.BAD_REQUEST
+          );
+        }
+      }
+
       throw new HttpException(
         {
           message: 'Gagal menghapus komposisi',

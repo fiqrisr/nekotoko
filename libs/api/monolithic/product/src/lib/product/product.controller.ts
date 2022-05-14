@@ -9,6 +9,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { PrismaService } from '@nekotoko/prisma/monolithic';
 import { ProductService } from '@nekotoko/api/product';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 
@@ -17,7 +18,10 @@ import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly prisma: PrismaService
+  ) {}
 
   @Post()
   @RoleGuard.Params(Role.ADMIN)
@@ -32,7 +36,11 @@ export class ProductController {
         },
         include: {
           category: true,
-          product_compositions: true,
+          product_compositions: {
+            include: {
+              composition: true,
+            },
+          },
         },
       });
 
@@ -81,6 +89,14 @@ export class ProductController {
       const product = await this.productService.findOne({
         where: {
           id,
+        },
+        include: {
+          category: true,
+          product_compositions: {
+            include: {
+              composition: true,
+            },
+          },
         },
       });
 
@@ -143,7 +159,11 @@ export class ProductController {
         },
         include: {
           category: true,
-          product_compositions: true,
+          product_compositions: {
+            include: {
+              composition: true,
+            },
+          },
         },
       });
 
@@ -178,7 +198,13 @@ export class ProductController {
   @RoleGuard.Params(Role.ADMIN)
   async delete(@Param('id') id: string) {
     try {
-      const product = await this.productService.delete({
+      const productComposition = this.prisma.productComposition.deleteMany({
+        where: {
+          product_id: id,
+        },
+      });
+
+      const product = this.prisma.product.delete({
         where: {
           id,
         },
@@ -193,6 +219,8 @@ export class ProductController {
           HttpStatus.NOT_FOUND
         );
       }
+
+      await this.prisma.$transaction([productComposition, product]);
 
       return {
         message: 'Berhasil menghapus produk',

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ApiProductModule } from '@nekotoko/api/product';
+import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
 
 import { ProductController } from './product/product.controller';
 
@@ -7,6 +8,6 @@ import { ProductController } from './product/product.controller';
   controllers: [ProductController],
   providers: [],
   exports: [],
-  imports: [ApiProductModule],
+  imports: [ApiProductModule, PrismaMonolithicModule],
 })
 export class ApiMonolithicProductModule {}
