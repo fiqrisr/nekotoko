@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       if (Array.isArray(error.response.data.message))
         message = error.response.data?.message.join(', ');
-      else message = error.response.data?.message;
+      else message = error.response.data?.error || error.response.data?.message;
     }
 
     const customError: HttpError = {
@@ -100,31 +100,30 @@ export const dataProvider = (
     const queryFilters = generateFilter(filters);
 
     const query: {
-      _start: number;
-      _end: number;
-      _sort?: string;
-      _order?: string;
+      page: number;
+      take: number;
+      sort?: string;
+      order?: string;
     } = {
-      _start: (current - 1) * pageSize,
-      _end: current * pageSize,
+      take: pageSize,
+      page: current,
     };
 
     const generatedSort = generateSort(sort);
+
     if (generatedSort) {
       const { _sort, _order } = generatedSort;
-      query._sort = _sort.join(',');
-      query._order = _order.join(',');
+      query.sort = _sort.join(',');
+      query.order = _order.join(',');
     }
 
-    const { data, headers } = await httpClient.get(
+    const { data } = await httpClient.get(
       `${url}?${stringify(query)}&${stringify(queryFilters)}`
     );
 
-    const total = +headers['x-total-count'];
-
     return {
       data: data && data.data[Object.keys(data.data)[0]],
-      total,
+      total: data && data.data.meta.itemCount,
     };
   },
 
