@@ -1,5 +1,5 @@
 import { useForm, Form, Input, Edit } from '@pankod/refine-antd';
-import { Category } from '@nekotoko/admin/types';
+import { Category } from '@nekotoko/prisma/monolithic';
 
 export const CategoryEdit = () => {
   const { formProps, saveButtonProps } = useForm<Category>();

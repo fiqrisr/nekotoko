@@ -1,6 +1,6 @@
 import { Form, Select } from '@pankod/refine-antd';
 
-import { MEASUREMENT_UNITS } from '../constants';
+import { MEASUREMENT_UNITS } from '../../constants';
 
 export const UnitSelect = () => {
   return (

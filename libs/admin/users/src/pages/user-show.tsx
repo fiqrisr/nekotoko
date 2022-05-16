@@ -1,6 +1,6 @@
 import { useShow } from '@pankod/refine-core';
 import { Show, Typography, TagField } from '@pankod/refine-antd';
-import { User } from '@nekotoko/admin/types';
+import { User } from '@nekotoko/prisma/monolithic';
 
 const { Title, Text } = Typography;
 

@@ -9,7 +9,7 @@ import {
   DeleteButton,
   useTable,
 } from '@pankod/refine-antd';
-import { User } from '@nekotoko/admin/types';
+import { User } from '@nekotoko/prisma/monolithic';
 
 export const UserList = () => {
   const { tableProps } = useTable<User>();

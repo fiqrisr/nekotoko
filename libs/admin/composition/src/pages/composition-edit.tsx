@@ -1,7 +1,6 @@
 import { useForm, Form, Input, InputNumber, Edit } from '@pankod/refine-antd';
-import { Composition } from '@nekotoko/admin/types';
-
-import { UnitSelect } from '../components/unit-select';
+import { Composition } from '@nekotoko/prisma/monolithic';
+import { UnitSelect } from '@nekotoko/admin/components';
 
 export const CompositionEdit = () => {
   const { formProps, saveButtonProps } = useForm<Composition>();

@@ -8,9 +8,8 @@ import {
   DeleteButton,
   useTable,
 } from '@pankod/refine-antd';
-import { Composition } from '@nekotoko/admin/types';
-
-import { MEASUREMENT_UNITS } from '../constants';
+import { Composition } from '@nekotoko/prisma/monolithic';
+import { MEASUREMENT_UNITS } from '@nekotoko/admin/components';
 
 export const CompositionList = () => {
   const { tableProps } = useTable<Composition>();

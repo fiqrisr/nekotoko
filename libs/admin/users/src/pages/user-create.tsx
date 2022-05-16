@@ -1,5 +1,5 @@
 import { useForm, Form, Input, Create, Select } from '@pankod/refine-antd';
-import { User } from '@nekotoko/admin/types';
+import { User } from '@nekotoko/prisma/monolithic';
 
 export const UserCreate = () => {
   const { formProps, saveButtonProps } = useForm<User>();

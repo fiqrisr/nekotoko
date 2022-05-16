@@ -3,10 +3,10 @@
   "projects": {
     "admin": "apps/admin",
     "admin-category": "libs/admin/category",
+    "admin-components": "libs/admin/components",
     "admin-composition": "libs/admin/composition",
     "admin-http": "libs/admin/http",
     "admin-providers": "libs/admin/providers",
-    "admin-types": "libs/admin/types",
     "admin-users": "libs/admin/users",
     "api-auth": "libs/api/auth",
     "api-auth-shared": "libs/api/auth-shared",
