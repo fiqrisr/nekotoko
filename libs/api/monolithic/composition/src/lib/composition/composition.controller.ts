@@ -6,19 +6,24 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Prisma } from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
 import { CompositionService } from '@nekotoko/api/composition';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
+import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
 import { CreateCompositionDto } from './dto/create-composition.dto';
 import { UpdateCompositionDto } from './dto/update-composition.dto';
 
 @Controller('composition')
 export class CompositionController {
-  constructor(private readonly compositionService: CompositionService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly compositionService: CompositionService
+  ) {}
 
   @Post()
   @RoleGuard.Params(Role.ADMIN)
@@ -44,14 +49,26 @@ export class CompositionController {
   }
 
   @Get()
-  async findMany() {
+  async findMany(@Query() pageOptionsDto: PageOptionsDto) {
     try {
-      const compositions = await this.compositionService.findMany({});
+      const compositions = await this.compositionService.findMany({
+        skip: pageOptionsDto.skip,
+        take: pageOptionsDto.take,
+        orderBy: {
+          name: pageOptionsDto.order,
+        },
+      });
+
+      const meta = new PageMetaDto({
+        itemCount: await this.prisma.composition.count(),
+        pageOptionsDto,
+      });
 
       return {
         message: 'Data semua komposisi',
         result: {
           compositions,
+          meta,
         },
       };
     } catch (error) {

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from '@nekotoko/api/users';
+import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
 
 import { UsersController } from './users/users.controller';
 
@@ -7,6 +8,6 @@ import { UsersController } from './users/users.controller';
   controllers: [UsersController],
   providers: [],
   exports: [],
-  imports: [UsersModule],
+  imports: [UsersModule, PrismaMonolithicModule],
 })
 export class ApiMonolithicUsersModule {}

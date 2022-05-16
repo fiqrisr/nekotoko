@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { PrismaService } from '@nekotoko/prisma/monolithic';
 import { ProductService } from '@nekotoko/api/product';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
+import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -62,14 +64,26 @@ export class ProductController {
   }
 
   @Get()
-  async findMany() {
+  async findMany(@Query() pageOptionsDto: PageOptionsDto) {
     try {
-      const products = await this.productService.findMany({});
+      const products = await this.productService.findMany({
+        skip: pageOptionsDto.skip,
+        take: pageOptionsDto.take,
+        orderBy: {
+          name: pageOptionsDto.order,
+        },
+      });
+
+      const meta = new PageMetaDto({
+        itemCount: await this.prisma.product.count(),
+        pageOptionsDto,
+      });
 
       return {
         message: 'Data semua produk',
         result: {
           products,
+          meta,
         },
       };
     } catch (error) {

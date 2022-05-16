@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Prisma } from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
 import { UsersService } from '@nekotoko/api/users';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
+import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -28,7 +30,10 @@ export class UsersController {
     updated_at: true,
   });
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly prisma: PrismaService
+  ) {}
 
   @Post()
   async create(@Body() data: CreateUserDto) {
@@ -56,16 +61,27 @@ export class UsersController {
   }
 
   @Get()
-  async findMany() {
+  async findMany(@Query() pageOptionsDto: PageOptionsDto) {
     try {
       const users = await this.usersService.findMany({
         select: this.userSelect,
+        skip: pageOptionsDto.skip,
+        take: pageOptionsDto.take,
+        orderBy: {
+          username: pageOptionsDto.order,
+        },
+      });
+
+      const meta = new PageMetaDto({
+        itemCount: await this.prisma.user.count(),
+        pageOptionsDto,
       });
 
       return {
         message: 'Data semua user',
         result: {
           users,
+          meta,
         },
       };
     } catch (error) {

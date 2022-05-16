@@ -20,6 +20,7 @@
     "api-password": "libs/api/password",
     "api-product": "libs/api/product",
     "api-roles": "libs/api/roles",
+    "api-shared-dto": "libs/api/shared/dto",
     "api-users": "libs/api/users",
     "api-utils": "libs/api/utils",
     "prisma-monolithic": "libs/prisma/monolithic"

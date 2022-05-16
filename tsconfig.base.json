@@ -40,6 +40,7 @@
       "@nekotoko/api/password": ["libs/api/password/src/index.ts"],
       "@nekotoko/api/product": ["libs/api/product/src/index.ts"],
       "@nekotoko/api/roles": ["libs/api/roles/src/index.ts"],
+      "@nekotoko/api/shared/dto": ["libs/api/shared/dto/src/index.ts"],
       "@nekotoko/api/users": ["libs/api/users/src/index.ts"],
       "@nekotoko/api/utils": ["libs/api/utils/src/index.ts"],
       "@nekotoko/prisma/monolithic": ["libs/prisma/monolithic/src/index.ts"]

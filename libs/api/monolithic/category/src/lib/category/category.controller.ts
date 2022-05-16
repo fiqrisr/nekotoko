@@ -6,18 +6,24 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { PrismaService } from '@nekotoko/prisma/monolithic';
 import { CategoryService } from '@nekotoko/api/category';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
+import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly prisma: PrismaService
+  ) {}
 
   @Post()
   @RoleGuard.Params(Role.ADMIN)
@@ -43,14 +49,26 @@ export class CategoryController {
   }
 
   @Get()
-  async findMany() {
+  async findMany(@Query() pageOptionsDto: PageOptionsDto) {
     try {
-      const categories = await this.categoryService.findMany({});
+      const categories = await this.categoryService.findMany({
+        skip: pageOptionsDto.skip,
+        take: pageOptionsDto.take,
+        orderBy: {
+          name: pageOptionsDto.order,
+        },
+      });
+
+      const meta = new PageMetaDto({
+        itemCount: await this.prisma.category.count(),
+        pageOptionsDto,
+      });
 
       return {
         message: 'Data semua kategori',
         result: {
           categories,
+          meta,
         },
       };
     } catch (error) {
