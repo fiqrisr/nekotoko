@@ -21,6 +21,7 @@
     "api-product": "libs/api/product",
     "api-roles": "libs/api/roles",
     "api-shared-dto": "libs/api/shared/dto",
+    "api-shared-supabase": "libs/api/shared/supabase",
     "api-users": "libs/api/users",
     "api-utils": "libs/api/utils",
     "prisma-monolithic": "libs/prisma/monolithic"
