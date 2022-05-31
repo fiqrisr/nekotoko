@@ -10,13 +10,15 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { PrismaService } from '@nekotoko/prisma/monolithic';
+import { FormDataRequest } from 'nestjs-form-data';
+import { PrismaService, Product, Image } from '@nekotoko/prisma/monolithic';
 import { ProductService } from '@nekotoko/api/product';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { UploadImageDto } from './dto/upload-image.dto';
 
 @Controller('product')
 export class ProductController {
@@ -29,9 +31,25 @@ export class ProductController {
   @RoleGuard.Params(Role.ADMIN)
   async create(@Body() data: CreateProductDto) {
     try {
+      const { image, ...rest } = data;
+      const imageUrl = image ? image[0].response?.data?.url : null;
+
       const product = await this.productService.create({
         data: {
-          ...data,
+          ...rest,
+          ...(image && {
+            image: {
+              create: {
+                uid: image[0]?.uid,
+                url: imageUrl,
+                name: image[0]?.name,
+                lastModified: image[0]?.lastModified.toString(),
+                lastModifiedDate: image[0]?.lastModifiedDate,
+                size: image[0]?.size,
+                type: image[0]?.type,
+              },
+            },
+          }),
           product_compositions: {
             create: [...data.product_compositions],
           },
@@ -43,6 +61,7 @@ export class ProductController {
               composition: true,
             },
           },
+          image: true,
         },
       });
 
@@ -105,6 +124,7 @@ export class ProductController {
           id,
         },
         include: {
+          image: true,
           category: true,
           product_compositions: {
             include: {
@@ -124,10 +144,15 @@ export class ProductController {
         );
       }
 
+      const { image, ...rest } = product as Product & { image: Image };
+
       return {
         message: 'Data produk',
         result: {
-          product,
+          product: {
+            ...rest,
+            image: image ? [image] : null,
+          },
         },
       };
     } catch (error) {
@@ -144,7 +169,8 @@ export class ProductController {
   @Patch(':id')
   @RoleGuard.Params(Role.ADMIN)
   async update(@Param('id') id: string, @Body() data: UpdateProductDto) {
-    const { category_id, product_compositions, ...rest } = data;
+    const { category_id, product_compositions, image, ...rest } = data;
+    const imageUrl = image.length > 0 ? image[0].response?.data?.url : null;
 
     try {
       const product = await this.productService.update({
@@ -170,6 +196,32 @@ export class ProductController {
                 },
               }
             : {}),
+          image: {
+            ...(image.length > 0
+              ? {
+                  upsert: {
+                    update: {
+                      uid: image[0]?.uid,
+                      url: imageUrl,
+                      name: image[0]?.name,
+                      lastModified: image[0]?.lastModified.toString(),
+                      lastModifiedDate: image[0]?.lastModifiedDate,
+                      size: image[0]?.size,
+                      type: image[0]?.type,
+                    },
+                    create: {
+                      uid: image[0]?.uid,
+                      url: imageUrl,
+                      name: image[0]?.name,
+                      lastModified: image[0]?.lastModified.toString(),
+                      lastModifiedDate: image[0]?.lastModifiedDate,
+                      size: image[0]?.size,
+                      type: image[0]?.type,
+                    },
+                  },
+                }
+              : { delete: true }),
+          },
         },
         include: {
           category: true,
@@ -218,6 +270,12 @@ export class ProductController {
         },
       });
 
+      const image = this.prisma.image.delete({
+        where: {
+          product_id: id,
+        },
+      });
+
       const product = this.prisma.product.delete({
         where: {
           id,
@@ -234,7 +292,7 @@ export class ProductController {
         );
       }
 
-      await this.prisma.$transaction([productComposition, product]);
+      await this.prisma.$transaction([productComposition, image, product]);
 
       return {
         message: 'Berhasil menghapus produk',
@@ -246,6 +304,30 @@ export class ProductController {
       throw new HttpException(
         {
           message: 'Gagal menghapus data produk',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  @Post('upload-image')
+  @FormDataRequest()
+  @RoleGuard.Params(Role.ADMIN)
+  async uploadImage(@Body() uploadImageDto: UploadImageDto) {
+    try {
+      const url = await this.productService.uploadImage(uploadImageDto.image);
+
+      return {
+        message: 'Berhasil mengunggah gambar',
+        result: {
+          url,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal mengunggah gambar',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST

@@ -2,12 +2,29 @@ import {
   IsNotEmpty,
   IsString,
   IsNumber,
-  Min,
   IsOptional,
+  Min,
 } from 'class-validator';
 import { Prisma } from '@nekotoko/prisma/monolithic';
 
-export class CreateProductDto implements Prisma.ProductCreateManyInput {
+interface Image {
+  lastModified: number;
+  lastModifiedDate: Date;
+  uid: string;
+  name: string;
+  type: string;
+  size: number;
+  status: string;
+  response: {
+    data: {
+      url: string;
+    };
+  };
+}
+
+export class CreateProductDto
+  implements Omit<Prisma.ProductCreateManyInput, 'image'>
+{
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -22,8 +39,7 @@ export class CreateProductDto implements Prisma.ProductCreateManyInput {
   description?: string;
 
   @IsOptional()
-  @IsString()
-  image?: string;
+  image?: Image[];
 
   @IsNotEmpty()
   @IsString()

@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { MemoryStoredFile } from 'nestjs-form-data';
+import { nanoid } from 'nanoid';
 import { Prisma, PrismaService, Product } from '@nekotoko/prisma/monolithic';
+import { SupabaseService } from '@nekotoko/api/shared/supabase';
 
 @Injectable()
 export class ProductService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private supabase: SupabaseService
+  ) {}
 
   async create<T extends Prisma.ProductCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.ProductCreateArgs>
@@ -33,5 +39,24 @@ export class ProductService {
     args: Prisma.SelectSubset<T, Prisma.ProductDeleteArgs>
   ): Promise<Product> {
     return this.prisma.product.delete(args);
+  }
+
+  async uploadImage(image: MemoryStoredFile) {
+    try {
+      const ext = image.originalName.split('.')[1];
+      const newFilename = nanoid();
+
+      const url = await this.supabase.upload({
+        bucket: 'product-images',
+        file: image.buffer,
+        filename: `${newFilename}.${ext}`,
+        contentType: image.mimetype,
+        upsert: true,
+      });
+
+      return url;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 }
