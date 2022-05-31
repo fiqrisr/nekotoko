@@ -6,6 +6,7 @@
     "admin-components": "libs/admin/components",
     "admin-composition": "libs/admin/composition",
     "admin-http": "libs/admin/http",
+    "admin-product": "libs/admin/product",
     "admin-providers": "libs/admin/providers",
     "admin-users": "libs/admin/users",
     "api-auth": "libs/api/auth",

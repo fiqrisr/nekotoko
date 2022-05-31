@@ -13,6 +13,7 @@ import { dataProvider } from '@nekotoko/admin/providers';
 import usersResources from '@nekotoko/admin/users';
 import categoryResources from '@nekotoko/admin/category';
 import compositionResources from '@nekotoko/admin/composition';
+import productResources from '@nekotoko/admin/product';
 
 import configs from './configs';
 import { Login } from './pages/login';
@@ -28,7 +29,12 @@ const App = () => {
       LoginPage={Login}
       notificationProvider={notificationProvider}
       catchAll={<ErrorComponent />}
-      resources={[usersResources, categoryResources, compositionResources]}
+      resources={[
+        usersResources,
+        categoryResources,
+        compositionResources,
+        productResources,
+      ]}
     />
   );
 };
