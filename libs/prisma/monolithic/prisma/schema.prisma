@@ -25,12 +25,25 @@ model Product {
   category_id          String
   name                 String               @unique @db.VarChar(255)
   price                Int
-  image                String?
+  image                Image?
   description          String?
   product_compositions ProductComposition[]
   order_detail         OrderDetail[]
   created_at           DateTime             @default(now())
   updated_at           DateTime             @updatedAt
+}
+
+model Image {
+  id               String   @id @default(uuid())
+  uid              String   @unique @db.VarChar(255)
+  lastModified     String
+  lastModifiedDate DateTime
+  name             String
+  size             Int
+  type             String
+  url              String
+  product          Product  @relation(fields: [product_id], references: [id])
+  product_id       String   @unique
 }
 
 model Category {
