@@ -3,6 +3,8 @@ import {
   DateField,
   Table,
   Space,
+  Avatar,
+  Typography,
   ShowButton,
   EditButton,
   DeleteButton,
@@ -16,7 +18,16 @@ export const ProductList = () => {
   return (
     <List>
       <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex="name" title="Name" />
+        <Table.Column
+          dataIndex="name"
+          title="Name"
+          render={(_text, record) => (
+            <Space>
+              <Avatar size={74} src={record.image?.url} />
+              <Typography.Text>{_text}</Typography.Text>
+            </Space>
+          )}
+        />
         <Table.Column
           dataIndex="price"
           title="Price"
@@ -27,6 +38,7 @@ export const ProductList = () => {
             })
           }
         />
+        <Table.Column dataIndex={['category', 'name']} title="Category" />
         <Table.Column
           dataIndex="created_at"
           title="Created At"

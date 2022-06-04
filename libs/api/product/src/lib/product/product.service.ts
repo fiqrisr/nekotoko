@@ -43,18 +43,16 @@ export class ProductService {
 
   async uploadImage(image: MemoryStoredFile) {
     try {
-      const ext = image.originalName.split('.')[1];
+      const ext = image.originalName.split('.').pop();
       const newFilename = nanoid();
 
-      const url = await this.supabase.upload({
+      return await this.supabase.upload({
         bucket: 'product-images',
         file: image.buffer,
         filename: `${newFilename}.${ext}`,
         contentType: image.mimetype,
         upsert: true,
       });
-
-      return url;
     } catch (error) {
       return Promise.reject(error);
     }

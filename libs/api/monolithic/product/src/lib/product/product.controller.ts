@@ -31,7 +31,7 @@ export class ProductController {
   @RoleGuard.Params(Role.ADMIN)
   async create(@Body() data: CreateProductDto) {
     try {
-      const { image, ...rest } = data;
+      const { image, product_compositions, ...rest } = data;
       const imageUrl = image ? image[0].response?.data?.url : null;
 
       const product = await this.productService.create({
@@ -51,7 +51,7 @@ export class ProductController {
             },
           }),
           product_compositions: {
-            create: [...data.product_compositions],
+            create: [...product_compositions],
           },
         },
         include: {
@@ -90,6 +90,20 @@ export class ProductController {
         take: pageOptionsDto.take,
         orderBy: {
           name: pageOptionsDto.order,
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          image: {
+            select: {
+              id: true,
+              url: true,
+            },
+          },
         },
       });
 

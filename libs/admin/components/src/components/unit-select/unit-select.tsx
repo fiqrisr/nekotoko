@@ -12,8 +12,8 @@ export const UnitSelect = ({
   width = '140px',
 }: UnitSelectProps) => {
   return (
-    <Form.Item name={name} noStyle>
-      <Select defaultValue="g (gram)" style={{ width }}>
+    <Form.Item name={name} noStyle initialValue="g (gram)">
+      <Select style={{ width }}>
         {Object.entries(MEASUREMENT_UNITS).map(([key, value]) => (
           <Select.Option key={key} value={key}>
             {key} ({value})
