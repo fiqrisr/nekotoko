@@ -20,7 +20,6 @@
       "@nekotoko/admin/composition": ["libs/admin/composition/src/index.ts"],
       "@nekotoko/admin/http": ["libs/admin/http/src/index.ts"],
       "@nekotoko/admin/product": ["libs/admin/product/src/index.ts"],
-      "@nekotoko/admin/providers": ["libs/admin/providers/src/index.ts"],
       "@nekotoko/admin/users": ["libs/admin/users/src/index.ts"],
       "@nekotoko/api/auth": ["libs/api/auth/src/index.ts"],
       "@nekotoko/api/auth-shared": ["libs/api/auth-shared/src/index.ts"],
@@ -38,6 +37,7 @@
       "@nekotoko/api/monolithic/users": [
         "libs/api/monolithic/users/src/index.ts"
       ],
+      "@nekotoko/api/order": ["libs/api/order/src/index.ts"],
       "@nekotoko/api/password": ["libs/api/password/src/index.ts"],
       "@nekotoko/api/product": ["libs/api/product/src/index.ts"],
       "@nekotoko/api/roles": ["libs/api/roles/src/index.ts"],
@@ -47,7 +47,9 @@
       ],
       "@nekotoko/api/users": ["libs/api/users/src/index.ts"],
       "@nekotoko/api/utils": ["libs/api/utils/src/index.ts"],
-      "@nekotoko/prisma/monolithic": ["libs/prisma/monolithic/src/index.ts"]
+      "@nekotoko/pos/components": ["libs/pos/components/src/index.ts"],
+      "@nekotoko/prisma/monolithic": ["libs/prisma/monolithic/src/index.ts"],
+      "@nekotoko/shared/ui-providers": ["libs/shared/ui-providers/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

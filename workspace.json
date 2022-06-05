@@ -7,7 +7,6 @@
     "admin-composition": "libs/admin/composition",
     "admin-http": "libs/admin/http",
     "admin-product": "libs/admin/product",
-    "admin-providers": "libs/admin/providers",
     "admin-users": "libs/admin/users",
     "api-auth": "libs/api/auth",
     "api-auth-shared": "libs/api/auth-shared",
@@ -18,6 +17,7 @@
     "api-monolithic-composition": "libs/api/monolithic/composition",
     "api-monolithic-product": "libs/api/monolithic/product",
     "api-monolithic-users": "libs/api/monolithic/users",
+    "api-order": "libs/api/order",
     "api-password": "libs/api/password",
     "api-product": "libs/api/product",
     "api-roles": "libs/api/roles",
@@ -25,6 +25,9 @@
     "api-shared-supabase": "libs/api/shared/supabase",
     "api-users": "libs/api/users",
     "api-utils": "libs/api/utils",
-    "prisma-monolithic": "libs/prisma/monolithic"
+    "pos": "apps/pos",
+    "pos-components": "libs/pos/components",
+    "prisma-monolithic": "libs/prisma/monolithic",
+    "shared-ui-providers": "libs/shared/ui-providers"
   }
 }

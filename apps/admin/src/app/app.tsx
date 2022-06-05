@@ -7,8 +7,8 @@ import {
 } from '@pankod/refine-antd';
 import routerProvider from '@pankod/refine-react-router-v6';
 import '@pankod/refine-antd/dist/styles.min.css';
-import { authProvider } from '@nekotoko/admin/providers';
-import { dataProvider } from '@nekotoko/admin/providers';
+import { authProvider } from '@nekotoko/shared/ui-providers';
+import { dataProvider } from '@nekotoko/shared/ui-providers';
 
 import usersResources from '@nekotoko/admin/users';
 import categoryResources from '@nekotoko/admin/category';

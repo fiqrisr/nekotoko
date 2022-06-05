@@ -4,6 +4,7 @@ import { httpClient as axiosInstance } from '@nekotoko/admin/http';
 
 export const authProvider = (
   apiUrl: string,
+  role: 'admin' | 'user' = 'admin',
   httpClient: AxiosInstance = axiosInstance
 ): AuthProvider => ({
   login: async ({ username, password }) => {
@@ -15,11 +16,18 @@ export const authProvider = (
     if (data) {
       const { accessToken, user } = data.data;
 
-      if (!user.roles.includes('admin'))
+      if (role === 'admin') {
+        if (!user.roles.includes('admin'))
+          return Promise.reject({
+            name: 'Login failed!',
+            message: 'User is not an admin',
+          });
+      } else if (role === 'user') {
         return Promise.reject({
           name: 'Login failed!',
-          message: 'User is not an admin',
+          message: 'User does not have access to this app',
         });
+      }
 
       if (!accessToken)
         return Promise.reject({

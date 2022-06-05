@@ -1,5 +1,5 @@
 {
-  "sourceRoot": "libs/admin/providers/src",
+  "sourceRoot": "libs/pos/components/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -7,14 +7,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/admin/providers/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/pos/components/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/admin/providers"],
+      "outputs": ["coverage/libs/pos/components"],
       "options": {
-        "jestConfig": "libs/admin/providers/jest.config.ts",
+        "jestConfig": "libs/pos/components/jest.config.ts",
         "passWithNoTests": true
       }
     }
