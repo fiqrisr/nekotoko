@@ -12,6 +12,11 @@
   },
   "private": true,
   "dependencies": {
+    "@mantine/core": "^4.2.7",
+    "@mantine/form": "^4.2.8",
+    "@mantine/hooks": "^4.2.7",
+    "@mantine/modals": "^4.2.7",
+    "@mantine/notifications": "^4.2.7",
     "@nestjs/common": "^8.4.6",
     "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^8.4.6",
@@ -43,6 +48,7 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.9",
     "rxjs": "^7.5.5",
+    "tabler-icons-react": "^1.48.1",
     "tslib": "^2.4.0"
   },
   "devDependencies": {

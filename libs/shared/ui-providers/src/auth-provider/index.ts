@@ -7,7 +7,7 @@ export const authProvider = (
   role: 'admin' | 'user' = 'admin',
   httpClient: AxiosInstance = axiosInstance
 ): AuthProvider => ({
-  login: async ({ username, password }) => {
+  login: async ({ username, password, redirectPath }) => {
     const { data } = await httpClient.post(`${apiUrl}/auth/login`, {
       username,
       password,
@@ -17,16 +17,19 @@ export const authProvider = (
       const { accessToken, user } = data.data;
 
       if (role === 'admin') {
-        if (!user.roles.includes('admin'))
+        if (!user.roles.includes('admin')) {
           return Promise.reject({
             name: 'Login failed!',
             message: 'User is not an admin',
           });
+        }
       } else if (role === 'user') {
-        return Promise.reject({
-          name: 'Login failed!',
-          message: 'User does not have access to this app',
-        });
+        if (!user.roles.includes('user')) {
+          return Promise.reject({
+            name: 'Login failed!',
+            message: 'User does not have access to this app',
+          });
+        }
       }
 
       if (!accessToken)
@@ -37,7 +40,7 @@ export const authProvider = (
 
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('user', JSON.stringify(user));
-      return Promise.resolve();
+      return Promise.resolve(redirectPath ?? null);
     }
 
     return Promise.reject();

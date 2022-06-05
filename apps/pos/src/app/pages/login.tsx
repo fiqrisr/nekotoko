@@ -1,32 +1,66 @@
 import React from 'react';
+import { useLogin } from '@pankod/refine-core';
 import {
   TextInput,
   PasswordInput,
   Paper,
-  Title,
+  Text,
   Container,
   Button,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
 
-export const Login = () => {
+interface ILoginForm {
+  username: string;
+  password: string;
+}
+
+export const LoginPage = () => {
+  const { mutate: login, isLoading } = useLogin<ILoginForm>();
+
+  const form = useForm({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+  });
+
+  const handleSubmit = (values: typeof form.values) => login(values);
+
   return (
     <Container size={430} my={40}>
-      <Title
+      <Text
         align="center"
+        variant="gradient"
+        gradient={{ from: 'blue', to: 'cyan', deg: 45 }}
         sx={(theme) => ({
           fontFamily: `Poppins, ${theme.fontFamily}`,
           fontWeight: 900,
+          fontSize: 32,
         })}
       >
         NekoToko POS
-      </Title>
+      </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="hi@email.com" required />
-        <PasswordInput label="Password" placeholder="*****" required mt="md" />
-        <Button fullWidth mt="xl">
-          Sign in
-        </Button>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <TextInput
+            label="Email"
+            placeholder="hi@email.com"
+            required
+            {...form.getInputProps('username')}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="*****"
+            required
+            mt="md"
+            {...form.getInputProps('password')}
+          />
+          <Button fullWidth mt="xl" loading={isLoading} type="submit">
+            Sign in
+          </Button>
+        </form>
       </Paper>
     </Container>
   );

@@ -1,5 +1,5 @@
-import { IResourceItem } from '@pankod/refine-core';
-import { createStyles, Navbar as MantineNavbar } from '@mantine/core';
+import { IResourceItem, useLogout } from '@pankod/refine-core';
+import { createStyles, Navbar as MantineNavbar, Anchor } from '@mantine/core';
 import { Logout } from 'tabler-icons-react';
 
 import { MainLink } from './main-link';
@@ -76,6 +76,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 export const Navbar = ({ resources }: { resources: IResourceItem[] }) => {
   const { classes } = useStyles();
+  const { mutate: logout } = useLogout();
 
   const links = resources.map((item) => <MainLink item={item} />);
 
@@ -84,14 +85,10 @@ export const Navbar = ({ resources }: { resources: IResourceItem[] }) => {
       <MantineNavbar.Section grow>{links}</MantineNavbar.Section>
 
       <MantineNavbar.Section className={classes.footer}>
-        <a
-          href="#"
-          className={classes.link}
-          onClick={(event) => event.preventDefault()}
-        >
+        <Anchor className={classes.link} onClick={() => logout()}>
           <Logout className={classes.linkIcon} />
           <span>Logout</span>
-        </a>
+        </Anchor>
       </MantineNavbar.Section>
     </MantineNavbar>
   );
