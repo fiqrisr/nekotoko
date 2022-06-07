@@ -8,8 +8,6 @@ import {
 import { Prisma } from '@nekotoko/prisma/monolithic';
 
 interface Image {
-  lastModified: number;
-  lastModifiedDate: Date;
   uid: string;
   name: string;
   type: string;

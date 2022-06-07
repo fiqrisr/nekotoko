@@ -34,16 +34,14 @@ model Product {
 }
 
 model Image {
-  id               String   @id @default(uuid())
-  uid              String   @unique @db.VarChar(255)
-  lastModified     String
-  lastModifiedDate DateTime
-  name             String
-  size             Int
-  type             String
-  url              String
-  product          Product  @relation(fields: [product_id], references: [id])
-  product_id       String   @unique
+  id         String  @id @default(uuid())
+  uid        String  @unique @db.VarChar(255)
+  name       String
+  size       Int
+  type       String
+  url        String
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String  @unique
 }
 
 model Category {
