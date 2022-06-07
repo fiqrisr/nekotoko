@@ -18,7 +18,7 @@ export interface ILoginForm {
   password: string;
 }
 
-export const Login: React.FC = () => {
+export const Login = () => {
   const [form] = Form.useForm<ILoginForm>();
 
   const { mutate: login, isLoading } = useLogin<ILoginForm>();
