@@ -10,6 +10,8 @@ import {
   notificationProvider,
 } from '@nekotoko/shared/ui-providers';
 
+import productResources from '@nekotoko/pos/product';
+
 import configs from './configs';
 import { MainLayout } from './layouts/main-layout';
 import { LoginPage } from './pages/login';
@@ -20,7 +22,7 @@ const App = () => {
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <NotificationsProvider position="top-right">
         <Refine
-          dataProvider={dataProvider}
+          dataProvider={dataProvider(configs.API_URL)}
           routerProvider={routerProvider}
           authProvider={authProvider(configs.API_URL, 'user')}
           notificationProvider={notificationProvider}
@@ -28,9 +30,7 @@ const App = () => {
           LoginPage={LoginPage}
           DashboardPage={DashboardPage}
           resources={[
-            {
-              name: 'products',
-            },
+            productResources,
             {
               name: 'today-sale',
             },
