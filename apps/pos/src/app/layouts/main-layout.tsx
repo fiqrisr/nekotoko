@@ -25,6 +25,21 @@ export const MainLayout = ({
     <AppShell
       className={classes.appShell}
       header={<Header links={resources} />}
+      styles={{
+        root: {
+          height: '100vh',
+          maxHeight: '100vh',
+        },
+        body: {
+          paddingTop: '60px',
+          height: '100%',
+          display: 'block',
+        },
+        main: {
+          height: '100%',
+          maxHeight: '100%',
+        },
+      }}
     >
       {children}
     </AppShell>

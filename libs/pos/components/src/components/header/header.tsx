@@ -20,6 +20,10 @@ import { useBooleanToggle } from '@mantine/hooks';
 import { ChevronDown, Logout } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
+  root: {
+    position: 'fixed',
+  },
+
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -130,7 +134,7 @@ export const Header = ({ links }: { links: IResourceItem[] }) => {
   const items = links.map((link) => <HeaderLink key={link.key} item={link} />);
 
   return (
-    <MantineHeader height={60} mb={10}>
+    <MantineHeader height={60} mb={10} className={classes.root}>
       <Container className={classes.header}>
         <Anchor component={Link} to="/" className={classes.title}>
           <Text

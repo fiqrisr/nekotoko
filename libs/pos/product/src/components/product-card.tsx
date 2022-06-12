@@ -10,7 +10,7 @@ import {
 
 const useStyles = createStyles((theme) => ({
   card: {
-    minHeight: '320px',
+    minHeight: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -64,7 +64,7 @@ export const ProductCard = ({
       </Box>
 
       <Card.Section className={classes.bottomSection}>
-        <Group spacing={30}>
+        <Group spacing={20}>
           <div>
             <Text size="xl" weight={700} sx={{ lineHeight: 1 }}>
               {price.toLocaleString('id-ID', {

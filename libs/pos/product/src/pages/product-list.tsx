@@ -5,7 +5,7 @@ import {
   Tabs,
   Skeleton,
   Box,
-  Container,
+  ScrollArea,
   createStyles,
 } from '@mantine/core';
 
@@ -21,21 +21,45 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const ProductsGrid = ({ products }: { products: Prisma.ProductSelect[] }) => {
+const ProductLoading = () => {
   return (
     <Grid>
-      {products.map((product) => (
+      {Array.from({ length: 6 }).map((_, i) => (
         <Grid.Col lg={3} md={4} sm={6}>
-          <ProductCard
-            key={product.id}
-            name={product.name}
-            description={product.description}
-            price={product.price}
-            image={product.image?.url}
-          />
+          <Skeleton key={i} height={320} radius="md" />
         </Grid.Col>
       ))}
     </Grid>
+  );
+};
+
+const ProductsGrid = ({
+  products,
+  loading,
+}: {
+  products: Prisma.ProductSelect[];
+  loading: boolean;
+}) => {
+  if (loading) {
+    return <ProductLoading />;
+  }
+
+  return (
+    <ScrollArea offsetScrollbars style={{ height: '100%' }}>
+      <Grid>
+        {products.map((product) => (
+          <Grid.Col lg={3} md={4} sm={6}>
+            <ProductCard
+              key={product.id}
+              name={product.name}
+              description={product.description}
+              price={product.price}
+              image={product.image?.url}
+            />
+          </Grid.Col>
+        ))}
+      </Grid>
+    </ScrollArea>
   );
 };
 
@@ -76,22 +100,32 @@ export const ProductList = () => {
           active={activeTab}
           onTabChange={onTabChange}
           tabPadding="lg"
-          sx={() => ({ flex: 1 })}
+          styles={{
+            root: {
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              flex: 1,
+            },
+            body: {
+              height: '100%',
+              maxHeight: '100%',
+              overflow: 'hidden',
+            },
+          }}
         >
           <Tabs.Tab label="All" tabKey="">
-            {productLoading ? (
-              <Skeleton height={20} />
-            ) : (
-              <ProductsGrid products={productData?.data} />
-            )}
+            <ProductsGrid
+              products={productData?.data}
+              loading={productLoading}
+            />
           </Tabs.Tab>
           {categoryData?.data.map((category) => (
             <Tabs.Tab label={category.name} tabKey={category.name}>
-              {productLoading ? (
-                <Skeleton height={20} />
-              ) : (
-                <ProductsGrid products={productData?.data} />
-              )}
+              <ProductsGrid
+                products={productData?.data}
+                loading={productLoading}
+              />
             </Tabs.Tab>
           ))}
         </Tabs>
