@@ -9,9 +9,10 @@ import {
   createStyles,
 } from '@mantine/core';
 
-import type { Category, Prisma } from '@nekotoko/prisma/monolithic';
+import type { Category } from '@nekotoko/prisma/monolithic';
 
 import { ProductCard, ProductCart } from '../components';
+import { ProductType } from '../types';
 
 const useStyles = createStyles((theme) => ({
   layout: {
@@ -37,7 +38,7 @@ const ProductsGrid = ({
   products,
   loading,
 }: {
-  products: Prisma.ProductSelect[];
+  products: ProductType[];
   loading: boolean;
 }) => {
   if (loading) {
@@ -72,8 +73,8 @@ export const ProductList = () => {
     resource: 'category',
   });
 
-  const { data: productData, isLoading: productLoading } =
-    useList<Prisma.ProductSelect>({
+  const { data: productData, isLoading: productLoading } = useList<ProductType>(
+    {
       resource: 'product',
       config: {
         filters: [
@@ -84,7 +85,8 @@ export const ProductList = () => {
           },
         ],
       },
-    });
+    }
+  );
 
   const onTabChange = (active: number, tabKey: string) => {
     setActiveTab(active);
