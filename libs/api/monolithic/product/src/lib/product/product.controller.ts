@@ -83,7 +83,8 @@ export class ProductController {
   @Get()
   async findMany(
     @Query() pageOptionsDto: PageOptionsDto,
-    @Query('category') category: string
+    @Query('category') category: string,
+    @Query('search') search: string
   ) {
     try {
       const products = await this.productService.findMany({
@@ -108,6 +109,9 @@ export class ProductController {
         },
         where: {
           ...(category ? { category: { name: { equals: category } } } : {}),
+          ...(search
+            ? { name: { contains: search, mode: 'insensitive' } }
+            : {}),
         },
       });
 
