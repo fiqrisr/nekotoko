@@ -81,7 +81,10 @@ export class ProductController {
   }
 
   @Get()
-  async findMany(@Query() pageOptionsDto: PageOptionsDto) {
+  async findMany(
+    @Query() pageOptionsDto: PageOptionsDto,
+    @Query('category') category: string
+  ) {
     try {
       const products = await this.productService.findMany({
         skip: pageOptionsDto.skip,
@@ -102,6 +105,9 @@ export class ProductController {
               url: true,
             },
           },
+        },
+        where: {
+          ...(category ? { category: { name: { equals: category } } } : {}),
         },
       });
 
