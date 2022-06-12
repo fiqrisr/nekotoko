@@ -8,10 +8,12 @@ import {
   ScrollArea,
   createStyles,
 } from '@mantine/core';
+import { useInputState } from '@mantine/hooks';
 
 import type { Category } from '@nekotoko/prisma/monolithic';
 
-import { ProductCard, ProductCart } from '../components';
+import { ProductCard, ProductCart, ProductSearch } from '../components';
+import { ProductSearchContext } from '../contexts';
 import { ProductType } from '../types';
 
 const useStyles = createStyles((theme) => ({
@@ -19,6 +21,13 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     height: '100%',
     gap: theme.spacing.lg,
+  },
+
+  tabContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    flex: 1,
   },
 }));
 
@@ -67,6 +76,7 @@ const ProductsGrid = ({
 export const ProductList = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [activeCategory, setActiveCategory] = useState('');
+  const [search, setSearch] = useInputState('');
   const { classes } = useStyles();
 
   const { data: categoryData, isLoading: categoryLoading } = useList<Category>({
@@ -77,10 +87,16 @@ export const ProductList = () => {
     {
       resource: 'product',
       config: {
+        pagination: { current: 1, pageSize: 12 },
         filters: [
           {
             value: activeCategory,
             field: 'category',
+            operator: 'eq',
+          },
+          {
+            value: search,
+            field: 'search',
             operator: 'eq',
           },
         ],
@@ -94,45 +110,56 @@ export const ProductList = () => {
   };
 
   return (
-    <Box className={classes.layout}>
-      {categoryLoading ? (
-        <Skeleton height={20} />
-      ) : (
-        <Tabs
-          active={activeTab}
-          onTabChange={onTabChange}
-          tabPadding="lg"
-          styles={{
-            root: {
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              flex: 1,
-            },
-            body: {
-              height: '100%',
-              maxHeight: '100%',
-              overflow: 'hidden',
-            },
-          }}
-        >
-          <Tabs.Tab label="All" tabKey="">
-            <ProductsGrid
-              products={productData?.data}
-              loading={productLoading}
-            />
-          </Tabs.Tab>
-          {categoryData?.data.map((category) => (
-            <Tabs.Tab label={category.name} tabKey={category.name}>
-              <ProductsGrid
-                products={productData?.data}
-                loading={productLoading}
-              />
-            </Tabs.Tab>
-          ))}
-        </Tabs>
-      )}
-      <ProductCart />
-    </Box>
+    <ProductSearchContext.Provider
+      value={{
+        search,
+        setSearch,
+      }}
+    >
+      <Box className={classes.layout}>
+        {categoryLoading ? (
+          <Skeleton height={20} />
+        ) : (
+          <Box className={classes.tabContainer}>
+            <ProductSearch />
+            <Tabs
+              active={activeTab}
+              onTabChange={onTabChange}
+              tabPadding="lg"
+              styles={{
+                root: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  flex: 1,
+                  overflow: 'hidden',
+                },
+                body: {
+                  height: '100%',
+                  maxHeight: '100%',
+                  overflow: 'hidden',
+                },
+              }}
+            >
+              <Tabs.Tab label="All" tabKey="">
+                <ProductsGrid
+                  products={productData?.data}
+                  loading={productLoading}
+                />
+              </Tabs.Tab>
+              {categoryData?.data.map((category) => (
+                <Tabs.Tab label={category.name} tabKey={category.name}>
+                  <ProductsGrid
+                    products={productData?.data}
+                    loading={productLoading}
+                  />
+                </Tabs.Tab>
+              ))}
+            </Tabs>
+          </Box>
+        )}
+        <ProductCart />
+      </Box>
+    </ProductSearchContext.Provider>
   );
 };
