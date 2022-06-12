@@ -27,6 +27,7 @@
     "api-utils": "libs/api/utils",
     "pos": "apps/pos",
     "pos-components": "libs/pos/components",
+    "pos-product": "libs/pos/product",
     "prisma-monolithic": "libs/prisma/monolithic",
     "shared-ui-providers": "libs/shared/ui-providers"
   }
