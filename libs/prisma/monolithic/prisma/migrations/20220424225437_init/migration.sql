@@ -63,8 +63,9 @@ CREATE TABLE "ProductComposition" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
+    "number" VARCHAR(255) NOT NULL UNIQUE,
     "user_id" TEXT NOT NULL,
-    "total" INTEGER NOT NULL,
+    "total_amount" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

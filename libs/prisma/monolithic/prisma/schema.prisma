@@ -76,9 +76,10 @@ model ProductComposition {
 
 model Order {
   id            String        @id @default(uuid())
+  number        String        @unique @db.VarChar(255)
   user          User          @relation(fields: [user_id], references: [id])
   user_id       String
-  total         Int
+  total_amount  Int
   order_details OrderDetail[]
   created_at    DateTime      @default(now())
   updated_at    DateTime      @updatedAt
