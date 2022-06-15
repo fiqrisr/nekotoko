@@ -5,3 +5,10 @@ export interface ProductType extends Product {
     url: string;
   };
 }
+
+export interface ProductStoreItemType
+  extends Pick<Product, 'id' | 'name' | 'description' | 'price'> {
+  image: string;
+  quantity: number;
+  total: number;
+}

@@ -35,8 +35,8 @@ const ProductLoading = () => {
   return (
     <Grid>
       {Array.from({ length: 6 }).map((_, i) => (
-        <Grid.Col lg={3} md={4} sm={6}>
-          <Skeleton key={i} height={320} radius="md" />
+        <Grid.Col lg={3} md={4} sm={6} key={i}>
+          <Skeleton height={320} radius="md" />
         </Grid.Col>
       ))}
     </Grid>
@@ -58,9 +58,9 @@ const ProductsGrid = ({
     <ScrollArea offsetScrollbars style={{ height: '100%' }}>
       <Grid>
         {products.map((product) => (
-          <Grid.Col lg={3} md={4} sm={6}>
+          <Grid.Col lg={3} md={4} sm={6} key={product.id}>
             <ProductCard
-              key={product.id}
+              id={product.id}
               name={product.name}
               description={product.description}
               price={product.price}
@@ -148,7 +148,11 @@ export const ProductList = () => {
                 />
               </Tabs.Tab>
               {categoryData?.data.map((category) => (
-                <Tabs.Tab label={category.name} tabKey={category.name}>
+                <Tabs.Tab
+                  label={category.name}
+                  tabKey={category.name}
+                  key={category.id}
+                >
                   <ProductsGrid
                     products={productData?.data}
                     loading={productLoading}

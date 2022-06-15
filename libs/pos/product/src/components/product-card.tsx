@@ -7,6 +7,9 @@ import {
   Box,
   createStyles,
 } from '@mantine/core';
+import { toRupiah } from '@nekotoko/shared/utils';
+
+import { useProductStore } from '../store';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -34,6 +37,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface ProductCardProps {
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -41,12 +45,14 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({
+  id,
   name,
   description,
   price,
   image,
 }: ProductCardProps) => {
   const { classes } = useStyles();
+  const { addProduct } = useProductStore();
 
   return (
     <Card withBorder shadow="sm" radius="md" p="lg" className={classes.card}>
@@ -67,14 +73,25 @@ export const ProductCard = ({
         <Group spacing={20}>
           <div>
             <Text size="xl" weight={700} sx={{ lineHeight: 1 }}>
-              {price.toLocaleString('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-              })}
+              {toRupiah(price)}
             </Text>
           </div>
 
-          <Button radius="xl" style={{ flex: 1 }}>
+          <Button
+            radius="md"
+            style={{ flex: 1 }}
+            onClick={() =>
+              addProduct({
+                id,
+                name,
+                description,
+                price,
+                image,
+                quantity: 1,
+                total: price,
+              })
+            }
+          >
             Add to cart
           </Button>
         </Group>

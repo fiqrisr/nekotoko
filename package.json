@@ -50,7 +50,8 @@
     "regenerator-runtime": "0.13.9",
     "rxjs": "^7.5.5",
     "tabler-icons-react": "^1.48.1",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@nestjs/schematics": "^8.0.11",
