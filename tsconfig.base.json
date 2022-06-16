@@ -31,6 +31,9 @@
       "@nekotoko/api/monolithic/composition": [
         "libs/api/monolithic/composition/src/index.ts"
       ],
+      "@nekotoko/api/monolithic/order": [
+        "libs/api/monolithic/order/src/index.ts"
+      ],
       "@nekotoko/api/monolithic/product": [
         "libs/api/monolithic/product/src/index.ts"
       ],

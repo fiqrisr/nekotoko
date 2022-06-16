@@ -2592,6 +2592,49 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/microservices@npm:^8.4.7":
+  version: 8.4.7
+  resolution: "@nestjs/microservices@npm:8.4.7"
+  dependencies:
+    iterare: 1.2.1
+    tslib: 2.4.0
+  peerDependencies:
+    "@grpc/grpc-js": "*"
+    "@nestjs/common": ^8.0.0
+    "@nestjs/core": ^8.0.0
+    "@nestjs/websockets": ^8.0.0
+    amqp-connection-manager: "*"
+    amqplib: "*"
+    cache-manager: "*"
+    kafkajs: "*"
+    mqtt: "*"
+    nats: "*"
+    redis: "*"
+    reflect-metadata: ^0.1.12
+    rxjs: ^7.1.0
+  peerDependenciesMeta:
+    "@grpc/grpc-js":
+      optional: true
+    "@nestjs/websockets":
+      optional: true
+    amqp-connection-manager:
+      optional: true
+    amqplib:
+      optional: true
+    cache-manager:
+      optional: true
+    kafkajs:
+      optional: true
+    mqtt:
+      optional: true
+    nats:
+      optional: true
+    redis:
+      optional: true
+  checksum: 830946c2c9e696a0fc9e17f96702b6ec43651f327df43636fd32efeb3e9252869a8dc12b822e0f5598524b0b88b7cf497c9ccf1902de6fa3a481de06702e09d8
+  languageName: node
+  linkType: hard
+
 "@nestjs/passport@npm:^8.2.1":
   version: 8.2.1
   resolution: "@nestjs/passport@npm:8.2.1"
@@ -7021,6 +7064,13 @@ __metadata:
   dependencies:
     safe-buffer: ~5.1.1
   checksum: 985d974a2d33e1a2543ada51c93e1ba2f73eaed608dc39f229afc78f71dcc4c8b7d7c684aa647e3c6a3a204027444d69e53e169ce94e8d1fa8d7dee80c9c8fed
+  languageName: node
+  linkType: hard
+
+"convert@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "convert@npm:4.5.0"
+  checksum: cf075e8eced13bf504fb76f94b4721ba68afb4465805341f7abf69f8e4e8fc4d48fe53eebe4038524475b536880a885e285dbf8436097689f4f751b7276aeadd
   languageName: node
   linkType: hard
 
@@ -12503,6 +12553,7 @@ __metadata:
     "@nestjs/core": ^8.4.6
     "@nestjs/jwt": ^8.0.1
     "@nestjs/mapped-types": ^1.0.1
+    "@nestjs/microservices": ^8.4.7
     "@nestjs/passport": ^8.2.1
     "@nestjs/platform-express": ^8.4.6
     "@nestjs/schematics": ^8.0.11
@@ -12537,6 +12588,7 @@ __metadata:
     babel-jest: 27.5.1
     class-transformer: ^0.5.1
     class-validator: ^0.13.2
+    convert: ^4.5.0
     core-js: ^3.22.8
     eslint: ~8.16.0
     eslint-config-prettier: 8.5.0
@@ -12551,6 +12603,7 @@ __metadata:
     nestjs-pino: ^2.6.0
     nestjs-roles: ^0.5.1
     nx: 14.1.9
+    order-id: ^2.1.2
     passport: ^0.5.3
     passport-jwt: ^4.0.0
     pino-http: ^7.1.0
@@ -12666,6 +12719,13 @@ __metadata:
   version: 1.3.1
   resolution: "node-forge@npm:1.3.1"
   checksum: 08fb072d3d670599c89a1704b3e9c649ff1b998256737f0e06fbd1a5bf41cae4457ccaee32d95052d80bbafd9ffe01284e078c8071f0267dc9744e51c5ed42a9
+  languageName: node
+  linkType: hard
+
+"node-fpe@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "node-fpe@npm:2.0.2"
+  checksum: 8e0acab38a57995d874c0cdcb0ec51483d89de55b44db16cace3e6488bcdca6d263b40c3a9596615a4353cbe2a34c5bdfa7649f8d33cf584645195f08bc71a53
   languageName: node
   linkType: hard
 
@@ -13105,6 +13165,15 @@ __metadata:
     strip-ansi: ^6.0.0
     wcwidth: ^1.0.1
   checksum: 28d476ee6c1049d68368c0dc922e7225e3b5600c3ede88fade8052837f9ed342625fdaa84a6209302587c8ddd9b664f71f0759833cbdb3a4cf81344057e63c63
+  languageName: node
+  linkType: hard
+
+"order-id@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "order-id@npm:2.1.2"
+  dependencies:
+    node-fpe: ^2.0.2
+  checksum: 685d9c82aec13eea58997d88fd2b722d098b7c532d60d08dffba05210a2534a04a8686b97099ebe834a298537510a47fc214054c04183066ed7e227c74c8c81f
   languageName: node
   linkType: hard
 

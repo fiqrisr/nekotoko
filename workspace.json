@@ -15,6 +15,7 @@
     "api-monolithic": "apps/api-monolithic",
     "api-monolithic-category": "libs/api/monolithic/category",
     "api-monolithic-composition": "libs/api/monolithic/composition",
+    "api-monolithic-order": "libs/api/monolithic/order",
     "api-monolithic-product": "libs/api/monolithic/product",
     "api-monolithic-users": "libs/api/monolithic/users",
     "api-order": "libs/api/order",

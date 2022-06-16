@@ -9,6 +9,7 @@ import { ApiMonolithicUsersModule } from '@nekotoko/api/monolithic/users';
 import { ApiMonolithicCategoryModule } from '@nekotoko/api/monolithic/category';
 import { ApiMonolithicCompositionModule } from '@nekotoko/api/monolithic/composition';
 import { ApiMonolithicProductModule } from '@nekotoko/api/monolithic/product';
+import { ApiMonolithicOrderModule } from '@nekotoko/api/monolithic/order';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -32,6 +33,7 @@ import { AppService } from './app.service';
     ApiMonolithicCategoryModule,
     ApiMonolithicCompositionModule,
     ApiMonolithicProductModule,
+    ApiMonolithicOrderModule,
   ],
   controllers: [AppController],
   providers: [
