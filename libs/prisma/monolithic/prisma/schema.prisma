@@ -56,7 +56,7 @@ model Composition {
   id                   String               @id @default(uuid())
   name                 String               @unique @db.VarChar(255)
   unit                 String               @db.VarChar(255)
-  stock                Int
+  stock                Float
   product_compositions ProductComposition[]
   created_at           DateTime             @default(now())
   updated_at           DateTime             @updatedAt
@@ -68,7 +68,7 @@ model ProductComposition {
   product_id     String
   composition    Composition @relation(fields: [composition_id], references: [id])
   composition_id String
-  quantity       Int
+  quantity       Float
   unit           String      @db.VarChar(255)
   created_at     DateTime    @default(now())
   updated_at     DateTime    @updatedAt

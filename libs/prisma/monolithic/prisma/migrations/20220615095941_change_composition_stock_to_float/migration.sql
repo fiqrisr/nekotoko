@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Composition" ALTER COLUMN "stock" SET DATA TYPE DOUBLE PRECISION;
+
+-- AlterTable
+ALTER TABLE "ProductComposition" ALTER COLUMN "quantity" SET DATA TYPE DOUBLE PRECISION;
