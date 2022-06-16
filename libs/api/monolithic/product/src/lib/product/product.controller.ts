@@ -192,7 +192,12 @@ export class ProductController {
   @RoleGuard.Params(Role.ADMIN)
   async update(@Param('id') id: string, @Body() data: UpdateProductDto) {
     const { category_id, product_compositions, image, ...rest } = data;
-    const imageUrl = image.length > 0 ? image[0].response?.data?.url : null;
+    const imageUrl =
+      image.length > 0
+        ? image[0]?.url
+          ? image[0]?.url
+          : image[0]?.response?.data?.url
+        : null;
 
     try {
       const product = await this.productService.update({

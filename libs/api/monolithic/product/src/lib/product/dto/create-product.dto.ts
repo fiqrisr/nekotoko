@@ -18,6 +18,7 @@ interface Image {
       url: string;
     };
   };
+  url: string;
 }
 
 export class CreateProductDto
