@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useCreate } from '@pankod/refine-core';
 import {
   useMantineTheme,
   createStyles,
@@ -136,6 +137,8 @@ export const ProductCart = () => {
   const theme = useMantineTheme();
   const { products, totalItem, totalPrice, reset } = useProductStore();
 
+  const { mutate, isLoading } = useCreate();
+
   useEffect(() => {
     if (totalPrice > cash) {
       setStatus('minus');
@@ -240,6 +243,23 @@ export const ProductCart = () => {
         fullWidth
         radius="md"
         disabled={status === 'minus' || totalItem < 1}
+        loading={isLoading}
+        onClick={() => {
+          const userId = JSON.parse(localStorage.getItem('user')).id;
+
+          mutate({
+            resource: 'order',
+            values: {
+              user_id: userId,
+              total_amount: totalPrice,
+              order_details: products.map((p) => ({
+                product_id: p.id,
+                quantity: p.quantity,
+                total_price: p.total,
+              })),
+            },
+          });
+        }}
       >
         Submit
       </Button>
