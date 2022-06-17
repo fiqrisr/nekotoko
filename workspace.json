@@ -33,6 +33,7 @@
     "pos-product": "libs/pos/product",
     "prisma-auth-db": "libs/prisma/auth-db",
     "prisma-monolithic": "libs/prisma/monolithic",
+    "prisma-product-db": "libs/prisma/product-db",
     "shared-ui-providers": "libs/shared/ui-providers",
     "shared-utils": "libs/shared/utils"
   }

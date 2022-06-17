@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma-client.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id                   String               @id @default(uuid())
+  category             Category             @relation(fields: [category_id], references: [id])
+  category_id          String
+  name                 String               @unique @db.VarChar(255)
+  price                Int
+  image                Image?
+  description          String?
+  product_compositions ProductComposition[]
+  created_at           DateTime             @default(now())
+  updated_at           DateTime             @updatedAt
+}
+
+model Image {
+  id         String  @id @default(uuid())
+  uid        String  @unique @db.VarChar(255)
+  name       String
+  size       Int
+  type       String
+  url        String
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String  @unique
+}
+
+model Category {
+  id         String    @id @default(uuid())
+  name       String    @unique @db.VarChar(255)
+  products   Product[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Composition {
+  id                   String               @id @default(uuid())
+  name                 String               @unique @db.VarChar(255)
+  unit                 String               @db.VarChar(255)
+  stock                Float
+  product_compositions ProductComposition[]
+  created_at           DateTime             @default(now())
+  updated_at           DateTime             @updatedAt
+}
+
+model ProductComposition {
+  id             String      @id @default(uuid())
+  product        Product     @relation(fields: [product_id], references: [id])
+  product_id     String
+  composition    Composition @relation(fields: [composition_id], references: [id])
+  composition_id String
+  quantity       Float
+  unit           String      @db.VarChar(255)
+  created_at     DateTime    @default(now())
+  updated_at     DateTime    @updatedAt
+}

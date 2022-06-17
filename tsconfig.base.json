@@ -57,6 +57,7 @@
       "@nekotoko/pos/product": ["libs/pos/product/src/index.ts"],
       "@nekotoko/prisma/auth-db": ["libs/prisma/auth-db/src/index.ts"],
       "@nekotoko/prisma/monolithic": ["libs/prisma/monolithic/src/index.ts"],
+      "@nekotoko/prisma/product-db": ["libs/prisma/product-db/src/index.ts"],
       "@nekotoko/shared/ui-providers": [
         "libs/shared/ui-providers/src/index.ts"
       ],
