@@ -12,6 +12,8 @@
     "api-auth-shared": "libs/api/auth-shared",
     "api-category": "libs/api/category",
     "api-composition": "libs/api/composition",
+    "api-microservices-auth-srv": "apps/api-microservices/auth-srv",
+    "api-microservices-users": "libs/api/microservices/users",
     "api-monolithic": "apps/api-monolithic",
     "api-monolithic-category": "libs/api/monolithic/category",
     "api-monolithic-composition": "libs/api/monolithic/composition",
