@@ -21,9 +21,12 @@ import { AppService } from './app.service';
       pinoHttp:
         process.env.NODE_ENV === 'development'
           ? {
-              prettyPrint: {
-                colorize: true,
-                levelFirst: true,
+              transport: {
+                target: 'pino-pretty',
+                options: {
+                  colorize: true,
+                  levelFirst: true,
+                },
               },
             }
           : {},
