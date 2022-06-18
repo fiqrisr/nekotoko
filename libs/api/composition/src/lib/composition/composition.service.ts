@@ -7,7 +7,7 @@ import {
 
 @Injectable()
 export class CompositionService {
-  constructor(private prisma: PrismaService) {}
+  constructor(protected readonly prisma: PrismaService) {}
 
   async create<T extends Prisma.CompositionCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.CompositionCreateArgs>
@@ -24,6 +24,7 @@ export class CompositionService {
   async findOne<T extends Prisma.CompositionFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.CompositionFindUniqueArgs>
   ): Promise<Composition | null> {
+    console.log(args);
     return this.prisma.composition.findUnique(args);
   }
 

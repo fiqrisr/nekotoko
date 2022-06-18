@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from '@nekotoko/api/users';
+import { ApiUsersModule } from '@nekotoko/api/users';
 import { PrismaAuthModule } from '@nekotoko/prisma/auth-db';
 
 import { UsersController } from './users/users.controller';
@@ -8,6 +8,6 @@ import { UsersController } from './users/users.controller';
   controllers: [UsersController],
   providers: [],
   exports: [],
-  imports: [UsersModule, PrismaAuthModule],
+  imports: [ApiUsersModule, PrismaAuthModule],
 })
 export class ApiMicroservicesUsersModule {}
