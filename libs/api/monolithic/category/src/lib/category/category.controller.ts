@@ -126,7 +126,20 @@ export class CategoryController {
           id,
         },
         include: {
-          products: true,
+          products: {
+            select: {
+              id: true,
+              name: true,
+              price: true,
+              created_at: true,
+              updated_at: true,
+              image: {
+                select: {
+                  url: true,
+                },
+              },
+            },
+          },
         },
       });
 

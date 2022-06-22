@@ -4,8 +4,6 @@ import {
   Table,
   Space,
   Avatar,
-  Typography,
-  ShowButton,
   EditButton,
   DeleteButton,
   useTable,
@@ -19,15 +17,11 @@ export const ProductList = () => {
     <List>
       <Table {...tableProps} rowKey="id">
         <Table.Column
-          dataIndex="name"
-          title="Name"
-          render={(_text, record) => (
-            <Space>
-              <Avatar size={74} src={record.image?.url} />
-              <Typography.Text>{_text}</Typography.Text>
-            </Space>
-          )}
+          dataIndex="image"
+          render={(value) => <Avatar size={74} src={value?.url} />}
+          width={100}
         />
+        <Table.Column dataIndex="name" title="Name" />
         <Table.Column
           dataIndex="price"
           title="Price"
