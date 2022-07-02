@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ApiCategoryModule } from '@nekotoko/api/category';
 import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
 
 import { CategoryController } from './category/category.controller';
+import { CategoryService } from './category/category.service';
 
 @Module({
   controllers: [CategoryController],
-  providers: [],
+  providers: [CategoryService],
   exports: [],
-  imports: [ApiCategoryModule, PrismaMonolithicModule],
+  imports: [PrismaMonolithicModule],
 })
 export class ApiMonolithicCategoryModule {}

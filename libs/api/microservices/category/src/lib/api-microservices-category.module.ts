@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ApiCategoryModule } from '@nekotoko/api/category';
 import { PrismaProductModule } from '@nekotoko/prisma/product-db';
 
 import { CategoryController } from './category/category.controller';
@@ -8,6 +7,6 @@ import { CategoryController } from './category/category.controller';
   controllers: [CategoryController],
   providers: [],
   exports: [],
-  imports: [ApiCategoryModule, PrismaProductModule],
+  imports: [PrismaProductModule],
 })
 export class ApiMicroservicesCategoryModule {}

@@ -11,10 +11,10 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { PrismaService } from '@nekotoko/prisma/product-db';
-import { CategoryService } from '@nekotoko/api/category';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
+import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 

@@ -11,10 +11,10 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
-import { CompositionService } from '@nekotoko/api/composition';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
+import { CompositionService } from './composition.service';
 import { CreateCompositionDto } from './dto/create-composition.dto';
 import { UpdateCompositionDto } from './dto/update-composition.dto';
 

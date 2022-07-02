@@ -12,10 +12,10 @@ import {
 } from '@nestjs/common';
 import { FormDataRequest } from 'nestjs-form-data';
 import { PrismaService, Product, Image } from '@nekotoko/prisma/monolithic';
-import { ProductService } from '@nekotoko/api/product';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
+import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { UploadImageDto } from './dto/upload-image.dto';

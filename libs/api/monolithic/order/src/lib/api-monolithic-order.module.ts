@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ApiOrderModule } from '@nekotoko/api/order';
 import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
 
 import { OrderController } from './order/order.controller';
+import { OrderService } from './order/order.service';
 
 @Module({
   controllers: [OrderController],
-  providers: [],
+  providers: [OrderService],
   exports: [],
-  imports: [ApiOrderModule, PrismaMonolithicModule],
+  imports: [PrismaMonolithicModule],
 })
 export class ApiMonolithicOrderModule {}

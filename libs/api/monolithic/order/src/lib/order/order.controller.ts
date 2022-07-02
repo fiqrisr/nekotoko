@@ -11,10 +11,10 @@ import {
 import orderId from 'order-id';
 import convert from 'convert';
 import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
-import { OrderService } from '@nekotoko/api/order';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 
+import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 
 @Controller('order')

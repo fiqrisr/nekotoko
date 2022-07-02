@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
-import { ApiProductModule } from '@nekotoko/api/product';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
+import { ApiSharedSupabaseModule } from '@nekotoko/api/shared/supabase';
 
 import { ProductController } from './product/product.controller';
+import { ProductService } from './product/product.service';
 
 @Module({
   controllers: [ProductController],
-  providers: [],
+  providers: [ProductService],
   exports: [],
-  imports: [ApiProductModule, PrismaMonolithicModule, NestjsFormDataModule],
+  imports: [
+    PrismaMonolithicModule,
+    NestjsFormDataModule,
+    ApiSharedSupabaseModule,
+  ],
 })
 export class ApiMonolithicProductModule {}
