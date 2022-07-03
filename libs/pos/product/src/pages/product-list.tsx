@@ -87,7 +87,7 @@ export const ProductList = () => {
     {
       resource: 'product',
       config: {
-        pagination: { current: 1, pageSize: 12 },
+        pagination: { current: 1, pageSize: 100 },
         filters: [
           {
             value: activeCategory,
