@@ -119,11 +119,14 @@ export class OrderController {
     @Query() findManyOrderDto: FindManyOrderDto
   ) {
     try {
-      if (findManyOrderDto.date) {
-        const startOfDate = dayjs(findManyOrderDto.date)
+      if (
+        findManyOrderDto.date ||
+        (!findManyOrderDto.month && !findManyOrderDto.year)
+      ) {
+        const startOfDate = dayjs(findManyOrderDto.date || new Date())
           .startOf('date')
           .toDate();
-        const endOfDate = dayjs(findManyOrderDto.date)
+        const endOfDate = dayjs(findManyOrderDto.date || new Date())
           .add(1, 'day')
           .startOf('date')
           .toDate();
@@ -179,7 +182,7 @@ export class OrderController {
             .year(findManyOrderDto.year)
             .month(findManyOrderDto.month)
             .startOf('month')
-            .add(d + 1, 'day');
+            .add(d, 'day');
 
           const startOfDay = dateToFilter.toDate();
           const endOfDay = dateToFilter.add(1, 'day').toDate();
