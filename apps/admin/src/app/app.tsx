@@ -14,6 +14,7 @@ import usersResources from '@nekotoko/admin/users';
 import categoryResources from '@nekotoko/admin/category';
 import compositionResources from '@nekotoko/admin/composition';
 import productResources from '@nekotoko/admin/product';
+import reportResources from '@nekotoko/admin/report';
 
 import configs from './configs';
 import { Login } from './pages/login';
@@ -34,6 +35,7 @@ const App = () => {
         categoryResources,
         compositionResources,
         productResources,
+        ...reportResources,
       ]}
     />
   );
