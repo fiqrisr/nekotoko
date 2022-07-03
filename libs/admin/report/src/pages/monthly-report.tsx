@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   CrudFilters,
   getDefaultFilter,
@@ -5,11 +6,12 @@ import {
   useNavigation,
 } from '@pankod/refine-core';
 import { List, Table, useTable, Select, Form } from '@pankod/refine-antd';
+import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { Order } from '@nekotoko/prisma/monolithic';
 import { toRupiah } from '@nekotoko/shared/utils';
 
 import { useDateFilter } from '../hooks/use-date-filter';
+import { MonthlyReportResponse } from '../types';
 
 interface OrderFilterVariables {
   month: number;
@@ -18,9 +20,11 @@ interface OrderFilterVariables {
 
 export const MonthlyReport = () => {
   const { list } = useNavigation();
+  const { search } = useLocation();
+  const queryParams = useMemo(() => new URLSearchParams(search), [search]);
 
   const { tableProps, searchFormProps, filters } = useTable<
-    Order,
+    MonthlyReportResponse,
     HttpError,
     OrderFilterVariables
   >({
@@ -30,12 +34,12 @@ export const MonthlyReport = () => {
       {
         field: 'month',
         operator: 'eq',
-        value: dayjs().month(),
+        value: queryParams.get('month') || dayjs().month(),
       },
       {
         field: 'year',
         operator: 'eq',
-        value: dayjs().year(),
+        value: queryParams.get('year') || dayjs().year(),
       },
     ],
     onSearch: (params) => {
@@ -99,9 +103,9 @@ export const MonthlyReport = () => {
       <Table
         {...tableProps}
         rowKey="date"
-        onRow={() => {
+        onRow={(record) => {
           return {
-            onClick: () => list('order/daily'),
+            onClick: () => list(`order/daily?date=${record.date}`),
           };
         }}
         pagination={{

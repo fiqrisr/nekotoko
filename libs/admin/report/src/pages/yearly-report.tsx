@@ -6,10 +6,10 @@ import {
 } from '@pankod/refine-core';
 import { List, Table, useTable, Select, Form } from '@pankod/refine-antd';
 import dayjs from 'dayjs';
-import { Order } from '@nekotoko/prisma/monolithic';
 import { toRupiah } from '@nekotoko/shared/utils';
 
 import { useDateFilter } from '../hooks/use-date-filter';
+import { YearlyReportResponse } from '../types';
 
 interface OrderFilterVariables {
   year: number;
@@ -19,7 +19,7 @@ export const YearlyReport = () => {
   const { list } = useNavigation();
 
   const { tableProps, searchFormProps, filters } = useTable<
-    Order,
+    YearlyReportResponse,
     HttpError,
     OrderFilterVariables
   >({
@@ -78,9 +78,14 @@ export const YearlyReport = () => {
       <Table
         {...tableProps}
         rowKey="date"
-        onRow={() => {
+        onRow={(record) => {
           return {
-            onClick: () => list('order/monthly'),
+            onClick: () =>
+              list(
+                `order/monthly?month=${
+                  parseInt(record.month.split('-')[0]) - 1
+                }&year=${getDefaultFilter('year', filters, 'eq')}`
+              ),
           };
         }}
         pagination={{

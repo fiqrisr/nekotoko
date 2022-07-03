@@ -12817,6 +12817,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-icons: ^4.4.0
+    react-router-dom: ^6.3.0
     react-test-renderer: 18.2.0
     reflect-metadata: ^0.1.13
     regenerator-runtime: 0.13.9
@@ -15182,7 +15183,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.0.0":
+"react-router-dom@npm:^6.0.0, react-router-dom@npm:^6.3.0":
   version: 6.3.0
   resolution: "react-router-dom@npm:6.3.0"
   dependencies:
