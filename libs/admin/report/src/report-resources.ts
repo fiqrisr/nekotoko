@@ -1,6 +1,6 @@
 import { IResourceItem } from '@pankod/refine-core';
 
-import { DailyReport, MonthlyReport, YearlyReport } from './pages';
+import { DailyReport, MonthlyReport, YearlyReport, OrderShow } from './pages';
 
 const reportResources: IResourceItem[] = [
   {
@@ -13,6 +13,7 @@ const reportResources: IResourceItem[] = [
       label: 'Daily',
     },
     list: DailyReport,
+    show: OrderShow,
   },
   {
     name: 'monthly',

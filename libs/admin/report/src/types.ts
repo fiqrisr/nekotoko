@@ -1,3 +1,8 @@
+import {
+  Order,
+  OrderDetail as OrderDetailPrisma,
+} from '@nekotoko/prisma/monolithic';
+
 export interface MonthlyReportResponse {
   date: Date;
   totalOrder: number;
@@ -8,4 +13,13 @@ export interface YearlyReportResponse {
   month: string;
   totalOrder: number;
   totalAmount: number;
+}
+
+export interface OrderDetail extends Order {
+  user: {
+    id: string;
+    username: string;
+    full_name: string;
+  };
+  order_details: OrderDetailPrisma[];
 }
