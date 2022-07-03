@@ -34,7 +34,7 @@ export const CategoryShow = () => {
   });
 
   return (
-    <>
+    <Space direction="vertical" size={20} style={{ width: '100%' }}>
       <Show isLoading={isLoading}>
         <Title level={5}>Name</Title>
         <Text>{data?.data.name}</Text>
@@ -92,6 +92,6 @@ export const CategoryShow = () => {
           />
         </Table>
       </List>
-    </>
+    </Space>
   );
 };
