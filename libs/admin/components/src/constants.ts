@@ -1,7 +1,7 @@
 export const MEASUREMENT_UNITS: Record<string, string> = {
-  Kg: 'kilogram',
+  kg: 'kilogram',
   g: 'gram',
-  Mg: 'milligram',
+  mg: 'milligram',
   L: 'liter',
   mL: 'milliliter',
 };

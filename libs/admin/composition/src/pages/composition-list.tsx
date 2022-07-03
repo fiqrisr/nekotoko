@@ -12,11 +12,18 @@ import { Composition } from '@nekotoko/prisma/monolithic';
 import { MEASUREMENT_UNITS } from '@nekotoko/admin/components';
 
 export const CompositionList = () => {
-  const { tableProps } = useTable<Composition>();
+  const { tableProps } = useTable<Composition>({ syncWithLocation: true });
 
   return (
     <List>
-      <Table {...tableProps} rowKey="id">
+      <Table
+        {...tableProps}
+        rowKey="id"
+        pagination={{
+          ...tableProps.pagination,
+          showSizeChanger: true,
+        }}
+      >
         <Table.Column dataIndex="name" title="Name" />
         <Table.Column dataIndex="stock" title="Stock" />
         <Table.Column

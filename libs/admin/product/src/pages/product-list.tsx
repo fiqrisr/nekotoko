@@ -11,11 +11,21 @@ import {
 import { Product } from '@nekotoko/prisma/monolithic';
 
 export const ProductList = () => {
-  const { tableProps } = useTable<Product>({ resource: 'product' });
+  const { tableProps } = useTable<Product>({
+    resource: 'product',
+    syncWithLocation: true,
+  });
 
   return (
     <List>
-      <Table {...tableProps} rowKey="id">
+      <Table
+        {...tableProps}
+        rowKey="id"
+        pagination={{
+          ...tableProps.pagination,
+          showSizeChanger: true,
+        }}
+      >
         <Table.Column
           dataIndex="image"
           render={(value) => <Avatar size={74} src={value?.url} />}

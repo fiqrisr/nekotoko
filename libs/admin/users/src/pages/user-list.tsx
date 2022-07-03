@@ -15,7 +15,14 @@ export const UserList = () => {
   const { tableProps } = useTable<User>();
   return (
     <List>
-      <Table {...tableProps} rowKey="id">
+      <Table
+        {...tableProps}
+        rowKey="id"
+        pagination={{
+          ...tableProps.pagination,
+          showSizeChanger: true,
+        }}
+      >
         <Table.Column dataIndex="username" title="Username" />
         <Table.Column dataIndex="full_name" title="Full Name" />
         <Table.Column

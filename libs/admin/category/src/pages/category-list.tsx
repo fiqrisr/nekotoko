@@ -11,11 +11,18 @@ import {
 import { Category } from '@nekotoko/prisma/monolithic';
 
 export const CategoryList = () => {
-  const { tableProps } = useTable<Category>();
+  const { tableProps } = useTable<Category>({ syncWithLocation: true });
 
   return (
     <List>
-      <Table {...tableProps} rowKey="id">
+      <Table
+        {...tableProps}
+        rowKey="id"
+        pagination={{
+          ...tableProps.pagination,
+          showSizeChanger: true,
+        }}
+      >
         <Table.Column dataIndex="name" title="Name" />
         <Table.Column
           dataIndex="created_at"
