@@ -68,6 +68,13 @@
         "jestConfig": "apps/admin/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "builder": "@netlify-builder/deploy:deploy",
+      "options": {
+        "outputPath": "dist/apps/admin",
+        "siteId": "9c14eb20-a8ee-4791-a370-042da0de2da5"
+      }
     }
   },
   "tags": []
