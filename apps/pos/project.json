@@ -70,10 +70,9 @@
       }
     },
     "deploy": {
-      "builder": "@netlify-builder/deploy:deploy",
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "outputPath": "dist/apps/pos",
-        "siteId": "350ae2bd-f05e-49ab-b62f-b2ecd2353539"
+        "command": "yarn netlify deploy --site $NETLIFY_POS_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=dist/apps/pos"
       }
     }
   },

@@ -10,6 +10,7 @@
     "db-migrate-save": "nx db-migrate-save",
     "db-generate": "nx db-generate",
     "seed": "nx seed",
+    "affected:build": "nx affected --target=build",
     "affected:deploy": "nx affected --target=deploy"
   },
   "private": true,
@@ -27,7 +28,6 @@
     "@nestjs/microservices": "^8.4.7",
     "@nestjs/passport": "^8.2.2",
     "@nestjs/platform-express": "^8.4.7",
-    "@netlify-builder/deploy": "^5.0.0",
     "@pankod/refine-antd": "^3.27.0",
     "@pankod/refine-core": "^3.36.0",
     "@pankod/refine-react-router-v6": "^3.25.2",
@@ -45,6 +45,7 @@
     "nestjs-form-data": "^1.6.4",
     "nestjs-pino": "^2.6.0",
     "nestjs-roles": "^0.5.1",
+    "netlify-cli": "^10.7.1",
     "order-id": "^2.1.2",
     "passport": "^0.5.3",
     "passport-jwt": "^4.0.0",
