@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@5.0.2
 
 jobs:
-  build-test-deploy-fe:
+  deploy-fe:
     executor:
       name: node/default
     steps:
@@ -15,15 +15,15 @@ jobs:
           with-cache: true
       - run:
           name: Build affected app
-          command: yarn affected:build --base=<< pipeline.git.base_revision >> --head=HEAD --exclude=api-monolithic,api-microservices-auth-srv,api-monolithic-product-srv,api-monolithic-order-srv
+          command: yarn affected:build --base=<< pipeline.git.base_revision >> --head=HEAD --exclude=api-monolithic,api-microservices-auth-srv,api-microservices-product-srv,api-microservices-order-srv
       - run:
           name: Deploy affected app
-          command: yarn affected:deploy --base=<< pipeline.git.base_revision >> --head=HEAD --exclude=api-monolithic,api-microservices-auth-srv,api-monolithic-product-srv,api-monolithic-order-srv
+          command: yarn affected:deploy --base=<< pipeline.git.base_revision >> --head=HEAD --exclude=api-monolithic,api-microservices-auth-srv,api-microservices-product-srv,api-microservices-order-srv
 
 workflows:
   build-test-and-deploy:
     jobs:
-      - build-test-deploy-fe:
+      - deploy-fe:
           filters:
             branches:
               only:
