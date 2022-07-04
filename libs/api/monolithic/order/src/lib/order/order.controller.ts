@@ -7,6 +7,7 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import orderId from 'order-id';
 import { unit } from 'mathjs';
@@ -339,6 +340,90 @@ export class OrderController {
       throw new HttpException(
         {
           message: 'Gagal mengambil data transaksi',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  @Delete(':id')
+  @RoleGuard.Params(Role.USER)
+  async delete(@Param('id') id: string) {
+    try {
+      const orderDetails = await this.prisma.orderDetail.findMany({
+        where: {
+          order_id: id,
+        },
+      });
+
+      orderDetails.forEach(async (o) => {
+        const product = await this.prisma.product.findFirst({
+          where: {
+            id: o.product_id,
+          },
+          include: {
+            product_compositions: {
+              select: {
+                id: true,
+                quantity: true,
+                unit: true,
+                composition_id: true,
+              },
+            },
+          },
+        });
+
+        product.product_compositions.forEach(async (p) => {
+          const composition = await this.prisma.composition.findFirst({
+            where: {
+              id: p.composition_id,
+            },
+            select: {
+              unit: true,
+              stock: true,
+            },
+          });
+
+          const amountToAdd = unit(p.quantity, p.unit).to(composition.unit);
+
+          return await this.prisma.composition.update({
+            where: {
+              id: p.composition_id,
+            },
+            data: {
+              stock: {
+                increment: amountToAdd.toNumber(),
+              },
+            },
+          });
+        });
+      });
+
+      const orderToDelete = this.prisma.order.delete({
+        where: {
+          id,
+        },
+      });
+
+      const orderDetailsToDelete = this.prisma.orderDetail.deleteMany({
+        where: {
+          order_id: id,
+        },
+      });
+
+      await this.prisma.$transaction([orderDetailsToDelete, orderToDelete]);
+
+      return {
+        message: 'Berhasil menghapus transaksi',
+        result: {
+          deleted: true,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal menghapus transaksi',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST
