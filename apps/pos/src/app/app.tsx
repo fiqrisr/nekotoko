@@ -15,7 +15,6 @@ import productResources from '@nekotoko/pos/product';
 import configs from './configs';
 import { MainLayout } from './layouts/main-layout';
 import { LoginPage } from './pages/login';
-import { DashboardPage } from './pages/dashboard';
 
 const App = () => {
   return (
@@ -28,7 +27,6 @@ const App = () => {
           notificationProvider={notificationProvider}
           Layout={MainLayout}
           LoginPage={LoginPage}
-          DashboardPage={DashboardPage}
           resources={[
             productResources,
             {
