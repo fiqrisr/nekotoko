@@ -1,4 +1,4 @@
-import { Product } from '@nekotoko/prisma/monolithic';
+import { Product } from '@nekotoko/db-monolithic';
 
 export interface ProductType extends Product {
   image: {

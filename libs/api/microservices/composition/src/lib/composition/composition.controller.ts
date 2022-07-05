@@ -10,7 +10,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Prisma, PrismaService } from '@nekotoko/prisma/product-db';
+import { Prisma, PrismaService } from '@nekotoko/db-product';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 

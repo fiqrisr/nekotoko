@@ -12,7 +12,7 @@ import {
 import orderId from 'order-id';
 import { unit } from 'mathjs';
 import dayjs from 'dayjs';
-import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService } from '@nekotoko/db-monolithic';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 import { paginateArray } from '@nekotoko/api/utils';

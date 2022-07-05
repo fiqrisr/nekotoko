@@ -1,0 +1,79 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/db-auth/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/db-auth/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/db-auth"],
+      "options": {
+        "jestConfig": "libs/db-auth/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "docker-db": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "docker compose -f docker-compose.db.yml up -d"
+      }
+    },
+    "db-migrate-save": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "prisma migrate dev"
+      }
+    },
+    "db-migrate-deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "prisma migrate deploy"
+      }
+    },
+    "db-generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "prisma generate"
+      }
+    },
+    "db-push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "prisma db push"
+      }
+    },
+    "db-pull": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "prisma db pull"
+      }
+    },
+    "db-studio": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "prisma studio"
+      }
+    },
+    "seed": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-auth",
+        "command": "ts-node scripts/seed.ts"
+      }
+    }
+  },
+  "tags": []
+}

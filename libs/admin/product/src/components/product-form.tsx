@@ -16,7 +16,7 @@ import {
 } from '@pankod/refine-antd';
 import { useApiUrl } from '@pankod/refine-core';
 import { AiOutlineMinusCircle, AiOutlinePlus } from 'react-icons/ai';
-import { Category, Composition } from '@nekotoko/prisma/monolithic';
+import { Category, Composition } from '@nekotoko/db-monolithic';
 import { UnitSelect } from '@nekotoko/admin/components';
 
 import productPlaceholder from '../assets/product-default-img.png';

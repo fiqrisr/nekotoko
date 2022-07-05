@@ -1,5 +1,5 @@
 import { useForm, Form, Input, InputNumber, Edit } from '@pankod/refine-antd';
-import { Composition } from '@nekotoko/prisma/monolithic';
+import { Composition } from '@nekotoko/db-monolithic';
 import { UnitSelect } from '@nekotoko/admin/components';
 
 export const CompositionEdit = () => {

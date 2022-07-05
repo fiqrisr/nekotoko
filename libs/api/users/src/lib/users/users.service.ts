@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, PrismaService, User } from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService, User } from '@nekotoko/db-monolithic';
 import { PasswordService } from '@nekotoko/api/password';
 import { transformStringFieldUpdateInput } from '@nekotoko/api/utils';
 

@@ -1,7 +1,7 @@
 import {
   Order,
   OrderDetail as OrderDetailPrisma,
-} from '@nekotoko/prisma/monolithic';
+} from '@nekotoko/db-monolithic';
 
 export interface MonthlyReportResponse {
   date: Date;

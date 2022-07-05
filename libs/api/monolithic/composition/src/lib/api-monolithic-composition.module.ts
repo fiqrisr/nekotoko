@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
+import { DbMonolithicModule } from '@nekotoko/db-monolithic';
 
 import { CompositionController } from './composition/composition.controller';
 import { CompositionService } from './composition/composition.service';
@@ -8,6 +8,6 @@ import { CompositionService } from './composition/composition.service';
   controllers: [CompositionController],
   providers: [CompositionService],
   exports: [],
-  imports: [PrismaMonolithicModule],
+  imports: [DbMonolithicModule],
 })
 export class ApiMonolithicCompositionModule {}

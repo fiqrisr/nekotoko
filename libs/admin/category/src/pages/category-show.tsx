@@ -11,7 +11,7 @@ import {
   EditButton,
   DeleteButton,
 } from '@pankod/refine-antd';
-import { Category, Product } from '@nekotoko/prisma/monolithic';
+import { Category, Product } from '@nekotoko/db-monolithic';
 
 const { Title, Text } = Typography;
 

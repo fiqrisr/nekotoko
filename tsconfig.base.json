@@ -59,11 +59,11 @@
       ],
       "@nekotoko/api/users": ["libs/api/users/src/index.ts"],
       "@nekotoko/api/utils": ["libs/api/utils/src/index.ts"],
+      "@nekotoko/db-auth": ["libs/db-auth/src/index.ts"],
+      "@nekotoko/db-monolithic": ["libs/db-monolithic/src/index.ts"],
+      "@nekotoko/db-product": ["libs/db-product/src/index.ts"],
       "@nekotoko/pos/components": ["libs/pos/components/src/index.ts"],
       "@nekotoko/pos/product": ["libs/pos/product/src/index.ts"],
-      "@nekotoko/prisma/auth-db": ["libs/prisma/auth-db/src/index.ts"],
-      "@nekotoko/prisma/monolithic": ["libs/prisma/monolithic/src/index.ts"],
-      "@nekotoko/prisma/product-db": ["libs/prisma/product-db/src/index.ts"],
       "@nekotoko/shared/ui-providers": [
         "libs/shared/ui-providers/src/index.ts"
       ],

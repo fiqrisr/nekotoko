@@ -10,7 +10,7 @@ import {
 } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 
-import type { Category } from '@nekotoko/prisma/monolithic';
+import type { Category } from '@nekotoko/db-monolithic';
 
 import { ProductCard, ProductCart, ProductSearch } from '../components';
 import { ProductSearchContext } from '../contexts';

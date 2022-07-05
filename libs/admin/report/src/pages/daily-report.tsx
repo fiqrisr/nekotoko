@@ -18,7 +18,7 @@ import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
-import { Order } from '@nekotoko/prisma/monolithic';
+import { Order } from '@nekotoko/db-monolithic';
 import { toRupiah } from '@nekotoko/shared/utils';
 
 dayjs.extend(customParseFormat);

@@ -29,12 +29,12 @@
     "api-shared-supabase": "libs/api/shared/supabase",
     "api-users": "libs/api/users",
     "api-utils": "libs/api/utils",
+    "db-auth": "libs/db-auth",
+    "db-monolithic": "libs/db-monolithic",
+    "db-product": "libs/db-product",
     "pos": "apps/pos",
     "pos-components": "libs/pos/components",
     "pos-product": "libs/pos/product",
-    "prisma-auth-db": "libs/prisma/auth-db",
-    "prisma-monolithic": "libs/prisma/monolithic",
-    "prisma-product-db": "libs/prisma/product-db",
     "shared-ui-providers": "libs/shared/ui-providers",
     "shared-utils": "libs/shared/utils"
   }

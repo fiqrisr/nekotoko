@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaMonolithicModule } from '@nekotoko/prisma/monolithic';
+import { DbMonolithicModule } from '@nekotoko/db-monolithic';
 
 import { OrderController } from './order/order.controller';
 import { OrderService } from './order/order.service';
@@ -8,6 +8,6 @@ import { OrderService } from './order/order.service';
   controllers: [OrderController],
   providers: [OrderService],
   exports: [],
-  imports: [PrismaMonolithicModule],
+  imports: [DbMonolithicModule],
 })
 export class ApiMonolithicOrderModule {}

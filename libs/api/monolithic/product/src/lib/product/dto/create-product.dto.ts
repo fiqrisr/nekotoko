@@ -5,7 +5,7 @@ import {
   IsOptional,
   Min,
 } from 'class-validator';
-import { Prisma } from '@nekotoko/prisma/monolithic';
+import { Prisma } from '@nekotoko/db-monolithic';
 
 interface Image {
   uid: string;
