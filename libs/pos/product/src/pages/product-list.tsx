@@ -9,6 +9,7 @@ import {
   createStyles,
 } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
+import { ModalsProvider } from '@mantine/modals';
 
 import type { Category } from '@nekotoko/db-monolithic';
 
@@ -110,60 +111,62 @@ export const ProductList = () => {
   };
 
   return (
-    <ProductSearchContext.Provider
-      value={{
-        search,
-        setSearch,
-      }}
-    >
-      <Box className={classes.layout}>
-        {categoryLoading ? (
-          <Skeleton height={20} />
-        ) : (
-          <Box className={classes.tabContainer}>
-            <ProductSearch />
-            <Tabs
-              active={activeTab}
-              onTabChange={onTabChange}
-              tabPadding="lg"
-              styles={{
-                root: {
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                  flex: 1,
-                  overflow: 'hidden',
-                },
-                body: {
-                  height: '100%',
-                  maxHeight: '100%',
-                  overflow: 'hidden',
-                },
-              }}
-            >
-              <Tabs.Tab label="All" tabKey="">
-                <ProductsGrid
-                  products={productData?.data}
-                  loading={productLoading}
-                />
-              </Tabs.Tab>
-              {categoryData?.data.map((category) => (
-                <Tabs.Tab
-                  label={category.name}
-                  tabKey={category.name}
-                  key={category.id}
-                >
+    <ModalsProvider>
+      <ProductSearchContext.Provider
+        value={{
+          search,
+          setSearch,
+        }}
+      >
+        <Box className={classes.layout}>
+          {categoryLoading ? (
+            <Skeleton height={20} />
+          ) : (
+            <Box className={classes.tabContainer}>
+              <ProductSearch />
+              <Tabs
+                active={activeTab}
+                onTabChange={onTabChange}
+                tabPadding="lg"
+                styles={{
+                  root: {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    flex: 1,
+                    overflow: 'hidden',
+                  },
+                  body: {
+                    height: '100%',
+                    maxHeight: '100%',
+                    overflow: 'hidden',
+                  },
+                }}
+              >
+                <Tabs.Tab label="All" tabKey="">
                   <ProductsGrid
                     products={productData?.data}
                     loading={productLoading}
                   />
                 </Tabs.Tab>
-              ))}
-            </Tabs>
-          </Box>
-        )}
-        <ProductCart />
-      </Box>
-    </ProductSearchContext.Provider>
+                {categoryData?.data.map((category) => (
+                  <Tabs.Tab
+                    label={category.name}
+                    tabKey={category.name}
+                    key={category.id}
+                  >
+                    <ProductsGrid
+                      products={productData?.data}
+                      loading={productLoading}
+                    />
+                  </Tabs.Tab>
+                ))}
+              </Tabs>
+            </Box>
+          )}
+          <ProductCart />
+        </Box>
+      </ProductSearchContext.Provider>
+    </ModalsProvider>
   );
 };

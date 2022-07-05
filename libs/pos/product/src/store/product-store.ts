@@ -7,6 +7,7 @@ interface ProductStoreState {
   products: ProductStoreItemType[];
   totalPrice: number;
   totalItem: number;
+  paidAmount: number;
 }
 
 interface ProductStoreActions {
@@ -17,12 +18,14 @@ interface ProductStoreActions {
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
   reset: () => void;
+  setPaidAmount: (value: number) => void;
 }
 
 const initialState: ProductStoreState = {
   products: [],
   totalPrice: 0,
   totalItem: 0,
+  paidAmount: 0,
 };
 
 export const useProductStore = create(
@@ -132,5 +135,7 @@ export const useProductStore = create(
     reset: () => {
       set(initialState);
     },
+
+    setPaidAmount: (value: number) => set((s) => ({ paidAmount: value })),
   }))
 );
