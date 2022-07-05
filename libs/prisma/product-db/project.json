@@ -22,7 +22,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "libs/prisma/product-db",
-        "command": "docker-compose -f docker-compose.db.yml up -d"
+        "command": "docker compose -f docker-compose.db.yml up -d"
       }
     },
     "db-migrate-save": {
