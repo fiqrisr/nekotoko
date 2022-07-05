@@ -32,9 +32,13 @@ export class OrderController {
   @RoleGuard.Params(Role.USER)
   async create(@Body() data: CreateOrderDto) {
     try {
+      const orderNumber = data.number
+        ? data.number
+        : orderId('nktk-pos').generate();
+
       const order = await this.orderService.create({
         data: {
-          number: orderId('random').generate(),
+          number: orderNumber,
           total_amount: data.total_amount,
           user_id: data.user_id,
           order_details: {
