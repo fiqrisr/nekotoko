@@ -21,5 +21,13 @@ export interface OrderDetail extends Order {
     username: string;
     full_name: string;
   };
-  order_details: OrderDetailPrisma[];
+  order_details: Array<
+    OrderDetailPrisma & {
+      product: {
+        id: string;
+        name: string;
+        price: number;
+      };
+    }
+  >;
 }

@@ -10,8 +10,7 @@ import {
 } from '@pankod/refine-antd';
 import { useLocation } from 'react-router-dom';
 import { toRupiah } from '@nekotoko/shared/utils';
-
-import { OrderDetail } from '../types';
+import { OrderDetail } from '@nekotoko/shared/types';
 
 const { Title, Text } = Typography;
 

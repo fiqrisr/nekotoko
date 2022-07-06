@@ -1,16 +1,15 @@
 import { forwardRef } from 'react';
 import { Group, Divider, Text, Table, Box, createStyles } from '@mantine/core';
 import dayjs from 'dayjs';
-import { toRupiah } from '@nekotoko/shared/utils';
+import { toRupiah, formatNumber } from '@nekotoko/shared/utils';
 
 import { useProductStore } from '../store';
-import { formatNumber } from '../utils';
 
 interface ProductReceiptProps {
   orderNumber: string;
 }
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   table: {
     th: {
       borderBottom: '0 !important',
