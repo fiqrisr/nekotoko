@@ -41,7 +41,7 @@ export const OrderShow = () => {
         <Text>{data?.data.user.full_name}</Text>
 
         <Title level={5}>Created At</Title>
-        <DateField format="LLL" value={data?.data.created_at} />
+        <DateField format="DD/MM/YYYY, HH:mm" value={data?.data.created_at} />
       </Show>
 
       <List

@@ -47,7 +47,7 @@ export const DailyReport = () => {
       {
         field: 'date',
         operator: 'eq',
-        value: queryParams.get('date') || dayjs().startOf('day').toISOString(),
+        value: queryParams.get('date') || dayjs().toISOString(),
       },
     ],
     onSearch: (params) => {
@@ -57,7 +57,7 @@ export const DailyReport = () => {
       filters.push({
         field: 'date',
         operator: 'eq',
-        value: date ? date.startOf('day').toISOString() : undefined,
+        value: date ? date.toISOString() : undefined,
       });
 
       return filters;
@@ -102,7 +102,9 @@ export const DailyReport = () => {
         <Table.Column
           dataIndex="created_at"
           title="Created At"
-          render={(value) => <DateField format="LLL" value={value} />}
+          render={(value) => (
+            <DateField format="DD/MM/YYYY, HH:mm" value={value} />
+          )}
         />
         <Table.Column<Order>
           title="Actions"
