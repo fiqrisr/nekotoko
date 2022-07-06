@@ -13,12 +13,15 @@ export const ProductReceiptModal = () => {
   const { mutate, isLoading, isSuccess } = useCreate();
   const orderNumber = useMemo(() => nanoid(16), []);
   const receiptRef = useRef(null);
-  const { totalPrice, products } = useProductStore();
+  const { totalPrice, products, reset } = useProductStore();
 
   const handlePrintReceipt = useReactToPrint({
     content: () => receiptRef.current,
-    onAfterPrint: () => {
+    onBeforePrint: () => {
       modals.closeAll();
+    },
+    onAfterPrint: () => {
+      reset();
     },
   });
 
@@ -39,7 +42,7 @@ export const ProductReceiptModal = () => {
       },
     });
 
-    if (isSuccess) handlePrintReceipt();
+    if (!isSuccess) handlePrintReceipt();
   };
 
   return (

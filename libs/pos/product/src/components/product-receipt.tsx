@@ -44,7 +44,7 @@ export const ProductReceipt = forwardRef<HTMLDivElement, ProductReceiptProps>(
 
         <Divider mt={4} mb={6} />
 
-        <Table className={classes.table} fontSize="xs">
+        <Table className={classes.table} fontSize="xs" verticalSpacing={4}>
           <thead>
             <tr>
               <th>#</th>
@@ -78,21 +78,25 @@ export const ProductReceipt = forwardRef<HTMLDivElement, ProductReceiptProps>(
         <Divider mt={4} mb={6} />
 
         <Group position="apart">
-          <Text size="sm">Total</Text>
-          <Text size="sm">{toRupiah(totalPrice)}</Text>
+          <Text size="xs" weight="bolder">
+            Total
+          </Text>
+          <Text size="xs" weight="bolder">
+            {toRupiah(totalPrice)}
+          </Text>
         </Group>
 
         <Group position="apart">
-          <Text size="sm">Jumlah dibayar</Text>
-          <Text size="sm">{toRupiah(paidAmount)}</Text>
+          <Text size="xs">Jumlah dibayar</Text>
+          <Text size="xs">{toRupiah(paidAmount)}</Text>
         </Group>
 
-        <Divider mt={4} mb={6} />
-
-        <Group position="apart">
-          <Text size="sm">Kembalian</Text>
-          <Text size="sm">{toRupiah(paidAmount - totalPrice)}</Text>
-        </Group>
+        {paidAmount - totalPrice > 0 && (
+          <Group position="apart">
+            <Text size="xs">Kembalian</Text>
+            <Text size="xs">{toRupiah(paidAmount - totalPrice)}</Text>
+          </Group>
+        )}
       </Box>
     );
   }
