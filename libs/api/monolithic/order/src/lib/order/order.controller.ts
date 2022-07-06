@@ -119,7 +119,7 @@ export class OrderController {
   }
 
   @Get()
-  @RoleGuard.Params(Role.ADMIN)
+  @RoleGuard.Params(Role.ADMIN, Role.USER)
   async findMany(
     @Query() pageOptionsDto: PageOptionsDto,
     @Query() findManyOrderDto: FindManyOrderDto
@@ -298,7 +298,7 @@ export class OrderController {
   }
 
   @Get(':id')
-  @RoleGuard.Params(Role.ADMIN)
+  @RoleGuard.Params(Role.ADMIN, Role.USER)
   async findOne(@Param('id') id: string) {
     try {
       const order = await this.orderService.findOne({
