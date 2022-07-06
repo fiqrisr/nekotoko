@@ -1,9 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Prisma,
-  PrismaService,
-  Composition,
-} from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService, Composition } from '@nekotoko/db-monolithic';
 
 @Injectable()
 export class CompositionService {

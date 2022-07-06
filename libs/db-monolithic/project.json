@@ -1,0 +1,78 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/db-monolithic/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/db-monolithic/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/db-monolithic"],
+      "options": {
+        "jestConfig": "libs/db-monolithic/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "docker-db": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "docker compose -f docker-compose.db.yml up -d"
+      }
+    },
+    "db-migrate-save": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "prisma migrate dev"
+      }
+    },
+    "db-migrate-deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "prisma migrate deploy"
+      }
+    },
+    "db-generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "prisma generate"
+      }
+    },
+    "db-push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "prisma db push"
+      }
+    },
+    "db-pull": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "prisma db pull"
+      }
+    },
+    "db-studio": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "prisma studio"
+      }
+    },
+    "seed": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/db-monolithic",
+        "command": "ts-node scripts/seed.ts"
+      }
+    }
+  },
+  "tags": ["type:prisma"]
+}

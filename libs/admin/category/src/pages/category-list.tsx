@@ -8,7 +8,7 @@ import {
   DeleteButton,
   useTable,
 } from '@pankod/refine-antd';
-import { Category } from '@nekotoko/prisma/monolithic';
+import { Category } from '@nekotoko/db-monolithic';
 
 export const CategoryList = () => {
   const { tableProps } = useTable<Category>({ syncWithLocation: true });

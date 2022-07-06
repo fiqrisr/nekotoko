@@ -7,11 +7,12 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import orderId from 'order-id';
 import { unit } from 'mathjs';
 import dayjs from 'dayjs';
-import { Prisma, PrismaService } from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService } from '@nekotoko/db-monolithic';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 import { paginateArray } from '@nekotoko/api/utils';
@@ -31,10 +32,15 @@ export class OrderController {
   @RoleGuard.Params(Role.USER)
   async create(@Body() data: CreateOrderDto) {
     try {
+      const orderNumber = data.number
+        ? data.number
+        : orderId('nktk-pos').generate();
+
       const order = await this.orderService.create({
         data: {
-          number: orderId('random').generate(),
+          number: orderNumber,
           total_amount: data.total_amount,
+          paid_amount: data.paid_amount,
           user_id: data.user_id,
           order_details: {
             create: [...data.order_details],
@@ -113,7 +119,7 @@ export class OrderController {
   }
 
   @Get()
-  @RoleGuard.Params(Role.ADMIN)
+  @RoleGuard.Params(Role.ADMIN, Role.USER)
   async findMany(
     @Query() pageOptionsDto: PageOptionsDto,
     @Query() findManyOrderDto: FindManyOrderDto
@@ -292,7 +298,7 @@ export class OrderController {
   }
 
   @Get(':id')
-  @RoleGuard.Params(Role.ADMIN)
+  @RoleGuard.Params(Role.ADMIN, Role.USER)
   async findOne(@Param('id') id: string) {
     try {
       const order = await this.orderService.findOne({
@@ -339,6 +345,90 @@ export class OrderController {
       throw new HttpException(
         {
           message: 'Gagal mengambil data transaksi',
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  @Delete(':id')
+  @RoleGuard.Params(Role.USER)
+  async delete(@Param('id') id: string) {
+    try {
+      const orderDetails = await this.prisma.orderDetail.findMany({
+        where: {
+          order_id: id,
+        },
+      });
+
+      orderDetails.forEach(async (o) => {
+        const product = await this.prisma.product.findFirst({
+          where: {
+            id: o.product_id,
+          },
+          include: {
+            product_compositions: {
+              select: {
+                id: true,
+                quantity: true,
+                unit: true,
+                composition_id: true,
+              },
+            },
+          },
+        });
+
+        product.product_compositions.forEach(async (p) => {
+          const composition = await this.prisma.composition.findFirst({
+            where: {
+              id: p.composition_id,
+            },
+            select: {
+              unit: true,
+              stock: true,
+            },
+          });
+
+          const amountToAdd = unit(p.quantity, p.unit).to(composition.unit);
+
+          return await this.prisma.composition.update({
+            where: {
+              id: p.composition_id,
+            },
+            data: {
+              stock: {
+                increment: amountToAdd.toNumber(),
+              },
+            },
+          });
+        });
+      });
+
+      const orderToDelete = this.prisma.order.delete({
+        where: {
+          id,
+        },
+      });
+
+      const orderDetailsToDelete = this.prisma.orderDetail.deleteMany({
+        where: {
+          order_id: id,
+        },
+      });
+
+      await this.prisma.$transaction([orderDetailsToDelete, orderToDelete]);
+
+      return {
+        message: 'Berhasil menghapus transaksi',
+        result: {
+          deleted: true,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Gagal menghapus transaksi',
           error: error.message,
         },
         HttpStatus.BAD_REQUEST

@@ -1,5 +1,5 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { User } from '@nekotoko/prisma/monolithic';
+import { User } from '@nekotoko/db-monolithic';
 import { UsersService } from '@nekotoko/api/users';
 import { PasswordService } from '@nekotoko/api/password';
 

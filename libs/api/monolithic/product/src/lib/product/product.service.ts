@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { nanoid } from 'nanoid';
-import { Prisma, PrismaService, Product } from '@nekotoko/prisma/monolithic';
+import { Prisma, PrismaService, Product } from '@nekotoko/db-monolithic';
 import { SupabaseService } from '@nekotoko/api/shared/supabase';
 
 @Injectable()

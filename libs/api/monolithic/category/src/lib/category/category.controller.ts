@@ -10,7 +10,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { PrismaService } from '@nekotoko/prisma/monolithic';
+import { PrismaService } from '@nekotoko/db-monolithic';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 

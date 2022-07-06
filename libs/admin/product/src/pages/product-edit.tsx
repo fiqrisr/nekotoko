@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import { Edit, useForm } from '@pankod/refine-antd';
-import {
-  Product,
-  Category,
-  ProductComposition,
-} from '@nekotoko/prisma/monolithic';
+import { Product, Category, ProductComposition } from '@nekotoko/db-monolithic';
 
 import { ProductForm } from '../components';
 

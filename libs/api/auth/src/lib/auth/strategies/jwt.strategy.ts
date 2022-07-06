@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { User } from '@nekotoko/prisma/monolithic';
+import { User } from '@nekotoko/db-monolithic';
 import { UsersService } from '@nekotoko/api/users';
 
 import { JWT_SECRET_KEY } from '../../constants';

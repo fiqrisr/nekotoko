@@ -8,7 +8,7 @@ import {
   DeleteButton,
   useTable,
 } from '@pankod/refine-antd';
-import { Composition } from '@nekotoko/prisma/monolithic';
+import { Composition } from '@nekotoko/db-monolithic';
 import { MEASUREMENT_UNITS } from '@nekotoko/admin/components';
 
 export const CompositionList = () => {

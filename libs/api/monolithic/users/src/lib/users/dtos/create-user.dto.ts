@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
-import { Prisma } from '@nekotoko/prisma/monolithic';
+import { Prisma } from '@nekotoko/db-monolithic';
 
 export class CreateUserDto implements Prisma.UserCreateWithoutOrdersInput {
   @IsNotEmpty()

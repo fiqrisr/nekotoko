@@ -16,10 +16,12 @@ import {
   SimpleGrid,
   ScrollArea,
 } from '@mantine/core';
+import { useModals } from '@mantine/modals';
 import { Trash, ShoppingCart, Plus, Minus, ThumbUp } from 'tabler-icons-react';
 import { toRupiah } from '@nekotoko/shared/utils';
+import { useProductStore } from '@nekotoko/pos/shared';
 
-import { useProductStore } from '../store';
+import { ProductReceiptModal } from './product-receipt-modal';
 
 const cashList = [2000, 5000, 10000, 20000, 50000, 100000];
 
@@ -130,24 +132,33 @@ const ProductCartItem = ({
 };
 
 export const ProductCart = () => {
-  const [cash, setCash] = useState(0);
+  const modals = useModals();
   const [status, setStatus] = useState<'ok' | 'minus' | 'plus'>('ok');
 
   const { classes } = useStyles({ status });
   const theme = useMantineTheme();
-  const { products, totalItem, totalPrice, reset } = useProductStore();
+  const { products, totalItem, totalPrice, paidAmount, setPaidAmount, reset } =
+    useProductStore();
 
   const { mutate, isLoading } = useCreate();
 
+  const handleSubmit = () => {
+    modals.openModal({
+      children: <ProductReceiptModal />,
+      withCloseButton: false,
+      size: '360px',
+    });
+  };
+
   useEffect(() => {
-    if (totalPrice > cash) {
+    if (totalPrice > paidAmount) {
       setStatus('minus');
-    } else if (totalPrice < cash) {
+    } else if (totalPrice < paidAmount) {
       setStatus('plus');
-    } else if (totalPrice === cash) {
+    } else if (totalPrice === paidAmount) {
       setStatus('ok');
     }
-  }, [cash, totalPrice]);
+  }, [paidAmount, totalPrice]);
 
   return (
     <Paper withBorder radius="md" p="md" className={classes.cart}>
@@ -192,8 +203,8 @@ export const ProductCart = () => {
             Cash
           </Text>
           <NumberInput
-            value={cash}
-            onChange={(val) => setCash(val)}
+            value={paidAmount}
+            onChange={(val) => setPaidAmount(val)}
             parser={(value) => value.replace(/Rp\s?|(\.*)/g, '')}
             formatter={(value) =>
               !Number.isNaN(parseFloat(value))
@@ -210,8 +221,8 @@ export const ProductCart = () => {
               color="blue"
               size="sm"
               onClick={() => {
-                if (isNaN(cash)) setCash(c);
-                else setCash((prev) => prev + c);
+                if (isNaN(paidAmount)) setPaidAmount(c);
+                else setPaidAmount(paidAmount + c);
               }}
             >
               +{c.toLocaleString('id-ID')}
@@ -220,19 +231,19 @@ export const ProductCart = () => {
         </SimpleGrid>
       </Paper>
 
-      {!isNaN(cash) && totalItem > 0 && (
+      {!isNaN(paidAmount) && totalItem > 0 && (
         <Paper radius="md" mb={12} className={classes.moneyInfo}>
           {status === 'ok' ? (
             <ThumbUp />
-          ) : status === 'minus' && !isNaN(cash) ? (
-            <Text align="right">- {toRupiah(totalPrice - cash)}</Text>
+          ) : status === 'minus' && !isNaN(paidAmount) ? (
+            <Text align="right">- {toRupiah(totalPrice - paidAmount)}</Text>
           ) : (
             <Group position="apart" align="center" style={{ width: '100%' }}>
               <Text transform="uppercase" size="lg" weight={600}>
                 Change
               </Text>
               <Text size="lg" weight={600}>
-                {toRupiah(cash - totalPrice)}
+                {toRupiah(paidAmount - totalPrice)}
               </Text>
             </Group>
           )}
@@ -245,20 +256,21 @@ export const ProductCart = () => {
         disabled={status === 'minus' || totalItem < 1}
         loading={isLoading}
         onClick={() => {
-          const userId = JSON.parse(localStorage.getItem('user')).id;
+          handleSubmit();
+          // const userId = JSON.parse(localStorage.getItem('user')).id;
 
-          mutate({
-            resource: 'order',
-            values: {
-              user_id: userId,
-              total_amount: totalPrice,
-              order_details: products.map((p) => ({
-                product_id: p.id,
-                quantity: p.quantity,
-                total_price: p.total,
-              })),
-            },
-          });
+          // mutate({
+          //   resource: 'order',
+          //   values: {
+          //     user_id: userId,
+          //     total_amount: totalPrice,
+          //     order_details: products.map((p) => ({
+          //       product_id: p.id,
+          //       quantity: p.quantity,
+          //       total_price: p.total,
+          //     })),
+          //   },
+          // });
         }}
       >
         Submit

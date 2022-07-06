@@ -1,5 +1,5 @@
 import { Create, useForm } from '@pankod/refine-antd';
-import { Product } from '@nekotoko/prisma/monolithic';
+import { Product } from '@nekotoko/db-monolithic';
 
 import { ProductForm } from '../components';
 

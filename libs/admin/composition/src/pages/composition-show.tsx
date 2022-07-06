@@ -1,6 +1,6 @@
 import { useShow } from '@pankod/refine-core';
 import { Show, Typography } from '@pankod/refine-antd';
-import { Composition } from '@nekotoko/prisma/monolithic';
+import { Composition } from '@nekotoko/db-monolithic';
 
 const { Title, Text } = Typography;
 

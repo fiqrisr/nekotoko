@@ -10,8 +10,7 @@ import {
 } from '@pankod/refine-antd';
 import { useLocation } from 'react-router-dom';
 import { toRupiah } from '@nekotoko/shared/utils';
-
-import { OrderDetail } from '../types';
+import { OrderDetail } from '@nekotoko/shared/types';
 
 const { Title, Text } = Typography;
 
@@ -41,7 +40,7 @@ export const OrderShow = () => {
         <Text>{data?.data.user.full_name}</Text>
 
         <Title level={5}>Created At</Title>
-        <DateField format="LLL" value={data?.data.created_at} />
+        <DateField format="DD/MM/YYYY, HH:mm" value={data?.data.created_at} />
       </Show>
 
       <List

@@ -1,0 +1,22 @@
+{
+  "sourceRoot": "libs/pos/sales/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/pos/sales/**/*.{ts,js,tsx,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/pos/sales"],
+      "options": {
+        "jestConfig": "libs/pos/sales/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

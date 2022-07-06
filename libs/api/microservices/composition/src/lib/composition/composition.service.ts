@@ -1,9 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Prisma,
-  PrismaService,
-  Composition,
-} from '@nekotoko/prisma/product-db';
+import { Prisma, PrismaService, Composition } from '@nekotoko/db-product';
 
 @Injectable()
 export class CompositionService {
