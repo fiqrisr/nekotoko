@@ -12,6 +12,7 @@ import {
 } from '@nekotoko/shared/ui-providers';
 
 import productResources from '@nekotoko/pos/product';
+import salesResources from '@nekotoko/pos/sales';
 
 import configs from './configs';
 import { MainLayout } from './layouts/main-layout';
@@ -29,12 +30,7 @@ const App = () => {
             notificationProvider={notificationProvider}
             Layout={MainLayout}
             LoginPage={LoginPage}
-            resources={[
-              productResources,
-              {
-                name: 'today-sale',
-              },
-            ]}
+            resources={[productResources, salesResources]}
           />
         </ModalsProvider>
       </NotificationsProvider>
