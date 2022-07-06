@@ -1,5 +1,13 @@
 import { useOne } from '@pankod/refine-core';
-import { Text, Box, Group, Table, Divider, createStyles } from '@mantine/core';
+import {
+  Text,
+  Box,
+  Group,
+  Table,
+  Divider,
+  createStyles,
+  Skeleton,
+} from '@mantine/core';
 import dayjs from 'dayjs';
 import { toRupiah, formatNumber } from '@nekotoko/shared/utils';
 import { OrderDetail } from '@nekotoko/shared/types';
@@ -25,13 +33,23 @@ export const SaleDetail = ({
   collapsed: boolean;
 }) => {
   const { classes } = useStyles();
-  const { data } = useOne<OrderDetail>({
+  const { data, isLoading } = useOne<OrderDetail>({
     resource: 'order',
     id,
     queryOptions: {
       enabled: collapsed,
     },
   });
+
+  if (isLoading || !data) {
+    return (
+      <Box p={14}>
+        <Skeleton height={20} mb="xs" />
+        <Skeleton height={20} mb="xs" />
+        <Skeleton height={20} mb="xs" />
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -43,20 +61,20 @@ export const SaleDetail = ({
       })}
     >
       <Group position="apart">
-        <Text size="xs">No: {data?.data.number}</Text>
-        <Text size="xs">{dayjs().format('MM/DD/YYYY HH:MM')}</Text>
+        <Text size="sm">No: {data?.data.number}</Text>
+        <Text size="sm">{dayjs().format('MM/DD/YYYY HH:MM')}</Text>
       </Group>
 
       <Divider mt={4} mb={6} />
 
-      <Table className={classes.table} fontSize="xs" verticalSpacing={4}>
+      <Table className={classes.table} fontSize="sm" verticalSpacing={4}>
         <thead>
           <tr>
             <th style={{ width: '10px' }}>#</th>
             <th>Item</th>
             <th>Quantity</th>
             <th>Price</th>
-            <th style={{ width: '100px' }}>Subtotal</th>
+            <th style={{ width: '120px' }}>Subtotal</th>
           </tr>
         </thead>
         <tbody>
@@ -64,16 +82,16 @@ export const SaleDetail = ({
             <tr key={i}>
               <td>{i + 1}</td>
               <td>
-                <Text size="xs">{o.product.name}</Text>
+                <Text size="sm">{o.product.name}</Text>
               </td>
               <td>{o.quantity}</td>
               <td>
-                <Text size="xs">{toRupiah(o.product.price)}</Text>
+                <Text size="sm">{toRupiah(o.product.price)}</Text>
               </td>
               <td>
                 <Group position="apart">
-                  <Text size="xs">Rp</Text>
-                  <Text size="xs">{formatNumber(o.total_price)}</Text>
+                  <Text size="sm">Rp</Text>
+                  <Text size="sm">{formatNumber(o.total_price)}</Text>
                 </Group>
               </td>
             </tr>
@@ -84,23 +102,23 @@ export const SaleDetail = ({
       <Divider mt={4} mb={6} />
 
       <Group position="apart">
-        <Text size="xs" weight="bolder">
+        <Text size="sm" weight="bolder">
           Total
         </Text>
-        <Text size="xs" weight="bolder">
+        <Text size="sm" weight="bolder">
           {toRupiah(data?.data.total_amount)}
         </Text>
       </Group>
 
       <Group position="apart">
-        <Text size="xs">Paid amount</Text>
-        <Text size="xs">{toRupiah(data?.data.paid_amount)}</Text>
+        <Text size="sm">Paid amount</Text>
+        <Text size="sm">{toRupiah(data?.data.paid_amount)}</Text>
       </Group>
 
       {data?.data.paid_amount - data?.data.total_amount > 0 && (
         <Group position="apart">
-          <Text size="xs">Change</Text>
-          <Text size="xs">
+          <Text size="sm">Change</Text>
+          <Text size="sm">
             {toRupiah(data?.data.paid_amount - data?.data.total_amount)}
           </Text>
         </Group>

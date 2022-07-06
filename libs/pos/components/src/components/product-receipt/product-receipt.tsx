@@ -2,11 +2,11 @@ import { forwardRef } from 'react';
 import { Group, Divider, Text, Table, Box, createStyles } from '@mantine/core';
 import dayjs from 'dayjs';
 import { toRupiah, formatNumber } from '@nekotoko/shared/utils';
-
-import { useProductStore } from '../store';
+import { UseProductStoreType } from '@nekotoko/pos/shared';
 
 interface ProductReceiptProps {
   orderNumber: string;
+  productStore: UseProductStoreType;
 }
 
 const useStyles = createStyles(() => ({
@@ -23,9 +23,9 @@ const useStyles = createStyles(() => ({
 }));
 
 export const ProductReceipt = forwardRef<HTMLDivElement, ProductReceiptProps>(
-  ({ orderNumber }, ref) => {
+  ({ orderNumber, productStore }, ref) => {
     const { classes } = useStyles();
-    const { products, totalPrice, paidAmount } = useProductStore();
+    const { products, totalPrice, paidAmount } = productStore();
 
     return (
       <Box py={6} ref={ref}>

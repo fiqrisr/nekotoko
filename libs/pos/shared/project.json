@@ -1,0 +1,22 @@
+{
+  "sourceRoot": "libs/pos/shared/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/pos/shared/**/*.{ts,js}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/pos/shared"],
+      "options": {
+        "jestConfig": "libs/pos/shared/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

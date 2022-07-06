@@ -8,8 +8,7 @@ import {
   createStyles,
 } from '@mantine/core';
 import { toRupiah } from '@nekotoko/shared/utils';
-
-import { useProductStore } from '../store';
+import { useProductStore } from '@nekotoko/pos/shared';
 
 const useStyles = createStyles((theme) => ({
   card: {

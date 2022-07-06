@@ -19,8 +19,8 @@ import {
 import { useModals } from '@mantine/modals';
 import { Trash, ShoppingCart, Plus, Minus, ThumbUp } from 'tabler-icons-react';
 import { toRupiah } from '@nekotoko/shared/utils';
+import { useProductStore } from '@nekotoko/pos/shared';
 
-import { useProductStore } from '../store';
 import { ProductReceiptModal } from './product-receipt-modal';
 
 const cashList = [2000, 5000, 10000, 20000, 50000, 100000];

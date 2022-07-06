@@ -10,12 +10,11 @@ import {
 } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { ModalsProvider } from '@mantine/modals';
-
+import type { ProductType } from '@nekotoko/pos/shared';
 import type { Category } from '@nekotoko/db-monolithic';
 
 import { ProductCard, ProductCart, ProductSearch } from '../components';
 import { ProductSearchContext } from '../contexts';
-import { ProductType } from '../types';
 
 const useStyles = createStyles((theme) => ({
   layout: {

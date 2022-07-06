@@ -65,6 +65,7 @@
       "@nekotoko/pos/components": ["libs/pos/components/src/index.ts"],
       "@nekotoko/pos/product": ["libs/pos/product/src/index.ts"],
       "@nekotoko/pos/sales": ["libs/pos/sales/src/index.ts"],
+      "@nekotoko/pos/shared": ["libs/pos/shared/src/index.ts"],
       "@nekotoko/shared/types": ["libs/shared/types/src/index.ts"],
       "@nekotoko/shared/ui-providers": [
         "libs/shared/ui-providers/src/index.ts"

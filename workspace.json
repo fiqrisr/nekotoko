@@ -36,6 +36,7 @@
     "pos-components": "libs/pos/components",
     "pos-product": "libs/pos/product",
     "pos-sales": "libs/pos/sales",
+    "pos-shared": "libs/pos/shared",
     "shared-types": "libs/shared/types",
     "shared-ui-providers": "libs/shared/ui-providers",
     "shared-utils": "libs/shared/utils"

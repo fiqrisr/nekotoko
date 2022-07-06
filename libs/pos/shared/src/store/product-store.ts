@@ -139,3 +139,5 @@ export const useProductStore = create(
     setPaidAmount: (value: number) => set((s) => ({ paidAmount: value })),
   }))
 );
+
+export type UseProductStoreType = typeof useProductStore;

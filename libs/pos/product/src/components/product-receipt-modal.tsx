@@ -4,9 +4,8 @@ import { Button, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { nanoid } from 'nanoid';
 import { useReactToPrint } from 'react-to-print';
-
-import { ProductReceipt } from './product-receipt';
-import { useProductStore } from '../store';
+import { ProductReceipt } from '@nekotoko/pos/components';
+import { useProductStore } from '@nekotoko/pos/shared';
 
 export const ProductReceiptModal = () => {
   const modals = useModals();
@@ -48,7 +47,10 @@ export const ProductReceiptModal = () => {
 
   return (
     <Box>
-      <ProductReceipt orderNumber={orderNumber} />
+      <ProductReceipt
+        orderNumber={orderNumber}
+        productStore={useProductStore}
+      />
 
       <Button fullWidth onClick={() => submit()} mt="md" loading={isLoading}>
         Proceed
@@ -59,7 +61,10 @@ export const ProductReceiptModal = () => {
           style={{ paddingLeft: '24px', paddingRight: '24px' }}
           ref={receiptRef}
         >
-          <ProductReceipt orderNumber={orderNumber} />
+          <ProductReceipt
+            orderNumber={orderNumber}
+            productStore={useProductStore}
+          />
         </div>
       </div>
     </Box>
