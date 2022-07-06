@@ -40,6 +40,7 @@ export class OrderController {
         data: {
           number: orderNumber,
           total_amount: data.total_amount,
+          paid_amount: data.paid_amount,
           user_id: data.user_id,
           order_details: {
             create: [...data.order_details],

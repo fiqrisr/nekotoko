@@ -28,5 +28,9 @@ export class CreateOrderDto {
   total_amount: number;
 
   @IsNotEmpty()
+  @IsNumber()
+  paid_amount: number;
+
+  @IsNotEmpty()
   order_details: OrderDetail[];
 }

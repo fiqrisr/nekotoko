@@ -13,7 +13,7 @@ export const ProductReceiptModal = () => {
   const { mutate, isLoading, isSuccess } = useCreate();
   const orderNumber = useMemo(() => nanoid(16), []);
   const receiptRef = useRef(null);
-  const { totalPrice, products, reset } = useProductStore();
+  const { totalPrice, products, paidAmount, reset } = useProductStore();
 
   const handlePrintReceipt = useReactToPrint({
     content: () => receiptRef.current,
@@ -34,6 +34,7 @@ export const ProductReceiptModal = () => {
         user_id: userId,
         number: orderNumber,
         total_amount: totalPrice,
+        paid_amount: paidAmount,
         order_details: products.map((p) => ({
           product_id: p.id,
           quantity: p.quantity,
