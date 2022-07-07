@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { useTable, useDelete } from '@pankod/refine-core';
 import {
   Container,
@@ -26,7 +26,7 @@ import {
   DEFAULT_OPTIONS,
   getTheme,
 } from '@table-library/react-table-library/mantine';
-import { Trash, Printer, AlertCircle } from 'tabler-icons-react';
+import { Trash, AlertCircle } from 'tabler-icons-react';
 import { Order } from '@nekotoko/db-monolithic';
 import { toRupiah } from '@nekotoko/shared/utils';
 
@@ -102,57 +102,52 @@ export const SaleList = () => {
           const [opened, setOpened] = useState(false);
 
           return (
-            <Group>
-              <Popover
-                opened={opened}
-                onClose={() => setOpened(false)}
-                position="top"
-                target={
-                  <ActionIcon
-                    size="sm"
-                    variant="light"
-                    color="red"
-                    title="Delete order"
-                    onClick={() => setOpened(!opened)}
-                  >
-                    <Trash />
-                  </ActionIcon>
-                }
-              >
-                <Group spacing={8} align="flex-start" mb={10}>
-                  <AlertCircle
-                    size={20}
-                    color={mantineCoreTheme.colors.yellow[6]}
-                  />
-                  <Text size="sm">Are you sure?</Text>
-                </Group>
-                <Group spacing="xs">
-                  <Button
-                    size="xs"
-                    variant="outline"
-                    onClick={() => setOpened(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    color="red"
-                    size="xs"
-                    variant="outline"
-                    loading={isLoading}
-                    onClick={() => {
-                      deleteOrder(item.id);
+            <Popover
+              opened={opened}
+              onClose={() => setOpened(false)}
+              position="top"
+              target={
+                <ActionIcon
+                  size="sm"
+                  variant="light"
+                  color="red"
+                  title="Delete order"
+                  onClick={() => setOpened(!opened)}
+                >
+                  <Trash />
+                </ActionIcon>
+              }
+            >
+              <Group spacing={8} align="flex-start" mb={10}>
+                <AlertCircle
+                  size={20}
+                  color={mantineCoreTheme.colors.yellow[6]}
+                />
+                <Text size="sm">Are you sure?</Text>
+              </Group>
+              <Group spacing="xs">
+                <Button
+                  size="xs"
+                  variant="outline"
+                  onClick={() => setOpened(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="red"
+                  size="xs"
+                  variant="outline"
+                  loading={isLoading}
+                  onClick={() => {
+                    deleteOrder(item.id);
 
-                      if (isSuccess) setOpened(false);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </Group>
-              </Popover>
-              <ActionIcon size="sm" variant="light" title="Print receipt">
-                <Printer />
-              </ActionIcon>
-            </Group>
+                    if (isSuccess) setOpened(false);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Group>
+            </Popover>
           );
         },
       },

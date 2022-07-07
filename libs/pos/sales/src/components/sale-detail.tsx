@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useOne } from '@pankod/refine-core';
 import {
   Text,
@@ -7,8 +8,13 @@ import {
   Divider,
   createStyles,
   Skeleton,
+  Button,
 } from '@mantine/core';
 import dayjs from 'dayjs';
+import { useReactToPrint } from 'react-to-print';
+import { Printer } from 'tabler-icons-react';
+import { ProductReceipt } from '@nekotoko/pos/components';
+import { useProductStore } from '@nekotoko/pos/shared';
 import { toRupiah, formatNumber } from '@nekotoko/shared/utils';
 import { OrderDetail } from '@nekotoko/shared/types';
 
@@ -33,12 +39,35 @@ export const SaleDetail = ({
   collapsed: boolean;
 }) => {
   const { classes } = useStyles();
+  const { setPaidAmount, addProduct, reset } = useProductStore();
+  const receiptRef = useRef(null);
+
   const { data, isLoading } = useOne<OrderDetail>({
     resource: 'order',
     id,
     queryOptions: {
       enabled: collapsed,
     },
+  });
+
+  const handlePrint = useReactToPrint({
+    content: () => receiptRef.current,
+    onBeforeGetContent: async () => {
+      if (data) {
+        setPaidAmount(data.data.paid_amount);
+        data.data.order_details.forEach((o) => {
+          addProduct({
+            id: o.product.id,
+            name: o.product.name,
+            image: o.product.image.url,
+            price: o.product.price,
+            quantity: o.quantity,
+            total: o.total_price,
+          });
+        });
+      }
+    },
+    onAfterPrint: () => reset(),
   });
 
   if (isLoading || !data) {
@@ -62,7 +91,19 @@ export const SaleDetail = ({
     >
       <Group position="apart">
         <Text size="sm">No: {data?.data.number}</Text>
-        <Text size="sm">{dayjs().format('MM/DD/YYYY HH:MM')}</Text>
+        <Group>
+          <Text size="sm">
+            {dayjs(data?.data.created_at).format('MM/DD/YYYY HH:mm')}
+          </Text>
+          <Button
+            size="xs"
+            leftIcon={<Printer size={16} />}
+            mb={6}
+            onClick={() => handlePrint()}
+          >
+            Print Receipt
+          </Button>
+        </Group>
       </Group>
 
       <Divider mt={4} mb={6} />
@@ -123,6 +164,19 @@ export const SaleDetail = ({
           </Text>
         </Group>
       )}
+
+      <div style={{ display: 'none' }}>
+        <div
+          style={{ paddingLeft: '24px', paddingRight: '24px' }}
+          ref={receiptRef}
+        >
+          <ProductReceipt
+            orderNumber={data?.data?.number}
+            productStore={useProductStore}
+            created_at={data?.data?.created_at}
+          />
+        </div>
+      </div>
     </Box>
   );
 };

@@ -7,6 +7,7 @@ import { UseProductStoreType } from '@nekotoko/pos/shared';
 interface ProductReceiptProps {
   orderNumber: string;
   productStore: UseProductStoreType;
+  created_at?: Date;
 }
 
 const useStyles = createStyles(() => ({
@@ -23,7 +24,7 @@ const useStyles = createStyles(() => ({
 }));
 
 export const ProductReceipt = forwardRef<HTMLDivElement, ProductReceiptProps>(
-  ({ orderNumber, productStore }, ref) => {
+  ({ orderNumber, productStore, created_at = new Date() }, ref) => {
     const { classes } = useStyles();
     const { products, totalPrice, paidAmount } = productStore();
 
@@ -38,7 +39,7 @@ export const ProductReceipt = forwardRef<HTMLDivElement, ProductReceiptProps>(
 
         <Group position="apart" mt={20}>
           <Text size="xs">No: {orderNumber}</Text>
-          <Text size="xs">{dayjs().format('MM/DD/YYYY HH:MM')}</Text>
+          <Text size="xs">{dayjs(created_at).format('MM/DD/YYYY HH:mm')}</Text>
         </Group>
 
         <Divider mt={4} mb={6} />
