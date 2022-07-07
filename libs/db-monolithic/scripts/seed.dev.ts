@@ -16,17 +16,17 @@ const compositions: Prisma.Enumerable<Prisma.CompositionCreateManyInput> = [
   {
     name: 'Kopi hitam',
     stock: 20,
-    unit: 'Kg',
+    unit: 'kg',
   },
   {
     name: 'Teh',
     stock: 50,
-    unit: 'Kg',
+    unit: 'kg',
   },
   {
     name: 'Susu',
     stock: 35,
-    unit: 'Kg',
+    unit: 'kg',
   },
   {
     name: 'Air putih',
