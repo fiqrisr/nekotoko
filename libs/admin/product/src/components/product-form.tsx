@@ -18,6 +18,7 @@ import { useApiUrl } from '@pankod/refine-core';
 import { AiOutlineMinusCircle, AiOutlinePlus } from 'react-icons/ai';
 import { Category, Composition } from '@nekotoko/db-monolithic';
 import { UnitSelect } from '@nekotoko/admin/components';
+import { formatterNumber, parserNumber } from '@nekotoko/shared/utils';
 
 import productPlaceholder from '../assets/product-default-img.png';
 
@@ -118,12 +119,8 @@ export const ProductForm = ({ formProps }: ProductFormProps) => {
               >
                 <InputNumber
                   style={{ width: '100%' }}
-                  formatter={(value) =>
-                    `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                  }
-                  parser={(value) =>
-                    value ? value.replace(/\$\s?|(,*)/g, '') : ''
-                  }
+                  formatter={(value) => formatterNumber(value)}
+                  parser={(value) => parserNumber(value)}
                 />
               </Form.Item>
               <Form.Item label="Description" name="description">
@@ -164,15 +161,7 @@ export const ProductForm = ({ formProps }: ProductFormProps) => {
                             <Form.Item name={[name, 'quantity']}>
                               <InputNumber
                                 placeholder="quantity"
-                                formatter={(value) =>
-                                  `${value}`.replace(
-                                    /\B(?=(\d{3})+(?!\d))/g,
-                                    ','
-                                  )
-                                }
-                                parser={(value) =>
-                                  value ? value.replace(/\$\s?|(,*)/g, '') : ''
-                                }
+                                decimalSeparator=","
                                 addonAfter={
                                   <UnitSelect
                                     name={[name.toString(), 'unit']}

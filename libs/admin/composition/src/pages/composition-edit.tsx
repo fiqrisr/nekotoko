@@ -12,13 +12,7 @@ export const CompositionEdit = () => {
           <Input />
         </Form.Item>
         <Form.Item label="Stock" name="stock">
-          <InputNumber
-            formatter={(value) =>
-              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            }
-            parser={(value) => (value ? value.replace(/\$\s?|(,*)/g, '') : '')}
-            addonAfter={<UnitSelect />}
-          />
+          <InputNumber addonAfter={<UnitSelect />} />
         </Form.Item>
       </Form>
     </Edit>

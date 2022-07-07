@@ -46,7 +46,9 @@ export const ProductList = () => {
         <Table.Column
           dataIndex="created_at"
           title="Created At"
-          render={(value) => <DateField format="LLL" value={value} />}
+          render={(value) => (
+            <DateField format="MM/DD/YYYY HH:mm" value={value} />
+          )}
         />
         <Table.Column<Product>
           title="Actions"
