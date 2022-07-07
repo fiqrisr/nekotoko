@@ -12,6 +12,7 @@ import {
 import orderId from 'order-id';
 import { unit } from 'mathjs';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { Prisma, PrismaService } from '@nekotoko/db-monolithic';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
@@ -20,6 +21,8 @@ import { paginateArray } from '@nekotoko/api/utils';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FindManyOrderDto } from './dto/find-many-order.dto';
+
+dayjs.extend(utc);
 
 @Controller('order')
 export class OrderController {
@@ -130,9 +133,11 @@ export class OrderController {
         (!findManyOrderDto.month && !findManyOrderDto.year)
       ) {
         const startOfDate = dayjs(findManyOrderDto.date || new Date())
+          .utcOffset(7)
           .startOf('date')
           .toDate();
         const endOfDate = dayjs(findManyOrderDto.date || new Date())
+          .utcOffset(7)
           .add(1, 'day')
           .startOf('date')
           .toDate();
