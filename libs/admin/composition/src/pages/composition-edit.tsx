@@ -12,7 +12,7 @@ export const CompositionEdit = () => {
           <Input />
         </Form.Item>
         <Form.Item label="Stock" name="stock">
-          <InputNumber addonAfter={<UnitSelect />} />
+          <InputNumber addonAfter={<UnitSelect />} decimalSeparator="," />
         </Form.Item>
       </Form>
     </Edit>

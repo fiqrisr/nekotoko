@@ -28,7 +28,7 @@ export const CompositionCreate = () => {
             },
           ]}
         >
-          <InputNumber addonAfter={<UnitSelect />} />
+          <InputNumber addonAfter={<UnitSelect />} decimalSeparator="," />
         </Form.Item>
       </Form>
     </Create>
