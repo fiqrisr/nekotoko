@@ -9,7 +9,8 @@
         "outputPath": "dist/apps/api-monolithic",
         "main": "apps/api-monolithic/src/main.ts",
         "tsConfig": "apps/api-monolithic/tsconfig.app.json",
-        "assets": ["apps/api-monolithic/src/assets"]
+        "assets": ["apps/api-monolithic/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
