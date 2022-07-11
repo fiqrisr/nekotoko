@@ -25,7 +25,15 @@ export const CompositionList = () => {
         }}
       >
         <Table.Column dataIndex="name" title="Name" />
-        <Table.Column dataIndex="stock" title="Stock" />
+        <Table.Column
+          dataIndex="stock"
+          title="Stock"
+          render={(value) =>
+            Intl.NumberFormat('id-ID', { maximumFractionDigits: 3 }).format(
+              value
+            )
+          }
+        />
         <Table.Column
           dataIndex="unit"
           title="Unit"
@@ -38,7 +46,9 @@ export const CompositionList = () => {
         <Table.Column
           dataIndex="created_at"
           title="Created At"
-          render={(value) => <DateField format="LLL" value={value} />}
+          render={(value) => (
+            <DateField format="MM/DD/YYYY HH:mm" value={value} />
+          )}
         />
         <Table.Column<Composition>
           title="Actions"

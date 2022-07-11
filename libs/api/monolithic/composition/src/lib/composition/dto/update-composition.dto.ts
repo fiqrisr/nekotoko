@@ -1,4 +1,4 @@
-import { Prisma } from '@nekotoko/db-monolithic';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateCompositionDto } from './create-composition.dto';
 
-export class UpdateCompositionDto
-  implements Prisma.CompositionUpdateWithoutProduct_compositionsInput {}
+export class UpdateCompositionDto extends PartialType(CreateCompositionDto) {}

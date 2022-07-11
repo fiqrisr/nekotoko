@@ -17,7 +17,12 @@ export const CompositionShow = () => {
       <Text>{data?.data.unit}</Text>
 
       <Title level={5}>Stock</Title>
-      <Text>{data?.data.stock}</Text>
+      <Text>
+        {data &&
+          Intl.NumberFormat('id-ID', { maximumFractionDigits: 3 }).format(
+            data?.data.stock
+          )}
+      </Text>
     </Show>
   );
 };

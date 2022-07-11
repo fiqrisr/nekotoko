@@ -7,18 +7,26 @@ export const CompositionEdit = () => {
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <Form {...formProps} layout="vertical">
+      <Form
+        {...formProps}
+        layout="vertical"
+        onFinish={(values) => {
+          const { stock } = values as unknown as { stock: string };
+
+          return (
+            formProps.onFinish &&
+            formProps.onFinish({
+              ...values,
+              stock: +stock,
+            })
+          );
+        }}
+      >
         <Form.Item label="Name" name="name">
           <Input />
         </Form.Item>
         <Form.Item label="Stock" name="stock">
-          <InputNumber
-            formatter={(value) =>
-              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            }
-            parser={(value) => (value ? value.replace(/\$\s?|(,*)/g, '') : '')}
-            addonAfter={<UnitSelect />}
-          />
+          <InputNumber addonAfter={<UnitSelect />} decimalSeparator="," />
         </Form.Item>
       </Form>
     </Edit>

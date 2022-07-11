@@ -7,7 +7,8 @@ export interface ProductType extends Product {
 }
 
 export interface ProductStoreItemType
-  extends Pick<Product, 'id' | 'name' | 'description' | 'price'> {
+  extends Pick<Product, 'id' | 'name' |  'price'> {
+  description?: string;
   image: string;
   quantity: number;
   total: number;

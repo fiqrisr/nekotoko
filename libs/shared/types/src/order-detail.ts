@@ -27,6 +27,9 @@ export interface OrderDetail extends Order {
         id: string;
         name: string;
         price: number;
+        image: {
+          url: string;
+        }
       };
     }
   >;
