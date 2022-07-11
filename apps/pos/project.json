@@ -72,7 +72,7 @@
     "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": [
+        "commands": [
           "touch dist/apps/pos/_redirects",
           "echo '/*    /index.html   200' > dist/apps/pos/_redirects",
           "yarn netlify deploy --site $NETLIFY_POS_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=dist/apps/pos"
