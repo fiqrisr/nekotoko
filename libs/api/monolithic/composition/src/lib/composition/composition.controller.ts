@@ -10,7 +10,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import * as math from 'mathjs'
+import * as math from 'mathjs';
 import { Prisma, PrismaService } from '@nekotoko/db-monolithic';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
@@ -102,14 +102,14 @@ export class CompositionController {
         );
       }
 
-      const {stock, ...rest} = composition
+      const { stock, ...rest } = composition;
 
       return {
         message: 'Data komposisi',
         result: {
           composition: {
             ...rest,
-            stock: math.format(stock, {precision: 10})
+            stock: math.format(stock, { precision: 10 }),
           },
         },
       };

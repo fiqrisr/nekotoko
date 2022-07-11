@@ -7,7 +7,21 @@ export const CompositionEdit = () => {
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <Form {...formProps} layout="vertical">
+      <Form
+        {...formProps}
+        layout="vertical"
+        onFinish={(values) => {
+          const { stock } = values as unknown as { stock: string };
+
+          return (
+            formProps.onFinish &&
+            formProps.onFinish({
+              ...values,
+              stock: +stock,
+            })
+          );
+        }}
+      >
         <Form.Item label="Name" name="name">
           <Input />
         </Form.Item>

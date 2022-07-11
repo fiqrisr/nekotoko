@@ -20,7 +20,6 @@ export class CompositionService {
   async findOne<T extends Prisma.CompositionFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.CompositionFindUniqueArgs>
   ): Promise<Composition | null> {
-    console.log(args);
     return this.prisma.composition.findUnique(args);
   }
 
