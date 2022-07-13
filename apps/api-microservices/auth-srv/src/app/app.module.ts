@@ -6,6 +6,7 @@ import Joi from 'joi';
 
 import { ApiAuthModule } from '@nekotoko/api/auth';
 import { JwtAuthGuard } from '@nekotoko/api/auth-shared';
+import { RabbitMQModule } from '@nekotoko/rabbitmq';
 import { ApiMicroservicesUsersModule } from '@nekotoko/api/microservices/users';
 
 import { AppController } from './app.controller';
@@ -19,6 +20,8 @@ import { AppService } from './app.service';
         APP_PORT: Joi.number().required(),
         JWT_SECRET_KEY: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
+        RABBIT_MQ_URI: Joi.string().required(),
+        RABBIT_MQ_AUTH_QUEUE: Joi.string().required(),
       }),
     }),
     LoggerModule.forRoot({
@@ -35,6 +38,7 @@ import { AppService } from './app.service';
             }
           : {},
     }),
+    RabbitMQModule,
     ApiMicroservicesUsersModule,
     ApiAuthModule,
   ],

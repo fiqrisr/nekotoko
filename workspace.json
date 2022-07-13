@@ -14,6 +14,7 @@
     "api-microservices-auth-srv": "apps/api-microservices/auth-srv",
     "api-microservices-category": "libs/api/microservices/category",
     "api-microservices-composition": "libs/api/microservices/composition",
+    "api-microservices-order-srv": "apps/api-microservices/order-srv",
     "api-microservices-product": "libs/api/microservices/product",
     "api-microservices-product-srv": "apps/api-microservices/product-srv",
     "api-microservices-users": "libs/api/microservices/users",
@@ -37,6 +38,7 @@
     "pos-product": "libs/pos/product",
     "pos-sales": "libs/pos/sales",
     "pos-shared": "libs/pos/shared",
+    "rabbitmq": "libs/rabbitmq",
     "shared-types": "libs/shared/types",
     "shared-ui-providers": "libs/shared/ui-providers",
     "shared-utils": "libs/shared/utils"
