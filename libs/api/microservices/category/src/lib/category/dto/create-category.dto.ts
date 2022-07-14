@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Prisma } from '@nekotoko/db-monolithic';
+import { Prisma } from '@nekotoko/db-product';
 
 export class CreateCategoryDto implements Prisma.CategoryCreateInput {
   @IsNotEmpty()

@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
-import { Prisma } from '@nekotoko/db-monolithic';
+import { Prisma } from '@nekotoko/db-product';
 
 export class CreateCompositionDto
   implements Prisma.CompositionCreateWithoutProduct_compositionsInput

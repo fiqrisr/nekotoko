@@ -1,0 +1,32 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+  output        = "../src/generated/prisma-client.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id            String        @id @default(uuid())
+  number        String        @unique @db.VarChar(255)
+  user_id       String
+  total_amount  Int           @default(0)
+  paid_amount   Int           @default(0)
+  order_details OrderDetail[]
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
+}
+
+model OrderDetail {
+  id          String   @id @default(uuid())
+  order       Order    @relation(fields: [order_id], references: [id])
+  order_id    String
+  product_id  String
+  quantity    Int
+  total_price Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}

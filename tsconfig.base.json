@@ -30,6 +30,9 @@
       "@nekotoko/api/microservices/composition": [
         "libs/api/microservices/composition/src/index.ts"
       ],
+      "@nekotoko/api/microservices/order": [
+        "libs/api/microservices/order/src/index.ts"
+      ],
       "@nekotoko/api/microservices/product": [
         "libs/api/microservices/product/src/index.ts"
       ],
@@ -61,6 +64,7 @@
       "@nekotoko/api/utils": ["libs/api/utils/src/index.ts"],
       "@nekotoko/db-auth": ["libs/db-auth/src/index.ts"],
       "@nekotoko/db-monolithic": ["libs/db-monolithic/src/index.ts"],
+      "@nekotoko/db-order": ["libs/db-order/src/index.ts"],
       "@nekotoko/db-product": ["libs/db-product/src/index.ts"],
       "@nekotoko/pos/components": ["libs/pos/components/src/index.ts"],
       "@nekotoko/pos/product": ["libs/pos/product/src/index.ts"],

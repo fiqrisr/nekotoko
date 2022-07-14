@@ -13,6 +13,7 @@ async function bootstrap() {
     cors: true,
     bufferLogs: true,
   });
+
   const rmqService = app.get<RabbitMQService>(RabbitMQService);
   const configService = app.get(ConfigService);
   const globalPrefix = 'api';
