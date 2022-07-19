@@ -26,7 +26,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
   app.useGlobalGuards(new RoleGuard(reflector));
-  app.connectMicroservice(rmqService.getOptions('AUTH'));
+  app.connectMicroservice(rmqService.getOptions('AUTH', true));
 
   await app.startAllMicroservices();
   await app.listen(configService.get<number>('APP_PORT'));

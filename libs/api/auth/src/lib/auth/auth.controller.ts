@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { Public } from '@nekotoko/api/auth-shared';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { JwtAuthGuard, Public } from '@nekotoko/api/auth-shared';
 
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -20,5 +21,11 @@ export class AuthController {
         user,
       },
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @MessagePattern('validate_user')
+  async validateUser() {
+    return true;
   }
 }
