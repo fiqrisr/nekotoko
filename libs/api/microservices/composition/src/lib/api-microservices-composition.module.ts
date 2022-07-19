@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { PrismaProductModule } from '@nekotoko/db-product';
+import { DbProductModule } from '@nekotoko/db-product';
 
 import { CompositionController } from './composition/composition.controller';
+import { CompositionService } from './composition/composition.service';
 
 @Module({
   controllers: [CompositionController],
-  providers: [],
+  providers: [CompositionService],
   exports: [],
-  imports: [PrismaProductModule],
+  imports: [DbProductModule],
 })
 export class ApiMicroservicesCompositionModule {}

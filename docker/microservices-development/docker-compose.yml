@@ -1,0 +1,162 @@
+version: '3'
+
+services:
+  auth-srv:
+    container_name: auth-service
+    build:
+      context: ../..
+      dockerfile: apps/api-microservices/auth-srv/Dockerfile
+      target: development
+    command: yarn serve api-microservices-auth-srv
+    depends_on:
+      - auth-db
+      - rabbitmq
+    ports:
+      - '${AUTH_SERVICE_PORT}:3401'
+    volumes:
+      - ../..:/app
+      - ../../node_modules:/app/node_modules
+      - /app/libs/db-product/src/generated/
+      - /app/libs/db-order/src/generated/
+    networks:
+      - messaging
+      - auth-srv
+      - backend
+    env_file:
+      - ../../apps/api-microservices/auth-srv/.env
+
+  product-srv:
+    container_name: product-service
+    build:
+      context: ../..
+      dockerfile: apps/api-microservices/product-srv/Dockerfile
+      target: development
+    command: yarn serve api-microservices-product-srv
+    depends_on:
+      - product-db
+      - rabbitmq
+    ports:
+      - '${PRODUCT_SERVICE_PORT}:3402'
+    volumes:
+      - ../..:/app
+      - ../../node_modules:/app/node_modules
+      - /app/libs/db-auth/src/generated/
+      - /app/libs/db-monolithic/src/generated/
+      - /app/libs/db-order/src/generated/
+    networks:
+      - messaging
+      - product-srv
+      - backend
+    env_file:
+      - ../../apps/api-microservices/product-srv/.env
+
+  order-srv:
+    container_name: order-service
+    build:
+      context: ../..
+      dockerfile: apps/api-microservices/order-srv/Dockerfile
+      target: development
+    command: yarn serve api-microservices-order-srv
+    depends_on:
+      - order-db
+      - rabbitmq
+    ports:
+      - '${ORDER_SERVICE_PORT}:3403'
+    volumes:
+      - ../..:/app
+      - ../../node_modules:/app/node_modules
+      - /app/libs/db-auth/src/generated/
+      - /app/libs/db-monolithic/src/generated/
+      - /app/libs/db-product/src/generated/
+    networks:
+      - messaging
+      - order-srv
+      - backend
+    env_file:
+      - ../../apps/api-microservices/order-srv/.env
+
+  auth-db:
+    container_name: auth-db
+    image: postgres:12
+    ports:
+      - '${AUTH_DATABASE_PORT}:5432'
+    environment:
+      POSTGRES_USER: ${AUTH_DATABASE_USER}
+      POSTGRES_PASSWORD: ${AUTH_DATABASE_PASSWORD}
+    volumes:
+      - pg-auth:/var/lib/postgresql/data
+    networks:
+      - auth-srv
+
+  product-db:
+    container_name: product-db
+    image: postgres:12
+    ports:
+      - '${PRODUCT_DATABASE_PORT}:5432'
+    environment:
+      POSTGRES_USER: ${PRODUCT_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PRODUCT_DATABASE_PASSWORD}
+    volumes:
+      - pg-product:/var/lib/postgresql/data
+    networks:
+      - product-srv
+
+  order-db:
+    container_name: order-db
+    image: postgres:12
+    ports:
+      - '${ORDER_DATABASE_PORT}:5432'
+    environment:
+      POSTGRES_USER: ${ORDER_DATABASE_USER}
+      POSTGRES_PASSWORD: ${ORDER_DATABASE_PASSWORD}
+    volumes:
+      - pg-order:/var/lib/postgresql/data
+    networks:
+      - order-srv
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - messaging
+
+  kong:
+    build:
+      context: ../..
+      dockerfile: kong/Dockerfile
+    container_name: kong
+    restart: on-failure
+    command: 'kong start'
+    volumes:
+      - ../../kong/kong.yml:/usr/local/kong/declarative/kong.yml
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_LISTEN: 0.0.0.0:8080
+      KONG_PROXY_LISTEN_SSL: 0.0.0.0:8443
+      KONG_ADMIN_LISTEN: 0.0.0.0:9000
+    ports:
+      - '8080:8080'
+      - '9000:9000'
+    networks:
+      - backend
+
+volumes:
+  pg-auth: ~
+  pg-product: ~
+  pg-order: ~
+
+networks:
+  auth-srv:
+    driver: bridge
+  product-srv:
+    driver: bridge
+  order-srv:
+    driver: bridge
+  messaging:
+    driver: bridge
+  backend:
+    driver: bridge

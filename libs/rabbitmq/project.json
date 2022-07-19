@@ -1,0 +1,30 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/rabbitmq/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/rabbitmq/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/rabbitmq"],
+      "options": {
+        "jestConfig": "libs/rabbitmq/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "compose": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "libs/rabbitmq",
+        "command": "docker compose -f docker-compose.yml up -d"
+      }
+    }
+  },
+  "tags": []
+}

@@ -18,7 +18,7 @@ import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 
-@Controller('user')
+@Controller('users')
 @RoleGuard.Params(Role.ADMIN)
 export class UsersController {
   private userSelect = Prisma.validator<Prisma.UserSelect>()({

@@ -1,7 +1,8 @@
 import { NestFactory, HttpAdapterHost, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { ConfigService } from '@nestjs/config';
 import { Logger } from 'nestjs-pino';
+import { RabbitMQService } from '@nekotoko/rabbitmq';
 import { RoleGuard } from '@nekotoko/api/roles';
 import { TransformInterceptor, AllExceptionFilter } from '@nekotoko/api/utils';
 
@@ -13,23 +14,22 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-  });
-
+  const rmqService = app.get<RabbitMQService>(RabbitMQService);
+  const configService = app.get(ConfigService);
   const globalPrefix = 'api';
   const httpAdapter = app.get(HttpAdapterHost);
   const reflector = app.get<Reflector>(Reflector);
+
   app.useLogger(app.get(Logger));
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
   app.useGlobalGuards(new RoleGuard(reflector));
-  const port = process.env.APP_PORT || 9001;
+  app.connectMicroservice(rmqService.getOptions('AUTH'));
 
   await app.startAllMicroservices();
-  await app.listen(port);
+  await app.listen(configService.get<number>('APP_PORT'));
 }
 
 bootstrap();

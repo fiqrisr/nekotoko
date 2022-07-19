@@ -1,3 +1,4 @@
-import { Prisma } from '@nekotoko/db-monolithic';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateCategoryDto } from './create-category.dto';
 
-export class UpdateCategoryDto implements Prisma.CategoryUpdateInput {}
+export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {}
