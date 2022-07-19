@@ -1,0 +1,39 @@
+_format_version: '2.1'
+_transform: true
+
+services:
+  - name: auth-service
+    url: http://auth-srv:3401
+    routes:
+      - name: auth-route
+        paths:
+          - /api/auth
+        strip_path: false
+      - name: user-route
+        paths:
+          - /api/users
+        strip_path: false
+
+  - name: product-service
+    url: http://product-srv:3402
+    routes:
+      - name: category-route
+        paths:
+          - /api/category
+        strip_path: false
+      - name: composition-route
+        paths:
+          - /api/composition
+        strip_path: false
+      - name: product-route
+        paths:
+          - /api/product
+        strip_path: false
+
+  - name: order-service
+    url: http://order-srv:3403
+    routes:
+      - name: order-route
+        paths:
+          - /api/order
+        strip_path: false

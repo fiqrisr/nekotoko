@@ -1,4 +1,4 @@
-FROM node:16-alpine as base
+FROM bitnami/node:16 as base
 
 WORKDIR /app
 

@@ -21,6 +21,7 @@ services:
     networks:
       - messaging
       - auth-srv
+      - backend
     env_file:
       - ../../apps/api-microservices/auth-srv/.env
 
@@ -45,6 +46,7 @@ services:
     networks:
       - messaging
       - product-srv
+      - backend
     env_file:
       - ../../apps/api-microservices/product-srv/.env
 
@@ -69,6 +71,7 @@ services:
     networks:
       - messaging
       - order-srv
+      - backend
     env_file:
       - ../../apps/api-microservices/order-srv/.env
 
@@ -120,6 +123,27 @@ services:
     networks:
       - messaging
 
+  kong:
+    build:
+      context: ../..
+      dockerfile: kong/Dockerfile
+    container_name: kong
+    restart: on-failure
+    command: 'kong start'
+    volumes:
+      - ../../kong/kong.yml:/usr/local/kong/declarative/kong.yml
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_LISTEN: 0.0.0.0:8080
+      KONG_PROXY_LISTEN_SSL: 0.0.0.0:8443
+      KONG_ADMIN_LISTEN: 0.0.0.0:9000
+    ports:
+      - '8080:8080'
+      - '9000:9000'
+    networks:
+      - backend
+
 volumes:
   pg-auth: ~
   pg-product: ~
@@ -133,4 +157,6 @@ networks:
   order-srv:
     driver: bridge
   messaging:
+    driver: bridge
+  backend:
     driver: bridge
