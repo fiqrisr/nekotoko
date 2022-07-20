@@ -10,6 +10,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { Prisma, PrismaService } from '@nekotoko/db-auth';
 import { UsersService } from '@nekotoko/api/users';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
@@ -205,5 +206,23 @@ export class UsersController {
         HttpStatus.NOT_FOUND
       );
     }
+  }
+
+  @MessagePattern('get-user')
+  async handleGetUser(@Payload() data: { userId: string }) {
+    const user = await this.usersService.findOne({
+      where: {
+        id: data.userId,
+      },
+      select: {
+        id: true,
+        username: true,
+        full_name: true,
+      },
+    });
+
+    return {
+      user,
+    };
   }
 }
