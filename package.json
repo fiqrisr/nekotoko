@@ -11,7 +11,8 @@
     "db-generate": "nx db-generate",
     "seed": "nx seed",
     "affected:build": "nx affected --target=build",
-    "affected:deploy": "nx affected --target=deploy"
+    "affected:deploy": "nx affected --target=deploy",
+    "start:fe": "concurrently 'http-server dist/apps/admin' 'http-server dist/apps/pos'"
   },
   "private": true,
   "dependencies": {
@@ -92,6 +93,7 @@
     "@typescript-eslint/parser": "~5.30.5",
     "@vitejs/plugin-react": "^1.3.2",
     "babel-jest": "27.5.1",
+    "concurrently": "^7.3.0",
     "eslint": "~8.19.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
