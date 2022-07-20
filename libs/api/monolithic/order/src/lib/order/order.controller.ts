@@ -195,8 +195,12 @@ export class OrderController {
             .startOf('month')
             .add(d, 'day');
 
-          const startOfDay = dateToFilter.toDate();
-          const endOfDay = dateToFilter.add(1, 'day').toDate();
+          const startOfDay = dateToFilter.utcOffset(7).startOf('date').toDate();
+          const endOfDay = dateToFilter
+            .utcOffset(7)
+            .startOf('date')
+            .add(1, 'day')
+            .toDate();
 
           const summary = await this.prisma.order.aggregate({
             where: {
