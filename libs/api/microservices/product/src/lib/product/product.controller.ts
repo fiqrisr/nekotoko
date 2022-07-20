@@ -193,7 +193,7 @@ export class ProductController {
   async update(@Param('id') id: string, @Body() data: UpdateProductDto) {
     const { category_id, product_compositions, image, ...rest } = data;
     const imageUrl =
-      image.length > 0
+      image && image.length > 0
         ? image[0]?.url
           ? image[0]?.url
           : image[0]?.response?.data?.url
@@ -224,7 +224,7 @@ export class ProductController {
               }
             : {}),
           image: {
-            ...(image.length > 0
+            ...(image && image.length > 0
               ? {
                   upsert: {
                     update: {
@@ -243,7 +243,7 @@ export class ProductController {
                     },
                   },
                 }
-              : { delete: true }),
+              : { ...(image && image.length < 1 ? { delete: true } : {}) }),
           },
         },
         include: {
@@ -253,6 +253,7 @@ export class ProductController {
               composition: true,
             },
           },
+          image: true,
         },
       });
 
