@@ -150,6 +150,9 @@ volumes:
   pg-order: ~
 
 networks:
+  default:
+    name: nekotoko-global
+    external: true
   auth-srv:
     driver: bridge
   product-srv:

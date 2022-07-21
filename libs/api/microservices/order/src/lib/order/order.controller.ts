@@ -8,12 +8,13 @@ import {
   HttpException,
   HttpStatus,
   Delete,
+  Inject,
 } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import orderId from 'order-id';
-import { unit } from 'mathjs';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { Prisma, PrismaService } from '@nekotoko/db-order';
+import { Order, OrderDetail, Prisma, PrismaService } from '@nekotoko/db-order';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 import { paginateArray } from '@nekotoko/api/utils';
@@ -21,6 +22,7 @@ import { paginateArray } from '@nekotoko/api/utils';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FindManyOrderDto } from './dto/find-many-order.dto';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 dayjs.extend(utc);
 
@@ -28,16 +30,20 @@ dayjs.extend(utc);
 export class OrderController {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly orderService: OrderService
+    private readonly orderService: OrderService,
+    @Inject('PRODUCT') private readonly productClient: ClientProxy,
+    @Inject('AUTH') private readonly authClient: ClientProxy
   ) {}
 
-  /*  @Post()
+  @Post()
   @RoleGuard.Params(Role.USER)
   async create(@Body() data: CreateOrderDto) {
     try {
       const orderNumber = data.number
         ? data.number
         : orderId('nktk-pos').generate();
+
+      this.productClient.emit('order-created', data.order_details);
 
       const order = await this.orderService.create({
         data: {
@@ -50,58 +56,8 @@ export class OrderController {
           },
         },
         include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              full_name: true,
-            },
-          },
           order_details: true,
         },
-      });
-
-      data.order_details.forEach(async (o) => {
-        const product = await this.prisma.product.findFirst({
-          where: {
-            id: o.product_id,
-          },
-          include: {
-            product_compositions: {
-              select: {
-                id: true,
-                quantity: true,
-                unit: true,
-                composition_id: true,
-              },
-            },
-          },
-        });
-
-        product.product_compositions.forEach(async (p) => {
-          const composition = await this.prisma.composition.findFirst({
-            where: {
-              id: p.composition_id,
-            },
-            select: {
-              unit: true,
-              stock: true,
-            },
-          });
-
-          const amountToReduce = unit(p.quantity, p.unit).to(composition.unit);
-
-          return await this.prisma.composition.update({
-            where: {
-              id: p.composition_id,
-            },
-            data: {
-              stock: {
-                decrement: amountToReduce.toNumber(),
-              },
-            },
-          });
-        });
       });
 
       return {
@@ -119,7 +75,8 @@ export class OrderController {
         HttpStatus.BAD_REQUEST
       );
     }
-  } */
+  }
+
   @Get()
   @RoleGuard.Params(Role.ADMIN, Role.USER)
   async findMany(
@@ -157,6 +114,17 @@ export class OrderController {
           where: whereFilter,
         });
 
+        const ordersWithUser = await Promise.all(
+          orders.map((o) => {
+            return firstValueFrom(
+              this.authClient.send('get-user', { userId: o.user_id })
+            ).then((res) => ({
+              ...o,
+              user: res.user,
+            }));
+          })
+        );
+
         const meta = new PageMetaDto({
           itemCount: await this.prisma.order.count({ where: whereFilter }),
           pageOptionsDto,
@@ -165,7 +133,7 @@ export class OrderController {
         return {
           message: 'Data semua transaki',
           result: {
-            orders,
+            orders: ordersWithUser,
             meta,
           },
         };
@@ -185,8 +153,12 @@ export class OrderController {
             .startOf('month')
             .add(d, 'day');
 
-          const startOfDay = dateToFilter.toDate();
-          const endOfDay = dateToFilter.add(1, 'day').toDate();
+          const startOfDay = dateToFilter.utcOffset(7).startOf('date').toDate();
+          const endOfDay = dateToFilter
+            .utcOffset(7)
+            .startOf('date')
+            .add(1, 'day')
+            .toDate();
 
           const summary = await this.prisma.order.aggregate({
             where: {
@@ -296,7 +268,7 @@ export class OrderController {
   @RoleGuard.Params(Role.ADMIN, Role.USER)
   async findOne(@Param('id') id: string) {
     try {
-      const order = await this.orderService.findOne({
+      const order = (await this.orderService.findOne({
         where: {
           id,
         },
@@ -306,15 +278,37 @@ export class OrderController {
               id: true,
               quantity: true,
               total_price: true,
+              product_id: true,
             },
           },
         },
-      });
+      })) as Order & { order_details: OrderDetail[] };
+
+      const user = await firstValueFrom(
+        this.authClient.send('get-user', { userId: order.user_id })
+      ).then((res) => res.user);
+
+      const newOrderDetails = await Promise.all(
+        order.order_details.map((od) => {
+          return firstValueFrom(
+            this.productClient.send('get-product-for-order', {
+              productId: od.product_id,
+            })
+          ).then((res) => ({ ...od, product: res.product }));
+        })
+      );
+
+      // trunk-ignore(eslint/@typescript-eslint/no-unused-vars)
+      const { order_details: _, ...rest } = order;
 
       return {
         message: 'Data transaksi',
         result: {
-          order,
+          order: {
+            ...rest,
+            order_details: newOrderDetails,
+            user,
+          },
         },
       };
     } catch (error) {
@@ -328,7 +322,7 @@ export class OrderController {
     }
   }
 
-  /*   @Delete(':id')
+  @Delete(':id')
   @RoleGuard.Params(Role.USER)
   async delete(@Param('id') id: string) {
     try {
@@ -338,48 +332,7 @@ export class OrderController {
         },
       });
 
-      orderDetails.forEach(async (o) => {
-        const product = await this.prisma.product.findFirst({
-          where: {
-            id: o.product_id,
-          },
-          include: {
-            product_compositions: {
-              select: {
-                id: true,
-                quantity: true,
-                unit: true,
-                composition_id: true,
-              },
-            },
-          },
-        });
-
-        product.product_compositions.forEach(async (p) => {
-          const composition = await this.prisma.composition.findFirst({
-            where: {
-              id: p.composition_id,
-            },
-            select: {
-              unit: true,
-              stock: true,
-            },
-          });
-
-          const amountToAdd = unit(p.quantity, p.unit).to(composition.unit);
-
-          return await this.prisma.composition.update({
-            where: {
-              id: p.composition_id,
-            },
-            data: {
-              stock: {
-                increment: amountToAdd.toNumber(),
-              },
-            },
-          });
-        });
-      });
+      this.productClient.emit('order-deleted', orderDetails);
 
       const orderToDelete = this.prisma.order.delete({
         where: {
@@ -410,5 +363,5 @@ export class OrderController {
         HttpStatus.BAD_REQUEST
       );
     }
-  } */
+  }
 }

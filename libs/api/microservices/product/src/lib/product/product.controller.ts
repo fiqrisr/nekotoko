@@ -10,21 +10,32 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import {
+  Ctx,
+  EventPattern,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
 import { FormDataRequest } from 'nestjs-form-data';
+import { unit } from 'mathjs';
 import { PrismaService, Product, Image } from '@nekotoko/db-product';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
+import { RabbitMQService } from '@nekotoko/rabbitmq';
 
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { UploadImageDto } from './dto/upload-image.dto';
+import { OrderDetailDto } from './dto/order-detail.dto';
 
 @Controller('product')
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly rmqService: RabbitMQService
   ) {}
 
   @Post()
@@ -193,7 +204,7 @@ export class ProductController {
   async update(@Param('id') id: string, @Body() data: UpdateProductDto) {
     const { category_id, product_compositions, image, ...rest } = data;
     const imageUrl =
-      image.length > 0
+      image && image.length > 0
         ? image[0]?.url
           ? image[0]?.url
           : image[0]?.response?.data?.url
@@ -224,7 +235,7 @@ export class ProductController {
               }
             : {}),
           image: {
-            ...(image.length > 0
+            ...(image && image.length > 0
               ? {
                   upsert: {
                     update: {
@@ -243,7 +254,7 @@ export class ProductController {
                     },
                   },
                 }
-              : { delete: true }),
+              : { ...(image && image.length < 1 ? { delete: true } : {}) }),
           },
         },
         include: {
@@ -253,6 +264,7 @@ export class ProductController {
               composition: true,
             },
           },
+          image: true,
         },
       });
 
@@ -356,5 +368,135 @@ export class ProductController {
         HttpStatus.BAD_REQUEST
       );
     }
+  }
+
+  @EventPattern('order-created')
+  async handleOrderCreated(
+    @Payload() orderDetails: OrderDetailDto[],
+    @Ctx() context: RmqContext
+  ) {
+    orderDetails.forEach(async (o) => {
+      const product = await this.prisma.product.findFirst({
+        where: {
+          id: o.product_id,
+        },
+        include: {
+          product_compositions: {
+            select: {
+              id: true,
+              quantity: true,
+              unit: true,
+              composition_id: true,
+            },
+          },
+        },
+      });
+
+      product.product_compositions.forEach(async (p) => {
+        const composition = await this.prisma.composition.findFirst({
+          where: {
+            id: p.composition_id,
+          },
+          select: {
+            unit: true,
+            stock: true,
+          },
+        });
+
+        const amountToReduce = unit(p.quantity, p.unit).to(composition.unit);
+
+        return await this.prisma.composition.update({
+          where: {
+            id: p.composition_id,
+          },
+          data: {
+            stock: {
+              decrement: amountToReduce.toNumber(),
+            },
+          },
+        });
+      });
+    });
+
+    this.rmqService.ack(context);
+  }
+
+  @EventPattern('order-deleted')
+  async handleOrderDeleted(
+    @Payload() orderDetails: OrderDetailDto[],
+    @Ctx() context: RmqContext
+  ) {
+    orderDetails.forEach(async (o) => {
+      const product = await this.prisma.product.findFirst({
+        where: {
+          id: o.product_id,
+        },
+        include: {
+          product_compositions: {
+            select: {
+              id: true,
+              quantity: true,
+              unit: true,
+              composition_id: true,
+            },
+          },
+        },
+      });
+
+      product.product_compositions.forEach(async (p) => {
+        const composition = await this.prisma.composition.findFirst({
+          where: {
+            id: p.composition_id,
+          },
+          select: {
+            unit: true,
+            stock: true,
+          },
+        });
+
+        const amountToAdd = unit(p.quantity, p.unit).to(composition.unit);
+
+        return await this.prisma.composition.update({
+          where: {
+            id: p.composition_id,
+          },
+          data: {
+            stock: {
+              increment: amountToAdd.toNumber(),
+            },
+          },
+        });
+      });
+    });
+
+    this.rmqService.ack(context);
+  }
+
+  @MessagePattern('get-product-for-order')
+  async handleGetProduct(
+    @Payload() data: { productId: string },
+    @Ctx() context: RmqContext
+  ) {
+    const product = await this.productService.findOne({
+      where: {
+        id: data.productId,
+      },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        image: {
+          select: {
+            url: true,
+          },
+        },
+      },
+    });
+
+    this.rmqService.ack(context);
+
+    return {
+      product,
+    };
   }
 }

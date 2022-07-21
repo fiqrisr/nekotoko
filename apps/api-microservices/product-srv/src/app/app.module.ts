@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import Joi from 'joi';
@@ -7,6 +8,7 @@ import { RabbitMQModule } from '@nekotoko/rabbitmq';
 import { ApiMicroservicesCategoryModule } from '@nekotoko/api/microservices/category';
 import { ApiMicroservicesCompositionModule } from '@nekotoko/api/microservices/composition';
 import { ApiMicroservicesProductModule } from '@nekotoko/api/microservices/product';
+import { JwtAuthGuardMicroservices } from '@nekotoko/api/auth-shared';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -37,12 +39,18 @@ import { AppService } from './app.service';
             }
           : {},
     }),
-    RabbitMQModule,
+    RabbitMQModule.register({ name: 'AUTH' }),
     ApiMicroservicesCategoryModule,
     ApiMicroservicesCompositionModule,
     ApiMicroservicesProductModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuardMicroservices,
+    },
+  ],
 })
 export class AppModule {}
