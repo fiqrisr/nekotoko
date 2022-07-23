@@ -4,8 +4,16 @@ WORKDIR /app
 
 FROM base as production
 ENV NODE_ENV=production
-COPY ./dist/apps/api-microservices/product-srv .
-CMD ["node", "main.js"]
+RUN corepack enable
+COPY package.json .
+COPY yarn.lock .
+RUN yarn
+COPY . .
+RUN rm -rf ./libs/db-auth/src/generated
+RUN rm -rf ./libs/db-monolithic/src/generated
+RUN rm -rf ./libs/db-order/src/generated
+RUN yarn build:product-srv
+CMD ["node", "dist/apps/api-microservices/product-srv/main.js"]
 
 FROM base as development
 ENV NODE_ENV=development

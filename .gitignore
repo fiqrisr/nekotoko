@@ -1,6 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 .env
+.env.production
 generated/
 
 # compiled output
@@ -52,3 +53,5 @@ Thumbs.db
 
 # Local Netlify folder
 .netlify
+
+__pycache__

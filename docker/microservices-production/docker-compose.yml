@@ -2,22 +2,13 @@ version: '3'
 
 services:
   auth-srv:
-    container_name: auth-service
-    build:
-      context: ../..
-      dockerfile: apps/api-microservices/auth-srv/Dockerfile
-      target: development
-    command: yarn serve api-microservices-auth-srv
+    container_name: auth-service-prod
+    image: nekotoko/auth-srv-prod
     depends_on:
       - auth-db
       - rabbitmq
     ports:
       - '${AUTH_SERVICE_PORT}:3401'
-    volumes:
-      - ../..:/app
-      - ../../node_modules:/app/node_modules
-      - /app/libs/db-product/src/generated/
-      - /app/libs/db-order/src/generated/
     networks:
       - messaging
       - auth-srv
@@ -26,23 +17,13 @@ services:
       - ../../apps/api-microservices/auth-srv/.env
 
   product-srv:
-    container_name: product-service
-    build:
-      context: ../..
-      dockerfile: apps/api-microservices/product-srv/Dockerfile
-      target: development
-    command: yarn serve api-microservices-product-srv
+    container_name: product-service-prod
+    image: nekotoko/product-srv-prod
     depends_on:
       - product-db
       - rabbitmq
     ports:
       - '${PRODUCT_SERVICE_PORT}:3402'
-    volumes:
-      - ../..:/app
-      - ../../node_modules:/app/node_modules
-      - /app/libs/db-auth/src/generated/
-      - /app/libs/db-monolithic/src/generated/
-      - /app/libs/db-order/src/generated/
     networks:
       - messaging
       - product-srv
@@ -51,23 +32,13 @@ services:
       - ../../apps/api-microservices/product-srv/.env
 
   order-srv:
-    container_name: order-service
-    build:
-      context: ../..
-      dockerfile: apps/api-microservices/order-srv/Dockerfile
-      target: development
-    command: yarn serve api-microservices-order-srv
+    container_name: order-service-prod
+    image: nekotoko/order-srv-prod
     depends_on:
       - order-db
       - rabbitmq
     ports:
       - '${ORDER_SERVICE_PORT}:3403'
-    volumes:
-      - ../..:/app
-      - ../../node_modules:/app/node_modules
-      - /app/libs/db-auth/src/generated/
-      - /app/libs/db-monolithic/src/generated/
-      - /app/libs/db-product/src/generated/
     networks:
       - messaging
       - order-srv
@@ -76,7 +47,7 @@ services:
       - ../../apps/api-microservices/order-srv/.env
 
   auth-db:
-    container_name: auth-db
+    container_name: auth-db-prod
     image: postgres:12
     ports:
       - '${AUTH_DATABASE_PORT}:5432'
@@ -89,7 +60,7 @@ services:
       - auth-srv
 
   product-db:
-    container_name: product-db
+    container_name: product-db-prod
     image: postgres:12
     ports:
       - '${PRODUCT_DATABASE_PORT}:5432'
@@ -102,7 +73,7 @@ services:
       - product-srv
 
   order-db:
-    container_name: order-db
+    container_name: order-db-prod
     image: postgres:12
     ports:
       - '${ORDER_DATABASE_PORT}:5432'
@@ -115,8 +86,8 @@ services:
       - order-srv
 
   rabbitmq:
+    container_name: rabbitmq-prod
     image: rabbitmq:3-management-alpine
-    container_name: rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -124,15 +95,13 @@ services:
       - messaging
 
   kong:
+    container_name: kong-prod
     build:
       context: ../..
       dockerfile: kong/Dockerfile
-      target: development
-    container_name: kong
+      target: production
     restart: on-failure
     command: 'kong start'
-    volumes:
-      - ../../kong/kong.yml:/usr/local/kong/declarative/kong.yml
     environment:
       KONG_DATABASE: 'off'
       KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
