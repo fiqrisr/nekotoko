@@ -10,7 +10,8 @@
         "outputPath": "dist/apps/api-microservices/product-srv",
         "main": "apps/api-microservices/product-srv/src/main.ts",
         "tsConfig": "apps/api-microservices/product-srv/tsconfig.app.json",
-        "assets": ["apps/api-microservices/product-srv/src/assets"]
+        "assets": ["apps/api-microservices/product-srv/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

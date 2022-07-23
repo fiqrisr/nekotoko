@@ -10,7 +10,8 @@
         "outputPath": "dist/apps/api-microservices/order-srv",
         "main": "apps/api-microservices/order-srv/src/main.ts",
         "tsConfig": "apps/api-microservices/order-srv/tsconfig.app.json",
-        "assets": ["apps/api-microservices/order-srv/src/assets"]
+        "assets": ["apps/api-microservices/order-srv/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
