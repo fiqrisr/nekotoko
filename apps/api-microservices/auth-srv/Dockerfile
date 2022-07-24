@@ -7,10 +7,11 @@ ENV NODE_ENV=production
 RUN corepack enable
 COPY package.json .
 COPY yarn.lock .
-RUN yarn
+RUN yarn install
 COPY . .
 RUN rm -rf ./libs/db-product/src/generated
 RUN rm -rf ./libs/db-order/src/generated
+RUN yarn install
 RUN yarn build:auth-srv
 CMD ["node", "dist/apps/api-microservices/auth-srv/main.js"]
 
