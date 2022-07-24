@@ -1,0 +1,106 @@
+version: '3'
+
+services:
+  api-1:
+    container_name: nekotoko-api-monolithic-1
+    image: nekotoko/api-monolithic
+    build:
+      context: ../..
+      dockerfile: apps/api-monolithic/Dockerfile
+      target: development
+    command: yarn serve api-monolithic
+    depends_on:
+      - database
+    ports:
+      - '${API_1_PORT}:3333'
+    volumes:
+      - ../..:/app
+      - ../../node_modules:/app/node_modules
+      - /app/libs/db-auth/src/generated/
+      - /app/libs/db-product/src/generated/
+      - /app/libs/db-order/src/generated/
+    networks:
+      - backend
+    env_file:
+      - ../../apps/api-monolithic/.env
+
+  api-2:
+    container_name: nekotoko-api-monolithic-2
+    image: nekotoko/api-monolithic
+    build:
+      context: ../..
+      dockerfile: apps/api-monolithic/Dockerfile
+      target: development
+    command: yarn serve api-monolithic
+    depends_on:
+      - database
+    ports:
+      - '${API_2_PORT}:3333'
+    volumes:
+      - ../..:/app
+      - ../../node_modules:/app/node_modules
+      - /app/libs/db-auth/src/generated/
+      - /app/libs/db-product/src/generated/
+      - /app/libs/db-order/src/generated/
+    networks:
+      - backend
+    env_file:
+      - ../../apps/api-monolithic/.env
+
+  api-3:
+    container_name: nekotoko-api-monolithic-3
+    image: nekotoko/api-monolithic
+    build:
+      context: ../..
+      dockerfile: apps/api-monolithic/Dockerfile
+      target: development
+    command: yarn serve api-monolithic
+    depends_on:
+      - database
+    ports:
+      - '${API_3_PORT}:3333'
+    volumes:
+      - ../..:/app
+      - ../../node_modules:/app/node_modules
+      - /app/libs/db-auth/src/generated/
+      - /app/libs/db-product/src/generated/
+      - /app/libs/db-order/src/generated/
+    networks:
+      - backend
+    env_file:
+      - ../../apps/api-monolithic/.env
+
+  database:
+    container_name: nekotoko-monolithic-docker-db
+    image: postgres:12
+    ports:
+      - '${DATABASE_PORT}:5432'
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - nekotoko-monolithic-db:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ../..
+      dockerfile: nginx/Dockerfile
+    ports:
+      - '4000:80'
+    depends_on:
+      - api-1
+      - api-2
+      - api-3
+    networks:
+      - backend
+
+volumes:
+  backend: ~
+  nekotoko-monolithic-db: ~
+
+networks:
+  backend:
+    driver: bridge
