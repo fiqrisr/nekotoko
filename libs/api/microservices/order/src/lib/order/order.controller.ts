@@ -10,11 +10,24 @@ import {
   Delete,
   Inject,
 } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import {
+  ClientProxy,
+  Ctx,
+  EventPattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
 import orderId from 'order-id';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { Order, OrderDetail, Prisma, PrismaService } from '@nekotoko/db-order';
+import {
+  Order,
+  OrderDetail,
+  Prisma,
+  PrismaService,
+  User,
+} from '@nekotoko/db-order';
+import { RabbitMQService } from '@nekotoko/rabbitmq';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
 import { PageOptionsDto, PageMetaDto } from '@nekotoko/api/shared/dto';
 import { paginateArray } from '@nekotoko/api/utils';
@@ -22,7 +35,7 @@ import { paginateArray } from '@nekotoko/api/utils';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FindManyOrderDto } from './dto/find-many-order.dto';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 dayjs.extend(utc);
 
@@ -31,6 +44,7 @@ export class OrderController {
   constructor(
     private readonly prisma: PrismaService,
     private readonly orderService: OrderService,
+    private readonly rmqService: RabbitMQService,
     @Inject('PRODUCT') private readonly productClient: ClientProxy,
     @Inject('AUTH') private readonly authClient: ClientProxy
   ) {}
@@ -42,6 +56,18 @@ export class OrderController {
       const orderNumber = data.number
         ? data.number
         : orderId('nktk-pos').generate();
+
+      const user = await this.prisma.user.findFirst({
+        where: { id: data.user_id },
+      });
+
+      if (!user) {
+        const newUser = await firstValueFrom(
+          this.authClient.send('get-user', { userId: data.user_id })
+        ).then((res) => res.user);
+
+        await this.prisma.user.create({ data: { ...newUser } });
+      }
 
       this.productClient.emit('order-created', data.order_details);
 
@@ -56,6 +82,13 @@ export class OrderController {
           },
         },
         include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              full_name: true,
+            },
+          },
           order_details: true,
         },
       });
@@ -112,18 +145,16 @@ export class OrderController {
             created_at: pageOptionsDto.order,
           },
           where: whereFilter,
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                full_name: true,
+              },
+            },
+          },
         });
-
-        const ordersWithUser = await Promise.all(
-          orders.map((o) => {
-            return firstValueFrom(
-              this.authClient.send('get-user', { userId: o.user_id })
-            ).then((res) => ({
-              ...o,
-              user: res.user,
-            }));
-          })
-        );
 
         const meta = new PageMetaDto({
           itemCount: await this.prisma.order.count({ where: whereFilter }),
@@ -133,7 +164,7 @@ export class OrderController {
         return {
           message: 'Data semua transaki',
           result: {
-            orders: ordersWithUser,
+            orders,
             meta,
           },
         };
@@ -273,6 +304,13 @@ export class OrderController {
           id,
         },
         include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              full_name: true,
+            },
+          },
           order_details: {
             select: {
               id: true,
@@ -283,10 +321,6 @@ export class OrderController {
           },
         },
       })) as Order & { order_details: OrderDetail[] };
-
-      const user = await firstValueFrom(
-        this.authClient.send('get-user', { userId: order.user_id })
-      ).then((res) => res.user);
 
       const newOrderDetails = await Promise.all(
         order.order_details.map((od) => {
@@ -307,7 +341,6 @@ export class OrderController {
           order: {
             ...rest,
             order_details: newOrderDetails,
-            user,
           },
         },
       };
@@ -363,5 +396,19 @@ export class OrderController {
         HttpStatus.BAD_REQUEST
       );
     }
+  }
+
+  @EventPattern('user-updated')
+  async handleUserUpdate(@Payload() user: User, @Ctx() context: RmqContext) {
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        ...user,
+      },
+    });
+
+    this.rmqService.ack(context);
   }
 }

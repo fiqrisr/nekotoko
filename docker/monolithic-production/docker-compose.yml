@@ -23,6 +23,7 @@ services:
       - backend
     env_file:
       - ../../apps/api-monolithic/.env
+    restart: always
 
   api-2:
     container_name: nekotoko-api-monolithic-2
@@ -46,6 +47,7 @@ services:
       - backend
     env_file:
       - ../../apps/api-monolithic/.env
+    restart: always
 
   api-3:
     container_name: nekotoko-api-monolithic-3
@@ -69,6 +71,7 @@ services:
       - backend
     env_file:
       - ../../apps/api-monolithic/.env
+    restart: always
 
   database:
     container_name: nekotoko-monolithic-docker-db
