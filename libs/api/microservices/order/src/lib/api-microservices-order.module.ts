@@ -11,6 +11,7 @@ import { OrderService } from './order/order.service';
   exports: [],
   imports: [
     DbOrderModule,
+    RabbitMQModule,
     RabbitMQModule.register({ name: 'AUTH' }),
     RabbitMQModule.register({ name: 'PRODUCT' }),
   ],

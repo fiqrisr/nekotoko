@@ -9,8 +9,9 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  Inject,
 } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { Prisma, PrismaService } from '@nekotoko/db-auth';
 import { UsersService } from '@nekotoko/api/users';
 import { RoleGuard, Role } from '@nekotoko/api/roles';
@@ -33,7 +34,8 @@ export class UsersController {
 
   constructor(
     private readonly usersService: UsersService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    @Inject('ORDER') private readonly orderClient: ClientProxy
   ) {}
 
   @Post()
@@ -153,6 +155,8 @@ export class UsersController {
           HttpStatus.NOT_FOUND
         );
       }
+
+      this.orderClient.emit('user-updated', user);
 
       return {
         message: 'Berhasil mengubah data user',
