@@ -1,8 +1,10 @@
 from contextlib import contextmanager
-from locust import task
+from locust import task,stats
 from locust.contrib.fasthttp import ResponseContextManager
 from locust_plugins.users import RestUser
 from json import JSONDecodeError
+
+stats.CSV_STATS_FLUSH_INTERVAL_SEC = 60
 
 class RestWithAuth(RestUser):
   abstract = True
